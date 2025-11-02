@@ -1,3 +1,4 @@
+/* Fonte base */
 html {
   font-size: 14px;
 }
@@ -8,10 +9,7 @@ html {
   }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
+/* Altura mínima para o body */
 html {
   position: relative;
   min-height: 100%;
@@ -21,11 +19,78 @@ body {
   margin-bottom: 60px;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
+/* Foco em inputs, selects e checkboxes */
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+/* Placeholders em form-floating */
+.form-floating > .form-control-plaintext::placeholder,
+.form-floating > .form-control::placeholder {
+  color: #888888;
   text-align: end;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+.form-floating > .form-control-plaintext:focus::placeholder,
+.form-floating > .form-control:focus::placeholder {
   text-align: start;
+}
+
+/* Inputs do formulário */
+input.form-control,
+textarea.form-control,
+select.form-control {
+  background-color: #1e1e1e !important;
+  color: #e0e0e0 !important;
+  border: 1px solid #444 !important;
+}
+
+/* Hover nos inputs */
+input.form-control:hover,
+textarea.form-control:hover,
+select.form-control:hover {
+  border-color: #1e90ff !important;
+}
+
+/* Tables */
+table,
+table th,
+table td {
+  background-color: #1e1e1e !important;
+  color: #e0e0e0 !important;
+  border-color: #444 !important;
+}
+
+/* Listas do Manual */
+.list-group-item {
+  background-color: #1e1e1e !important;
+  color: #e0e0e0 !important;
+  border-color: #444 !important;
+}
+
+/* Toasts */
+.toast.text-bg-warning .toast-body {
+  color: #000 !important; /* texto preto em warning */
+}
+
+.toast.text-bg-danger .toast-body {
+  color: #000 !important;
+}
+
+/* Navbar buttons hover */
+.navbar .btn:hover {
+  opacity: 0.85;
+  transition: all 0.2s;
+}
+
+/* Sidebar nav links hover */
+.nav-link.text-light:hover,
+.nav-link.text-light.active {
+  background-color: #333 !important;
+  border-radius: 5px;
+  color: #fff !important;
 }

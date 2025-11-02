@@ -27,9 +27,7 @@ namespace BuildTrackMVC.Controllers
         {
             if (id == null) return NotFound();
 
-            var cliente = await _context.Clientes
-                .FirstOrDefaultAsync(m => m.Id == id);
-
+            var cliente = await _context.Clientes.FirstOrDefaultAsync(m => m.Id == id);
             if (cliente == null) return NotFound();
 
             return View(cliente);
@@ -50,8 +48,16 @@ namespace BuildTrackMVC.Controllers
             {
                 _context.Add(cliente);
                 await _context.SaveChangesAsync();
+
+                TempData["ToastMessage"] = "Cliente criado com sucesso!";
+                TempData["ToastType"] = "success";
+
                 return RedirectToAction(nameof(Index));
             }
+
+            TempData["ToastMessage"] = "Verifique os campos do formulário. Existem erros por corrigir.";
+            TempData["ToastType"] = "warning";
+
             return View(cliente);
         }
 
@@ -79,14 +85,22 @@ namespace BuildTrackMVC.Controllers
                 {
                     _context.Update(cliente);
                     await _context.SaveChangesAsync();
+
+                    TempData["ToastMessage"] = "Cliente atualizado com sucesso!";
+                    TempData["ToastType"] = "success";
+
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!ClienteExists(cliente.Id)) return NotFound();
                     else throw;
                 }
-                return RedirectToAction(nameof(Index));
             }
+
+            TempData["ToastMessage"] = "Verifique os campos do formulário. Existem erros por corrigir.";
+            TempData["ToastType"] = "warning";
+
             return View(cliente);
         }
 
@@ -95,9 +109,7 @@ namespace BuildTrackMVC.Controllers
         {
             if (id == null) return NotFound();
 
-            var cliente = await _context.Clientes
-                .FirstOrDefaultAsync(m => m.Id == id);
-
+            var cliente = await _context.Clientes.FirstOrDefaultAsync(m => m.Id == id);
             if (cliente == null) return NotFound();
 
             return View(cliente);
@@ -113,6 +125,9 @@ namespace BuildTrackMVC.Controllers
             {
                 _context.Clientes.Remove(cliente);
                 await _context.SaveChangesAsync();
+
+                TempData["ToastMessage"] = "Cliente removido com sucesso!";
+                TempData["ToastType"] = "success";
             }
             return RedirectToAction(nameof(Index));
         }

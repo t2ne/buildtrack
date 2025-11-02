@@ -1,8 +1,32 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Dashboard";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container py-5">
+    <h1 class="display-4 mb-4 text-center text-light">Dashboard - BuildTrackMVC</h1>
+
+    <p class="lead text-center text-light">Escolha uma das seções abaixo para começar:</p>
+
+    <div class="row text-center mt-4">
+        <div class="col-md-3 mb-3">
+            <a asp-controller="Clientes" asp-action="Index" class="btn btn-lg btn-primary w-100">
+                <i class="fa-solid fa-user me-2"></i> Clientes
+            </a>
+        </div>
+        <div class="col-md-3 mb-3">
+            <a asp-controller="Materiais" asp-action="Index" class="btn btn-lg btn-success w-100">
+                <i class="fa-solid fa-boxes-stacked me-2"></i> Materiais
+            </a>
+        </div>
+        <div class="col-md-3 mb-3">
+            <a asp-controller="Obras" asp-action="Index" class="btn btn-lg btn-warning w-100">
+                <i class="fa-solid fa-building me-2"></i> Obras
+            </a>
+        </div>
+        <div class="col-md-3 mb-3">
+            <a asp-controller="Movimentos" asp-action="Index" class="btn btn-lg btn-danger w-100">
+                <i class="fa-solid fa-exchange-alt me-2"></i> Movimentos
+            </a>
+        </div>
+    </div>
 </div>

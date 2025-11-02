@@ -1,48 +1,128 @@
-﻿/* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
-
-a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+﻿/* Geral */
+body,
+html {
+  background-color: #121212;
+  color: #e0e0e0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* Links */
 a {
-  color: #0077cc;
+  color: #1e90ff !important;
+}
+a:hover {
+  color: #63a4ff !important;
 }
 
-.btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+/* Navbar e Sidebar */
+.navbar,
+.app-sidebar {
+  background-color: #1e1e1e !important;
 }
 
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+.nav-link.text-light:hover,
+.nav-link.text-light.active {
+  background-color: #333 !important;
+  border-radius: 5px;
 }
 
-.border-top {
-  border-top: 1px solid #e5e5e5;
-}
-.border-bottom {
-  border-bottom: 1px solid #e5e5e5;
+/* Conteúdo principal */
+.app-content {
+  min-height: calc(100vh - 80px);
 }
 
-.box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+/* Botões */
+.btn-primary,
+.btn-success,
+.btn-warning,
+.btn-danger {
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+.btn-primary:hover {
+  background-color: #0056b3 !important;
+}
+.btn-success:hover {
+  background-color: #198754 !important;
+}
+.btn-warning:hover {
+  background-color: #ffc107 !important;
+}
+.btn-danger:hover {
+  background-color: #dc3545 !important;
 }
 
-button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
+/* Títulos, labels, p, span */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+label,
+span {
+  color: #e0e0e0 !important;
 }
 
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px;
+/* Forms */
+.form-control {
+  background-color: #1e1e1e !important;
+  color: #e0e0e0 !important;
+  border: 1px solid #444 !important;
+}
+.form-control:focus {
+  background-color: #1e1e1e !important;
+  color: #ffffff !important;
+  border-color: #1e90ff !important;
+  box-shadow: none !important;
+}
+
+/* Tables */
+table,
+table th,
+table td {
+  background-color: #1e1e1e !important;
+  color: #e0e0e0 !important;
+  border-color: #444 !important;
+}
+
+/* Listas do Manual */
+.list-group-item {
+  background-color: #1e1e1e !important;
+  color: #e0e0e0 !important;
+  border-color: #444 !important;
+}
+
+/* Footer */
+.app-footer {
+  background-color: #1e1e1e !important;
+  color: #e0e0e0 !important;
+}
+
+/* Toast */
+.toast-body {
+  color: #000 !important; /* Texto preto como querias */
+}
+
+/* HR */
+hr {
+  border-color: #444 !important;
+}
+
+/* Toast container */
+.toast-container {
+  z-index: 1200 !important;
+}
+
+/* Força mesmo dentro de spans e filhos */
+.toast.text-bg-warning span,
+.toast.bg-warning span {
+  color: #000 !important;
+}
+
+.toast.text-bg-danger span,
+.toast.bg-danger span {
+  color: #000 !important;
 }

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
 
 namespace BuildTrackMVC.Models
 {
@@ -6,18 +7,24 @@ namespace BuildTrackMVC.Models
     {
         public int Id { get; set; }
 
-        [Required, StringLength(100)]
+        [Required(ErrorMessage = "O nome é obrigatório.")]
+        [StringLength(100, ErrorMessage = "O nome não pode ter mais de 100 caracteres.")]
         public string Nome { get; set; } = null!;
 
-        [StringLength(9)]
+        [Required(ErrorMessage = "O NIF é obrigatório.")]
+        [RegularExpression(@"^\d{9}$", ErrorMessage = "O NIF deve ter exatamente 9 dígitos.")]
         public string NIF { get; set; } = null!;
 
+        [Required(ErrorMessage = "A morada é obrigatória.")]
         public string Morada { get; set; } = null!;
 
-        [EmailAddress]
+        [Required(ErrorMessage = "O email é obrigatório.")]
+        [EmailAddress(ErrorMessage = "Introduza um email válido.")]
         public string Email { get; set; } = null!;
 
-        [Phone]
+        [Required(ErrorMessage = "O telefone é obrigatório.")]
+        [RegularExpression(@"^\d{9}$", ErrorMessage = "O telefone deve ter exatamente 9 dígitos.")]
         public string Telefone { get; set; } = null!;
+
     }
 }

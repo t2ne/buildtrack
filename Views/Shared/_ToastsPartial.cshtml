@@ -1,0 +1,58 @@
+@{
+    var toastMessage = TempData["ToastMessage"] as string;
+    var toastType = TempData["ToastType"] as string ?? "info";
+
+    var errors = ViewData.ModelState.Values
+    .SelectMany(v => v.Errors)
+    .Select(e => e.ErrorMessage)
+    .ToList();
+}
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Cria o container de toasts se não existir
+        let toastContainer = document.querySelector('.toast-container');
+        if (!toastContainer) {
+            toastContainer = document.createElement('div');
+            toastContainer.className = 'toast-container position-fixed top-0 end-0 p-3';
+            toastContainer.style.zIndex = 1100;
+            document.body.appendChild(toastContainer);
+        }
+
+        // Função para mostrar toast
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `toast align-items-center text-bg-${type} border-0 show mb-2`;
+            toast.setAttribute('role', 'alert');
+
+            toast.innerHTML = `
+                <div class="d-flex">
+                    <div class="toast-body">${message}</div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                </div>
+            `;
+
+            toastContainer.appendChild(toast);
+
+            // Auto-hide após 5 segundos
+            setTimeout(() => toast.remove(), 5000);
+        }
+
+        // Mostrar TempData se existir
+        @if (!string.IsNullOrEmpty(toastMessage))
+            {
+                <text>
+                    showToast('@Html.Raw(toastMessage)', '@toastType');
+                </text>
+        }
+
+            // Mostrar erros do ModelState se existirem
+            @if (errors.Any())
+            {
+                var joinedErrors = string.Join("<br>", errors);
+                <text>
+                    showToast('@Html.Raw(joinedErrors)', 'warning');
+                </text>
+        }
+    });
+</script>

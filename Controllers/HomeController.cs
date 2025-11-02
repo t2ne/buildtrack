@@ -13,12 +13,14 @@ public class HomeController : Controller
         _logger = logger;
     }
 
+    // Home agora é dashboard
     public IActionResult Index()
     {
         return View();
     }
 
-    public IActionResult Privacy()
+    // Privacy renomeado para Manual
+    public IActionResult Manual()
     {
         return View();
     }
