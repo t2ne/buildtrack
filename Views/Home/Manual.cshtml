@@ -1,6 +1,56 @@
 ﻿@{
-    ViewData["Title"] = "Privacy Policy";
+    ViewData["Title"] = "Manual";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<div class="container py-5">
+    <h1 class="display-5 mb-4 text-light">Manual da Aplicação - BuildTrackMVC</h1>
+
+    <h3 class="text-light">Objetivo</h3>
+    <p class="text-light">
+        Aplicação Web em C# MVC para Gestão de Obras, Clientes e Materiais.
+        Permite registar movimentos de stock, mão de obra e pagamentos.
+    </p>
+
+    <h3 class="text-light mt-4">Funcionalidades Principais</h3>
+    <ul class="text-light">
+        <li>Gestão de Clientes (CRUD)</li>
+        <li>Gestão de Materiais (CRUD)</li>
+        <li>Gestão de Obras (CRUD)</li>
+        <li>Registos dentro de cada obra:
+            <ul>
+                <li>Material utilizado</li>
+                <li>Mão de Obra</li>
+                <li>Pagamentos</li>
+            </ul>
+        </li>
+        <li>Movimentos de stock (apenas leitura)</li>
+    </ul>
+
+    <h3 class="text-light mt-4">Estrutura da Aplicação</h3>
+    <ul class="text-light">
+        <li>Dashboard/Home: botões para aceder às tabelas e funções principais</li>
+        <li>Clientes: CRUD completo</li>
+        <li>Materiais: CRUD completo</li>
+        <li>Obras:
+            <ul>
+                <li>Tabs internas: Dados Gerais, Registo de Material, Mão de Obra, Pagamentos</li>
+            </ul>
+        </li>
+        <li>Movimentos: listagem de operações de stock</li>
+    </ul>
+
+    <h3 class="text-light mt-4">Regras Importantes</h3>
+    <ul class="text-light">
+        <li>Cada movimento de stock guarda data/hora, obra e material.</li>
+        <li>Mão de obra e pagamentos guardam data/hora, pessoa e quantidade/valor.</li>
+        <li>Somente quem tem permissões pode registar/editar obras.</li>
+    </ul>
+
+    <h3 class="text-light mt-4">Requisitos de Entrega</h3>
+    <ul class="text-light">
+        <li>Código fonte completo</li>
+        <li>Base de dados SQL Server</li>
+        <li>Apresentação em PowerPoint/PDF</li>
+        <li>Vídeo da aplicação a correr (facultativo)</li>
+    </ul>
+</div>

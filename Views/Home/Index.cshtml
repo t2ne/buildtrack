@@ -4,7 +4,6 @@
 
 <div class="container py-5">
     <h1 class="display-4 mb-4 text-center text-light">Dashboard - BuildTrackMVC</h1>
-
     <p class="lead text-center text-light">Escolha uma das seções abaixo para começar:</p>
 
     <div class="row text-center mt-4">
@@ -26,6 +25,24 @@
         <div class="col-md-3 mb-3">
             <a asp-controller="Movimentos" asp-action="Index" class="btn btn-lg btn-danger w-100">
                 <i class="fa-solid fa-exchange-alt me-2"></i> Movimentos
+            </a>
+        </div>
+    </div>
+
+    <div class="row text-center mt-2 justify-content-center">
+        <div class="col-md-3 mb-3">
+            <a asp-controller="RegistosMaoObra" asp-action="Index" class="btn btn-lg btn-info w-100">
+                <i class="fa-solid fa-person-digging me-2"></i> Mão de Obra
+            </a>
+        </div>
+        <div class="col-md-3 mb-3">
+            <a asp-controller="RegistosPagamentos" asp-action="Index" class="btn btn-lg btn-secondary w-100">
+                <i class="fa-solid fa-money-bill-transfer me-2"></i> Pagamentos
+            </a>
+        </div>
+        <div class="col-md-3 mb-3">
+            <a asp-controller="Home" asp-action="Manual" class="btn btn-lg btn-dark w-100">
+                <i class="fa-solid fa-circle-question me-2"></i> Manual
             </a>
         </div>
     </div>

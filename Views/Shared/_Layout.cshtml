@@ -20,17 +20,11 @@
     <link rel="stylesheet" href="~/BuildTrackMVC.styles.css" asp-append-version="true" />
 </head>
 
-<body class="layout-fixed sidebar-expand-lg bg-dark text-light sidebar-preload">
+<body class="layout-fixed bg-dark text-light sidebar-preload">
     <div class="app-wrapper">
         <!-- Navbar -->
         <nav class="app-header navbar navbar-expand navbar-dark bg-dark shadow-sm">
             <div class="container-fluid">
-                <button class="btn btn-outline-light me-2" type="button" data-widget="pushmenu">
-                    <i class="fa-solid fa-bars"></i>
-                </button>
-                <a class="navbar-brand text-primary fw-bold" asp-area="" asp-controller="Home" asp-action="Index">
-                    <i class="fa-solid fa-cubes me-2"></i>BuildTrackMVC
-                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -46,10 +40,11 @@
         </nav>
 
         <!-- Sidebar -->
-        <aside class="app-sidebar bg-secondary text-light shadow">
+        <aside class="layout-fixed app-sidebar bg-secondary text-light shadow sidebar-mini sidebar-collapse sidebar-expand-lg">
             <div class="sidebar-brand d-flex align-items-center p-3 border-bottom border-secondary">
-                <i class="fa-solid fa-gauge-high me-2"></i>
-                <span class="fw-bold">Menu</span>
+                <a class="text-primary fw-bold" asp-area="" asp-controller="Home" asp-action="Index">
+                    <i class="fa-solid fa-cubes me-2"></i>BuildTrackMVC
+                </a>
             </div>
             <nav class="mt-3">
                 <ul class="nav nav-pills flex-column">
@@ -73,7 +68,19 @@
                             <i class="nav-icon fa-solid fa-exchange-alt"></i> Movimentos
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a asp-area="" asp-controller="RegistosMaoObra" asp-action="Index" class="nav-link text-light">
+                            <i class="nav-icon fa-solid fa-person-digging"></i> Mão de Obra
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-area="" asp-controller="RegistosPagamentos" asp-action="Index"
+                            class="nav-link text-light">
+                            <i class="nav-icon fa-solid fa-money-bill-transfer"></i> Pagamentos
+                        </a>
+                    </li>
                 </ul>
+
             </nav>
         </aside>
 

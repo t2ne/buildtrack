@@ -18,6 +18,10 @@ a:hover {
 .navbar,
 .app-sidebar {
   background-color: #1e1e1e !important;
+  position: sticky; /* ou relative */
+  height: auto; /* deixa o conteúdo ditar a altura */
+  max-height: 100vh; /* nunca ultrapassa a altura do viewport */
+  overflow-y: auto; /* scroll só dentro da sidebar se necessário */
 }
 
 .nav-link.text-light:hover,
@@ -99,6 +103,7 @@ table td {
 .app-footer {
   background-color: #1e1e1e !important;
   color: #e0e0e0 !important;
+  margin-bottom: 0px; /* “puxa” o footer para cima */
 }
 
 /* Toast */

@@ -19,6 +19,15 @@ body {
   margin-bottom: 60px;
 }
 
+.navbar,
+.app-sidebar {
+  background-color: #1e1e1e !important;
+  position: sticky; /* ou relative */
+  height: auto; /* deixa o conteúdo ditar a altura */
+  max-height: 100vh; /* nunca ultrapassa a altura do viewport */
+  overflow-y: auto; /* scroll só dentro da sidebar se necessário */
+}
+
 /* Foco em inputs, selects e checkboxes */
 .btn:focus,
 .btn:active:focus,
@@ -93,4 +102,31 @@ table td {
   background-color: #333 !important;
   border-radius: 5px;
   color: #fff !important;
+}
+
+/* Sidebar mini */
+.sidebar-mini {
+  width: 60px; /* tamanho mini */
+  transition: width 0.3s;
+  overflow: hidden;
+}
+
+.sidebar-mini:hover {
+  width: 200px; /* expande no hover */
+}
+
+/* Esconde os textos no mini */
+.sidebar-mini .nav-text {
+  display: none;
+  transition: opacity 0.3s;
+}
+
+.sidebar-mini:hover .nav-text {
+  display: inline;
+  opacity: 1;
+}
+
+/* Faz o cursor pointer nos links */
+.sidebar-mini .nav-link {
+  cursor: pointer;
 }
