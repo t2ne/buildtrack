@@ -79,7 +79,7 @@ Run the application using:
 dotnet watch run
 ```
 
-The app should now be accessible at `https://localhost:5001` (or the port indicated in the console).
+The app should now be accessible at `https://localhost:5015` (or the port indicated in the console).
 
 ---
 

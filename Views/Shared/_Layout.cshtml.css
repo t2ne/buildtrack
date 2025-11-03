@@ -18,10 +18,50 @@ a:hover {
 .navbar,
 .app-sidebar {
   background-color: #1e1e1e !important;
-  position: sticky; /* ou relative */
-  height: auto; /* deixa o conteúdo ditar a altura */
-  max-height: 100vh; /* nunca ultrapassa a altura do viewport */
-  overflow-y: auto; /* scroll só dentro da sidebar se necessário */
+}
+
+/* Smooth transitions for sidebar */
+.app-sidebar {
+  transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out;
+}
+
+.app-main,
+.app-footer {
+  transition: margin-left 0.3s ease-in-out;
+}
+
+/* Sidebar brand styling */
+.sidebar-brand {
+  background-color: #1e1e1e !important;
+  border-bottom: 1px solid #444 !important;
+}
+
+.brand-link {
+  display: flex;
+  align-items: center;
+  padding: 0.8125rem 0.5rem;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+.brand-image {
+  margin-right: 0.5rem;
+  font-size: 1.5rem;
+}
+
+/* Let AdminLTE handle the sidebar-mini behavior, just ensure proper centering */
+.sidebar-mini.sidebar-collapse .sidebar-menu .nav-link {
+  text-align: center;
+  justify-content: center;
+  display: flex;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.sidebar-mini.sidebar-collapse .sidebar-menu .nav-icon {
+  margin-right: 0 !important;
+  margin-left: 0 !important;
 }
 
 .nav-link.text-light:hover,

@@ -17,15 +17,116 @@ html {
 
 body {
   margin-bottom: 60px;
+  background-color: #121212 !important;
+  color: #e0e0e0 !important;
 }
 
+/* Fix body wrapper to prevent scrolling below footer */
+.app-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-main {
+  flex: 1;
+}
+
+/* Navbar e Sidebar */
 .navbar,
 .app-sidebar {
   background-color: #1e1e1e !important;
-  position: sticky; /* ou relative */
-  height: auto; /* deixa o conteúdo ditar a altura */
-  max-height: 100vh; /* nunca ultrapassa a altura do viewport */
-  overflow-y: auto; /* scroll só dentro da sidebar se necessário */
+}
+
+/* Fixed navbar and sidebar */
+.layout-navbar-fixed .app-header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 1020;
+  transition: left 0.3s ease-in-out;
+}
+
+/* Adjust navbar when sidebar is expanded (not collapsed) */
+.layout-fixed:not(.sidebar-collapse) .app-header {
+  left: 250px;
+}
+
+/* Adjust navbar when sidebar is collapsed */
+.sidebar-mini.sidebar-collapse .app-header {
+  left: 4.6rem;
+}
+
+.layout-fixed .app-sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1030;
+  overflow-y: auto;
+}
+
+/* Smooth transitions for sidebar */
+.app-sidebar {
+  transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out;
+}
+
+.app-main,
+.app-footer {
+  transition: margin-left 0.3s ease-in-out;
+}
+
+/* Ensure proper spacing for fixed navbar */
+.layout-navbar-fixed .app-wrapper .app-main {
+  margin-top: calc(3.5rem + 1px);
+}
+
+/* Footer styling */
+.app-footer {
+  background-color: #1e1e1e !important;
+  color: #e0e0e0 !important;
+  border-top: 1px solid #444 !important;
+  margin-top: auto;
+}
+
+/* Sidebar brand styling */
+.sidebar-brand {
+  background-color: #1e1e1e !important;
+  border-bottom: 1px solid #444 !important;
+}
+
+.brand-link {
+  display: flex;
+  align-items: center;
+  padding: 0.8125rem 0.5rem;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+.brand-image {
+  margin-right: 0.5rem;
+  font-size: 1.5rem;
+}
+
+/* Sidebar brand centering when collapsed */
+.sidebar-mini.sidebar-collapse .brand-link {
+  padding-left: 15px !important;
+}
+
+/* Let AdminLTE handle the sidebar-mini behavior, just ensure proper centering */
+.sidebar-mini.sidebar-collapse .sidebar-menu .nav-link {
+  text-align: center;
+  justify-content: center;
+  display: flex;
+  padding-left: 15 !important;
+  padding-right: 0 !important;
+}
+
+.sidebar-mini.sidebar-collapse .sidebar-menu .nav-icon {
+  margin-right: 0 !important;
+  margin-left: 0 !important;
 }
 
 /* Foco em inputs, selects e checkboxes */
@@ -104,29 +205,4 @@ table td {
   color: #fff !important;
 }
 
-/* Sidebar mini */
-.sidebar-mini {
-  width: 60px; /* tamanho mini */
-  transition: width 0.3s;
-  overflow: hidden;
-}
-
-.sidebar-mini:hover {
-  width: 200px; /* expande no hover */
-}
-
-/* Esconde os textos no mini */
-.sidebar-mini .nav-text {
-  display: none;
-  transition: opacity 0.3s;
-}
-
-.sidebar-mini:hover .nav-text {
-  display: inline;
-  opacity: 1;
-}
-
-/* Faz o cursor pointer nos links */
-.sidebar-mini .nav-link {
-  cursor: pointer;
-}
+/* Remove custom sidebar-mini styles (let AdminLTE handle it) */
