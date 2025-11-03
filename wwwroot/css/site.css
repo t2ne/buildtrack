@@ -225,4 +225,34 @@ table td {
   color: #fff !important;
 }
 
+/* Dropdown menu dark theme */
+.dropdown-menu {
+  background-color: #2a2a2a !important;
+  border: 1px solid #444 !important;
+}
+
+.dropdown-item {
+  color: #e0e0e0 !important;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+  background-color: #333 !important;
+  color: #fff !important;
+}
+
+/* No sidebar layout (when not authenticated) */
+body.no-sidebar .app-sidebar {
+  display: none !important;
+}
+
+body.no-sidebar .app-header {
+  left: 0 !important;
+}
+
+body.no-sidebar .app-main,
+body.no-sidebar .app-footer {
+  margin-left: 0 !important;
+}
+
 /* Remove custom sidebar-mini styles (let AdminLTE handle it) */

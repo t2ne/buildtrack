@@ -2,7 +2,60 @@
     ViewData["Title"] = "Dashboard";
 }
 
-<div class="container py-5">
+@if (User.Identity?.IsAuthenticated != true)
+{
+    <style>
+        .blur-content {
+            filter: blur(8px);
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .login-overlay {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            text-align: center;
+            background-color: #2a2a2a;
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.7);
+            border: 1px solid #444;
+            max-width: 500px;
+        }
+
+        .login-overlay h2 {
+            color: #1e90ff;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+
+        .login-overlay p {
+            color: #aaa;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .login-overlay .btn {
+            padding: 0.75rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+    </style>
+
+    <div class="login-overlay">
+        <i class="fas fa-lock fa-4x mb-3" style="color: #1e90ff;"></i>
+        <h2>Acesso Restrito</h2>
+        <p>Por favor, faça login para aceder ao dashboard e às funcionalidades do BuildTrackMVC.</p>
+        <a asp-controller="Account" asp-action="Login" class="btn btn-primary btn-lg">
+            <i class="fas fa-sign-in-alt me-2"></i>Fazer Login
+        </a>
+    </div>
+}
+
+<div class="container py-5 @(User.Identity?.IsAuthenticated != true ? "blur-content" : "")">
     <h1 class="display-4 mb-4 text-center text-light">Dashboard - BuildTrackMVC</h1>
     <p class="lead text-center text-light">Escolha uma das seções abaixo para começar:</p>
 

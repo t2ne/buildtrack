@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="~/BuildTrackMVC.styles.css" asp-append-version="true" />
 </head>
 
-<body class="layout-fixed layout-navbar-fixed sidebar-mini sidebar-collapse">
+<body class="layout-fixed layout-navbar-fixed sidebar-mini sidebar-collapse @(User.Identity?.IsAuthenticated != true ? "no-sidebar" : "")">
     <div class="app-wrapper">
         <nav class="app-header navbar navbar-expand navbar-dark bg-dark shadow-sm">
             <div class="container-fluid">
@@ -40,65 +40,96 @@
                             <a class="nav-link text-light fw-bold" asp-area="" asp-controller="Home"
                                 asp-action="Manual">Manual</a>
                         </li>
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-light" href="#" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-user-circle me-1"></i>@User.Identity.Name
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end"
+                                    style="background-color: #2a2a2a; border: 1px solid #444;">
+                                    <li>
+                                        <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                                            <button type="submit" class="dropdown-item text-light"
+                                                style="background-color: transparent;">
+                                                <i class="fas fa-sign-out-alt me-2"></i>Logout
+                                            </button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-controller="Account" asp-action="Login">
+                                    <i class="fas fa-sign-in-alt me-1"></i>Login
+                                </a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
         </nav>
 
-        <aside class="app-sidebar bg-secondary text-light shadow">
-            <div class="sidebar-brand">
-                <a class="brand-link text-primary fw-bold text-decoration-none" asp-area="" asp-controller="Home"
-                    asp-action="Index">
-                    <i class="fa-solid fa-cubes brand-image"></i>
-                    <span class="brand-text">BuildTrackMVC</span>
-                </a>
-            </div>
-            <div class="sidebar">
-                <nav class="mt-2">
-                    <ul class="nav nav-pills nav-sidebar flex-column sidebar-menu" data-widget="treeview" role="menu"
-                        data-accordion="false">
-                        <li class="nav-item">
-                            <a asp-area="" asp-controller="Clientes" asp-action="Index" class="nav-link text-light">
-                                <i class="nav-icon fa-solid fa-user"></i>
-                                <p>Clientes</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a asp-area="" asp-controller="Materiais" asp-action="Index" class="nav-link text-light">
-                                <i class="nav-icon fa-solid fa-boxes-stacked"></i>
-                                <p>Materiais</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a asp-area="" asp-controller="Obras" asp-action="Index" class="nav-link text-light">
-                                <i class="nav-icon fa-solid fa-building"></i>
-                                <p>Obras</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a asp-area="" asp-controller="Movimentos" asp-action="Index" class="nav-link text-light">
-                                <i class="nav-icon fa-solid fa-exchange-alt"></i>
-                                <p>Movimentos</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a asp-area="" asp-controller="RegistosMaoObra" asp-action="Index"
-                                class="nav-link text-light">
-                                <i class="nav-icon fa-solid fa-person-digging"></i>
-                                <p>Mão de Obra</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a asp-area="" asp-controller="RegistosPagamentos" asp-action="Index"
-                                class="nav-link text-light">
-                                <i class="nav-icon fa-solid fa-money-bill-transfer"></i>
-                                <p>Pagamentos</p>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-        </aside>
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+            <aside class="app-sidebar bg-secondary text-light shadow">
+                <div class="sidebar-brand">
+                    <a class="brand-link text-primary fw-bold text-decoration-none" asp-area="" asp-controller="Home"
+                        asp-action="Index">
+                        <i class="fa-solid fa-cubes brand-image"></i>
+                        <span class="brand-text">BuildTrackMVC</span>
+                    </a>
+                </div>
+                <div class="sidebar">
+                    <nav class="mt-2">
+                        <ul class="nav nav-pills nav-sidebar flex-column sidebar-menu" data-widget="treeview" role="menu"
+                            data-accordion="false">
+                            <li class="nav-item">
+                                <a asp-area="" asp-controller="Clientes" asp-action="Index" class="nav-link text-light">
+                                    <i class="nav-icon fa-solid fa-user"></i>
+                                    <p>Clientes</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-area="" asp-controller="Materiais" asp-action="Index" class="nav-link text-light">
+                                    <i class="nav-icon fa-solid fa-boxes-stacked"></i>
+                                    <p>Materiais</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-area="" asp-controller="Obras" asp-action="Index" class="nav-link text-light">
+                                    <i class="nav-icon fa-solid fa-building"></i>
+                                    <p>Obras</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-area="" asp-controller="Movimentos" asp-action="Index" class="nav-link text-light">
+                                    <i class="nav-icon fa-solid fa-exchange-alt"></i>
+                                    <p>Movimentos</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-area="" asp-controller="RegistosMaoObra" asp-action="Index"
+                                    class="nav-link text-light">
+                                    <i class="nav-icon fa-solid fa-person-digging"></i>
+                                    <p>Mão de Obra</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-area="" asp-controller="RegistosPagamentos" asp-action="Index"
+                                    class="nav-link text-light">
+                                    <i class="nav-icon fa-solid fa-money-bill-transfer"></i>
+                                    <p>Pagamentos</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </aside>
+        }
 
         <!-- Main Content -->
         <main class="app-main">
