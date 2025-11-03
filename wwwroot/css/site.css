@@ -10,13 +10,15 @@ html {
 }
 
 /* Altura mínima para o body */
-html {
-  position: relative;
-  min-height: 100%;
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
 }
 
 body {
-  margin-bottom: 60px;
   background-color: #121212 !important;
   color: #e0e0e0 !important;
 }
@@ -24,12 +26,20 @@ body {
 /* Fix body wrapper to prevent scrolling below footer */
 .app-wrapper {
   min-height: 100vh;
+  max-height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .app-main {
   flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.app-footer {
+  flex-shrink: 0;
 }
 
 /* Navbar e Sidebar */
@@ -80,6 +90,16 @@ body {
 /* Ensure proper spacing for fixed navbar */
 .layout-navbar-fixed .app-wrapper .app-main {
   margin-top: calc(3.5rem + 1px);
+}
+
+/* Adjust main content when sidebar is expanded (not collapsed) */
+.layout-fixed:not(.sidebar-collapse) .app-main {
+  margin-left: 250px;
+}
+
+/* Adjust main content when sidebar is collapsed */
+.sidebar-mini.sidebar-collapse .app-main {
+  margin-left: 4.6rem;
 }
 
 /* Footer styling */
