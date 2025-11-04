@@ -164,7 +164,7 @@
                                 Email <span class="required-badge">*</span>
                             </label>
                             <div class="input-wrapper">
-                                <input asp-for="Email" class="form-control" type="email"
+                                <input asp-for="Email" class="form-control" type="text"
                                     placeholder="exemplo@email.com" />
                                 <i class="fas fa-envelope input-icon"></i>
                             </div>
@@ -209,11 +209,10 @@
         $(function () {
             // Real-time validation feedback
             const form = $('#clienteForm');
-            const inputs = form.find('input[type="text"], input[type="email"]');
+            const inputs = form.find('input[type="text"]');
 
             inputs.on('blur', function () {
                 const input = $(this);
-                const fieldName = input.attr('name');
 
                 // Trigger validation
                 $.validator.unobtrusive.parseElement(input);
@@ -238,33 +237,14 @@
 
             // Form submission
             form.submit(function (e) {
-                // Remove previous validation classes
-                inputs.removeClass('is-valid is-invalid');
-
                 if (!$(this).valid()) {
                     e.preventDefault();
                     e.stopPropagation();
 
                     // Add invalid class to fields with errors
                     $(this).find('.input-validation-error').each(function () {
-                        $(this).addClass('is-invalid');
+                        $(this).removeClass('is-valid').addClass('is-invalid');
                     });
-
-                    // Collect error messages
-                    let errorMessages = [];
-                    $(this).find('.field-validation-error').each(function () {
-                        const errorText = $(this).text().trim();
-                        if (errorText && !errorMessages.includes(errorText)) {
-                            errorMessages.push(errorText);
-                        }
-                    });
-
-                    if (errorMessages.length > 0) {
-                        showToast(
-                            '<strong>Erro na validação:</strong><br>' + errorMessages.join('<br>'),
-                            'error'
-                        );
-                    }
 
                     // Scroll to first error
                     const firstError = $(this).find('.is-invalid').first();
@@ -272,6 +252,7 @@
                         $('html, body').animate({
                             scrollTop: firstError.offset().top - 100
                         }, 300);
+                        firstError.focus();
                     }
 
                     return false;
