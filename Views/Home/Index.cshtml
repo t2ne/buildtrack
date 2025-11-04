@@ -55,48 +55,178 @@
     </div>
 }
 
-<div class="container py-5 @(User.Identity?.IsAuthenticated != true ? "blur-content" : "")">
-    <h1 class="display-4 mb-4 text-center text-light">Dashboard - BuildTrackMVC</h1>
-    <p class="lead text-center text-light">Escolha uma das seções abaixo para começar:</p>
-
-    <div class="row text-center mt-4">
-        <div class="col-md-3 mb-3">
-            <a asp-controller="Clientes" asp-action="Index" class="btn btn-lg btn-primary w-100">
-                <i class="fa-solid fa-user me-2"></i> Clientes
-            </a>
-        </div>
-        <div class="col-md-3 mb-3">
-            <a asp-controller="Materiais" asp-action="Index" class="btn btn-lg btn-success w-100">
-                <i class="fa-solid fa-boxes-stacked me-2"></i> Materiais
-            </a>
-        </div>
-        <div class="col-md-3 mb-3">
-            <a asp-controller="Obras" asp-action="Index" class="btn btn-lg btn-warning w-100">
-                <i class="fa-solid fa-building me-2"></i> Obras
-            </a>
-        </div>
-        <div class="col-md-3 mb-3">
-            <a asp-controller="Movimentos" asp-action="Index" class="btn btn-lg btn-danger w-100">
-                <i class="fa-solid fa-exchange-alt me-2"></i> Movimentos
-            </a>
+<div class="@(User.Identity?.IsAuthenticated != true ? "blur-content" : "")">
+    <!-- Header -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-light">Dashboard</h1>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="row text-center mt-2 justify-content-center">
-        <div class="col-md-3 mb-3">
-            <a asp-controller="RegistosMaoObra" asp-action="Index" class="btn btn-lg btn-info w-100">
-                <i class="fa-solid fa-person-digging me-2"></i> Mão de Obra
-            </a>
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <!-- Small Boxes (Stats) -->
+            <div class="row">
+                <div class="col-lg-3 col-6">
+                    <div class="small-box bg-info">
+                        <div class="inner">
+                            <h3>@ViewBag.ClientesCount</h3>
+                            <p>Clientes</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa-solid fa-user"></i>
+                        </div>
+                        <a asp-controller="Clientes" asp-action="Index" class="small-box-footer">
+                            Ver detalhes <i class="fas fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-6">
+                    <div class="small-box bg-success">
+                        <div class="inner">
+                            <h3>@ViewBag.MateriaisCount</h3>
+                            <p>Materiais</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa-solid fa-boxes-stacked"></i>
+                        </div>
+                        <a asp-controller="Materiais" asp-action="Index" class="small-box-footer">
+                            Ver detalhes <i class="fas fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-6">
+                    <div class="small-box bg-warning">
+                        <div class="inner">
+                            <h3>@ViewBag.ObrasAtivasCount</h3>
+                            <p>Obras Ativas</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa-solid fa-building"></i>
+                        </div>
+                        <a asp-controller="Obras" asp-action="Index" class="small-box-footer">
+                            Ver detalhes <i class="fas fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-6">
+                    <div class="small-box bg-danger">
+                        <div class="inner">
+                            <h3>@ViewBag.MovimentosCount</h3>
+                            <p>Movimentos</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa-solid fa-exchange-alt"></i>
+                        </div>
+                        <a asp-controller="Movimentos" asp-action="Index" class="small-box-footer">
+                            Ver detalhes <i class="fas fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Info Boxes -->
+            <div class="row">
+                <div class="col-12 col-sm-6 col-md-4">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-info elevation-1">
+                            <i class="fa-solid fa-person-digging"></i>
+                        </span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Mão de Obra</span>
+                            <span class="info-box-number">
+                                @ViewBag.RegistosMaoObraCount
+                                <small>registos</small>
+                            </span>
+                            <a asp-controller="RegistosMaoObra" asp-action="Index" class="small-text">
+                                <i class="fas fa-arrow-circle-right"></i> Ver registos
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-md-4">
+                    <div class="info-box mb-3">
+                        <span class="info-box-icon bg-success elevation-1">
+                            <i class="fa-solid fa-money-bill-transfer"></i>
+                        </span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Pagamentos</span>
+                            <span class="info-box-number">
+                                @ViewBag.RegistosPagamentosCount
+                                <small>registos</small>
+                            </span>
+                            <a asp-controller="RegistosPagamentos" asp-action="Index" class="small-text">
+                                <i class="fas fa-arrow-circle-right"></i> Ver registos
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-md-4">
+                    <div class="info-box mb-3">
+                        <span class="info-box-icon bg-warning elevation-1">
+                            <i class="fa-solid fa-circle-question"></i>
+                        </span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Ajuda</span>
+                            <span class="info-box-number">Manual</span>
+                            <a asp-controller="Home" asp-action="Manual" class="small-text">
+                                <i class="fas fa-arrow-circle-right"></i> Ver manual
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="card" style="background-color: #2a2a2a; border: 1px solid #444;">
+                        <div class="card-header border-0" style="background-color: #1e1e1e;">
+                            <h3 class="card-title text-light">
+                                <i class="fas fa-bolt me-2"></i>Ações Rápidas
+                            </h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <a asp-controller="Clientes" asp-action="Create"
+                                        class="btn btn-outline-primary btn-block mb-3">
+                                        <i class="fas fa-plus me-2"></i>Novo Cliente
+                                    </a>
+                                </div>
+                                <div class="col-md-3">
+                                    <a asp-controller="Materiais" asp-action="Create"
+                                        class="btn btn-outline-success btn-block mb-3">
+                                        <i class="fas fa-plus me-2"></i>Novo Material
+                                    </a>
+                                </div>
+                                <div class="col-md-3">
+                                    <a asp-controller="Obras" asp-action="Create"
+                                        class="btn btn-outline-warning btn-block mb-3">
+                                        <i class="fas fa-plus me-2"></i>Nova Obra
+                                    </a>
+                                </div>
+                                <div class="col-md-3">
+                                    <a asp-controller="RegistosMaoObra" asp-action="Create"
+                                        class="btn btn-outline-info btn-block mb-3">
+                                        <i class="fas fa-plus me-2"></i>Registar Mão de Obra
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-md-3 mb-3">
-            <a asp-controller="RegistosPagamentos" asp-action="Index" class="btn btn-lg btn-secondary w-100">
-                <i class="fa-solid fa-money-bill-transfer me-2"></i> Pagamentos
-            </a>
-        </div>
-        <div class="col-md-3 mb-3">
-            <a asp-controller="Home" asp-action="Manual" class="btn btn-lg btn-dark w-100">
-                <i class="fa-solid fa-circle-question me-2"></i> Manual
-            </a>
-        </div>
-    </div>
+    </section>
 </div>

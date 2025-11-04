@@ -20,7 +20,8 @@
     <link rel="stylesheet" href="~/BuildTrackMVC.styles.css" asp-append-version="true" />
 </head>
 
-<body class="layout-fixed layout-navbar-fixed sidebar-mini sidebar-collapse @(User.Identity?.IsAuthenticated != true ? "no-sidebar" : "")">
+<body
+    class="layout-fixed layout-navbar-fixed sidebar-mini sidebar-collapse @(User.Identity?.IsAuthenticated != true ? "no-sidebar" : "")">
     <div class="app-wrapper">
         <nav class="app-header navbar navbar-expand navbar-dark bg-dark shadow-sm">
             <div class="container-fluid">
@@ -87,6 +88,8 @@
                     <nav class="mt-2">
                         <ul class="nav nav-pills nav-sidebar flex-column sidebar-menu" data-widget="treeview" role="menu"
                             data-accordion="false">
+                            <!-- Gestão -->
+                            <li class="nav-header">GESTÃO</li>
                             <li class="nav-item">
                                 <a asp-area="" asp-controller="Clientes" asp-action="Index" class="nav-link text-light">
                                     <i class="nav-icon fa-solid fa-user"></i>
@@ -99,30 +102,47 @@
                                     <p>Materiais</p>
                                 </a>
                             </li>
+
+                            <!-- Obras (clickable link) -->
                             <li class="nav-item">
-                                <a asp-area="" asp-controller="Obras" asp-action="Index" class="nav-link text-light">
+                                <a asp-controller="Obras" asp-action="Index" class="nav-link text-light">
                                     <i class="nav-icon fa-solid fa-building"></i>
                                     <p>Obras</p>
                                 </a>
                             </li>
+
+                            <!-- Registos Relacionados com Obras (submenu) -->
+                            <li class="nav-item">
+                                <a href="#" class="nav-link text-light">
+                                    <i class="nav-icon fa-solid fa-list"></i>
+                                    <p>
+                                        Registos Relacionados
+                                        <i class="nav-arrow fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a asp-controller="RegistosMaoObra" asp-action="Index" class="nav-link text-light">
+                                            <i class="nav-icon fa-solid fa-person-digging"></i>
+                                            <p>Mão de Obra</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a asp-controller="RegistosPagamentos" asp-action="Index"
+                                            class="nav-link text-light">
+                                            <i class="nav-icon fa-solid fa-money-bill-transfer"></i>
+                                            <p>Pagamentos</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <!-- Separador -->
+                            <li class="nav-header">REGISTOS</li>
                             <li class="nav-item">
                                 <a asp-area="" asp-controller="Movimentos" asp-action="Index" class="nav-link text-light">
                                     <i class="nav-icon fa-solid fa-exchange-alt"></i>
                                     <p>Movimentos</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a asp-area="" asp-controller="RegistosMaoObra" asp-action="Index"
-                                    class="nav-link text-light">
-                                    <i class="nav-icon fa-solid fa-person-digging"></i>
-                                    <p>Mão de Obra</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a asp-area="" asp-controller="RegistosPagamentos" asp-action="Index"
-                                    class="nav-link text-light">
-                                    <i class="nav-icon fa-solid fa-money-bill-transfer"></i>
-                                    <p>Pagamentos</p>
                                 </a>
                             </li>
                         </ul>

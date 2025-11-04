@@ -255,4 +255,179 @@ body.no-sidebar .app-footer {
   margin-left: 0 !important;
 }
 
+/* AdminLTE Small Boxes - Dark Theme */
+.small-box {
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  position: relative;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.small-box > .inner {
+  padding: 10px;
+}
+
+.small-box > .small-box-footer {
+  position: relative;
+  text-align: center;
+  padding: 3px 0;
+  color: rgba(255, 255, 255, 0.8);
+  display: block;
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+}
+
+.small-box > .small-box-footer:hover {
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.15);
+}
+
+.small-box h3 {
+  font-size: 2.2rem;
+  font-weight: bold;
+  margin: 0 0 10px;
+  white-space: nowrap;
+  padding: 0;
+}
+
+.small-box p {
+  font-size: 1rem;
+}
+
+.small-box .icon {
+  color: rgba(0, 0, 0, 0.15);
+  z-index: 0;
+}
+
+.small-box .icon > i {
+  font-size: 90px;
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  transition: transform 0.3s linear;
+}
+
+.small-box:hover .icon > i {
+  transform: scale(1.1);
+}
+
+/* Info Boxes - Dark Theme */
+.info-box {
+  display: flex;
+  min-height: 80px;
+  background-color: #2a2a2a;
+  border: 1px solid #444;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.info-box-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  font-size: 2rem;
+  border-radius: 8px 0 0 8px;
+}
+
+.info-box-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 5px 10px;
+  flex: 1;
+}
+
+.info-box-text {
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #e0e0e0 !important;
+}
+
+.info-box-number {
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: #fff !important;
+}
+
+.info-box-content .small-text {
+  font-size: 0.85rem;
+  color: #1e90ff !important;
+  text-decoration: none;
+}
+
+.info-box-content .small-text:hover {
+  color: #63a4ff !important;
+}
+
+/* Nav Headers */
+.nav-header {
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: #aaa !important;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* Nav Treeview (submenu) */
+.nav-treeview {
+  padding-left: 1rem;
+}
+
+.nav-treeview .nav-link {
+  padding: 0.5rem 0.5rem 0.5rem 2rem;
+}
+
+.nav-arrow {
+  margin-left: auto;
+  transition: transform 0.3s;
+}
+
+.nav-item.menu-open > .nav-link .nav-arrow {
+  transform: rotate(-90deg);
+}
+
+/* Content header */
+.content-header {
+  padding: 15px 0;
+}
+
+.content-header h1 {
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+/* Quick Actions Card */
+.btn-outline-primary,
+.btn-outline-success,
+.btn-outline-warning,
+.btn-outline-info {
+  border-width: 2px;
+  font-weight: 600;
+}
+
+.btn-outline-primary:hover {
+  background-color: #0d6efd !important;
+  color: #fff !important;
+}
+
+.btn-outline-success:hover {
+  background-color: #198754 !important;
+  color: #fff !important;
+}
+
+.btn-outline-warning:hover {
+  background-color: #ffc107 !important;
+  color: #000 !important;
+}
+
+.btn-outline-info:hover {
+  background-color: #0dcaf0 !important;
+  color: #000 !important;
+}
+
 /* Remove custom sidebar-mini styles (let AdminLTE handle it) */
