@@ -2,55 +2,624 @@
     ViewData["Title"] = "Manual";
 }
 
-<div class="container py-5">
-    <h1 class="display-5 mb-4 text-light">Manual da Aplicação - BuildTrackMVC</h1>
+<style>
+    .manual-card {
+        background-color: #2a2a2a;
+        border: 1px solid #444;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
 
-    <h3 class="text-light">Objetivo</h3>
-    <p class="text-light">
-        Aplicação Web em C# MVC para Gestão de Obras, Clientes e Materiais.
-        Permite registar movimentos de stock, mão de obra e pagamentos.
-    </p>
+    .manual-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(30, 144, 255, 0.2);
+    }
 
-    <h3 class="text-light mt-4">Funcionalidades Principais</h3>
-    <ul class="text-light">
-        <li>Gestão de Clientes (CRUD)</li>
-        <li>Gestão de Materiais (CRUD)</li>
-        <li>Gestão de Obras (CRUD)</li>
-        <li>Registos dentro de cada obra:
-            <ul>
-                <li>Material utilizado</li>
-                <li>Mão de Obra</li>
-                <li>Pagamentos</li>
-            </ul>
-        </li>
-        <li>Movimentos de stock (apenas leitura)</li>
-    </ul>
+    .manual-card h4 {
+        color: #1e90ff;
+        margin-bottom: 1rem;
+        font-weight: 600;
+    }
 
-    <h3 class="text-light mt-4">Estrutura da Aplicação</h3>
-    <ul class="text-light">
-        <li>Dashboard/Home: botões para aceder às tabelas e funções principais</li>
-        <li>Clientes: CRUD completo</li>
-        <li>Materiais: CRUD completo</li>
-        <li>Obras:
-            <ul>
-                <li>Tabs internas: Dados Gerais, Registo de Material, Mão de Obra, Pagamentos</li>
-            </ul>
-        </li>
-        <li>Movimentos: listagem de operações de stock</li>
-    </ul>
+    .manual-card h5 {
+        color: #63a4ff;
+        margin-top: 1rem;
+        margin-bottom: 0.75rem;
+        font-weight: 500;
+    }
 
-    <h3 class="text-light mt-4">Regras Importantes</h3>
-    <ul class="text-light">
-        <li>Cada movimento de stock guarda data/hora, obra e material.</li>
-        <li>Mão de obra e pagamentos guardam data/hora, pessoa e quantidade/valor.</li>
-        <li>Somente quem tem permissões pode registar/editar obras.</li>
-    </ul>
+    .feature-badge {
+        display: inline-block;
+        background-color: #1e90ff;
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 12px;
+        font-size: 0.85rem;
+        margin-right: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
 
-    <h3 class="text-light mt-4">Requisitos de Entrega</h3>
-    <ul class="text-light">
-        <li>Código fonte completo</li>
-        <li>Base de dados SQL Server</li>
-        <li>Apresentação em PowerPoint/PDF</li>
-        <li>Vídeo da aplicação a correr (facultativo)</li>
-    </ul>
+    .warning-badge {
+        background-color: #ff9800;
+    }
+
+    .success-badge {
+        background-color: #4caf50;
+    }
+
+    .info-list {
+        list-style: none;
+        padding-left: 0;
+    }
+
+    .info-list li {
+        padding: 0.5rem 0;
+        border-bottom: 1px solid #333;
+    }
+
+    .info-list li:last-child {
+        border-bottom: none;
+    }
+
+    .info-list li i {
+        color: #1e90ff;
+        margin-right: 0.75rem;
+        width: 20px;
+    }
+
+    .tech-stack-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .tech-item {
+        background-color: #1e1e1e;
+        padding: 1rem;
+        border-radius: 6px;
+        border-left: 3px solid #1e90ff;
+    }
+
+    .tech-item strong {
+        color: #1e90ff;
+        display: block;
+        margin-bottom: 0.25rem;
+    }
+
+    .workflow-step {
+        background-color: #1e1e1e;
+        padding: 1rem;
+        border-radius: 6px;
+        margin-bottom: 1rem;
+        border-left: 4px solid #1e90ff;
+    }
+
+    .workflow-step .step-number {
+        display: inline-block;
+        background-color: #1e90ff;
+        color: white;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 30px;
+        font-weight: bold;
+        margin-right: 1rem;
+    }
+
+    .code-snippet {
+        background-color: #1e1e1e;
+        border: 1px solid #333;
+        border-radius: 4px;
+        padding: 1rem;
+        margin: 1rem 0;
+        font-family: 'Courier New', monospace;
+        font-size: 0.9rem;
+        color: #e0e0e0;
+    }
+
+    .quick-nav {
+        background-color: #1e1e1e;
+        border-radius: 8px;
+        padding: 1.5rem;
+        position: sticky;
+        top: 20px;
+    }
+
+    .quick-nav a {
+        display: block;
+        color: #1e90ff;
+        text-decoration: none;
+        padding: 0.5rem 0;
+        transition: color 0.2s;
+    }
+
+    .quick-nav a:hover {
+        color: #63a4ff;
+        padding-left: 0.5rem;
+    }
+</style>
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-light">
+                    <i class="fas fa-book me-2"></i>Manual da Aplicação
+                </h1>
+            </div>
+        </div>
+    </div>
 </div>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Main Content -->
+            <div class="col-lg-9">
+                <!-- Introdução -->
+                <div class="manual-card" id="introducao">
+                    <h4><i class="fas fa-info-circle me-2"></i>Introdução ao BuildTrack</h4>
+                    <p class="text-light">
+                        O <strong>BuildTrack</strong> é uma aplicação web desenvolvida em <strong>ASP.NET Core
+                            MVC</strong>
+                        para gestão completa de obras de construção civil. O sistema permite controlar clientes,
+                        materiais,
+                        obras, movimentos de stock e registos financeiros de forma integrada e eficiente.
+                    </p>
+                    <div class="mt-3">
+                        <span class="feature-badge">ASP.NET Core 9.0</span>
+                        <span class="feature-badge">PostgreSQL</span>
+                        <span class="feature-badge">AdminLTE v4</span>
+                        <span class="feature-badge">Entity Framework Core</span>
+                        <span class="feature-badge">Authentication</span>
+                    </div>
+                </div>
+
+                <!-- Stack Tecnológica -->
+                <div class="manual-card" id="tecnologia">
+                    <h4><i class="fas fa-code me-2"></i>Stack</h4>
+                    <div class="tech-stack-grid">
+                        <div class="tech-item">
+                            <strong>Backend</strong>
+                            <p class="text-light mb-0">ASP.NET Core MVC 9.0</p>
+                        </div>
+                        <div class="tech-item">
+                            <strong>Base de Dados</strong>
+                            <p class="text-light mb-0">PostgreSQL com EF Core 9.0</p>
+                        </div>
+                        <div class="tech-item">
+                            <strong>Frontend</strong>
+                            <p class="text-light mb-0">Razor Views + Bootstrap 5</p>
+                        </div>
+                        <div class="tech-item">
+                            <strong>UI Framework</strong>
+                            <p class="text-light mb-0">AdminLTE v4 Dark Theme</p>
+                        </div>
+                        <div class="tech-item">
+                            <strong>Autenticação</strong>
+                            <p class="text-light mb-0">ASP.NET Core Identity</p>
+                        </div>
+                        <div class="tech-item">
+                            <strong>Ícones</strong>
+                            <p class="text-light mb-0">Font Awesome 6.5.1</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Funcionalidades Principais -->
+                <div class="manual-card" id="funcionalidades">
+                    <h4><i class="fas fa-tasks me-2"></i>Funcionalidades Principais</h4>
+
+                    <h5><i class="fas fa-tachometer-alt me-2"></i>Dashboard</h5>
+                    <ul class="info-list text-light">
+                        <li><i class="fas fa-chart-bar"></i>Estatísticas em tempo real de todas as entidades</li>
+                        <li><i class="fas fa-box"></i>Small Boxes com contagens de Clientes, Materiais, Obras Ativas e
+                            Movimentos</li>
+                        <li><i class="fas fa-info-circle"></i>Info Boxes para Mão de Obra e Pagamentos</li>
+                        <li><i class="fas fa-bolt"></i>Ações Rápidas para criar novos registos</li>
+                    </ul>
+
+                    <h5><i class="fas fa-users me-2"></i>Gestão de Clientes</h5>
+                    <ul class="info-list text-light">
+                        <li><i class="fas fa-plus"></i>Criar, editar, visualizar e eliminar clientes</li>
+                        <li><i class="fas fa-id-card"></i>Campos: Nome, NIF, Email, Telefone, Morada</li>
+                        <li><i class="fas fa-list"></i>Listagem paginada com pesquisa</li>
+                        <li><i class="fas fa-link"></i>Associação automática com obras</li>
+                    </ul>
+
+                    <h5><i class="fas fa-boxes-stacked me-2"></i>Gestão de Materiais</h5>
+                    <ul class="info-list text-light">
+                        <li><i class="fas fa-warehouse"></i>CRUD completo de materiais</li>
+                        <li><i class="fas fa-calculator"></i>Controlo de stock atual e preço unitário</li>
+                        <li><i class="fas fa-info"></i>Descrição detalhada de cada material</li>
+                        <li><i class="fas fa-history"></i>Histórico de movimentos por material</li>
+                    </ul>
+
+                    <h5><i class="fas fa-building me-2"></i>Gestão de Obras</h5>
+                    <ul class="info-list text-light">
+                        <li><i class="fas fa-folder-plus"></i>Criação de obras com dados completos</li>
+                        <li><i class="fas fa-calendar"></i>Datas de início e fim previstas</li>
+                        <li><i class="fas fa-euro-sign"></i>Orçamento estimado e custo total calculado</li>
+                        <li><i class="fas fa-toggle-on"></i>Estado da obra (Ativa/Inativa)</li>
+                        <li><i class="fas fa-user-tie"></i>Associação com cliente</li>
+                        <li><i class="fas fa-tabs"></i>Sistema de tabs para organização:
+                            <ul class="mt-2">
+                                <li><strong>Dados Gerais:</strong> Informação principal da obra</li>
+                                <li><strong>Registo de Material:</strong> Materiais utilizados na obra</li>
+                                <li><strong>Mão de Obra:</strong> Registos de trabalho realizado</li>
+                                <li><strong>Pagamentos:</strong> Pagamentos efetuados</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <h5><i class="fas fa-exchange-alt me-2"></i>Movimentos de Stock</h5>
+                    <ul class="info-list text-light">
+                        <li><i class="fas fa-arrow-right"></i>Registo automático de entradas/saídas de material</li>
+                        <li><i class="fas fa-clipboard-list"></i>Tipos: Entrada, Saída para Obra, Ajuste</li>
+                        <li><i class="fas fa-clock"></i>Data e hora de cada movimento</li>
+                        <li><i class="fas fa-eye"></i>Visualização apenas (gerado automaticamente)</li>
+                    </ul>
+
+                    <h5><i class="fas fa-person-digging me-2"></i>Registos de Mão de Obra</h5>
+                    <ul class="info-list text-light">
+                        <li><i class="fas fa-user-hard-hat"></i>Registo de trabalho por pessoa/equipa</li>
+                        <li><i class="fas fa-calendar-day"></i>Data do trabalho realizado</li>
+                        <li><i class="fas fa-hourglass"></i>Horas trabalhadas</li>
+                        <li><i class="fas fa-money-bill"></i>Custo por hora e custo total automático</li>
+                        <li><i class="fas fa-sticky-note"></i>Observações sobre o trabalho</li>
+                    </ul>
+
+                    <h5><i class="fas fa-money-bill-transfer me-2"></i>Registos de Pagamentos</h5>
+                    <ul class="info-list text-light">
+                        <li><i class="fas fa-receipt"></i>Registo de pagamentos efetuados</li>
+                        <li><i class="fas fa-calendar-check"></i>Data do pagamento</li>
+                        <li><i class="fas fa-euro-sign"></i>Valor pago</li>
+                        <li><i class="fas fa-user"></i>Identificação do beneficiário</li>
+                        <li><i class="fas fa-comment"></i>Descrição/motivo do pagamento</li>
+                    </ul>
+                </div>
+
+                <!-- Fluxo de Trabalho -->
+                <div class="manual-card" id="workflow">
+                    <h4><i class="fas fa-project-diagram me-2"></i>Fluxo de Trabalho Típico</h4>
+
+                    <div class="workflow-step">
+                        <span class="step-number">1</span>
+                        <strong class="text-light">Registo Inicial</strong>
+                        <p class="text-light mb-0 mt-2">
+                            Faça login no sistema e aceda ao dashboard para ver o estado atual do sistema.
+                        </p>
+                    </div>
+
+                    <div class="workflow-step">
+                        <span class="step-number">2</span>
+                        <strong class="text-light">Cadastro de Clientes</strong>
+                        <p class="text-light mb-0 mt-2">
+                            Crie ou importe os clientes que terão obras associadas. Inclua todos os dados de contacto.
+                        </p>
+                    </div>
+
+                    <div class="workflow-step">
+                        <span class="step-number">3</span>
+                        <strong class="text-light">Cadastro de Materiais</strong>
+                        <p class="text-light mb-0 mt-2">
+                            Adicione os materiais disponíveis no sistema, definindo stock inicial e preços.
+                        </p>
+                    </div>
+
+                    <div class="workflow-step">
+                        <span class="step-number">4</span>
+                        <strong class="text-light">Criação de Obra</strong>
+                        <p class="text-light mb-0 mt-2">
+                            Crie uma nova obra associada a um cliente, definindo datas, orçamento e localização.
+                        </p>
+                    </div>
+
+                    <div class="workflow-step">
+                        <span class="step-number">5</span>
+                        <strong class="text-light">Registo de Materiais na Obra</strong>
+                        <p class="text-light mb-0 mt-2">
+                            Na página de detalhes da obra (tab "Registo de Material"), adicione os materiais utilizados.
+                            O stock é atualizado automaticamente e cria-se um movimento.
+                        </p>
+                    </div>
+
+                    <div class="workflow-step">
+                        <span class="step-number">6</span>
+                        <strong class="text-light">Registo de Mão de Obra</strong>
+                        <p class="text-light mb-0 mt-2">
+                            Registe as horas trabalhadas (tab "Mão de Obra"). O custo total da obra é atualizado
+                            automaticamente.
+                        </p>
+                    </div>
+
+                    <div class="workflow-step">
+                        <span class="step-number">7</span>
+                        <strong class="text-light">Registo de Pagamentos</strong>
+                        <p class="text-light mb-0 mt-2">
+                            Adicione os pagamentos efetuados (tab "Pagamentos"). O sistema mantém o histórico completo.
+                        </p>
+                    </div>
+
+                    <div class="workflow-step">
+                        <span class="step-number">8</span>
+                        <strong class="text-light">Acompanhamento</strong>
+                        <p class="text-light mb-0 mt-2">
+                            Use o dashboard e as listagens para acompanhar o progresso de todas as obras em tempo real.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Regras de Negócio -->
+                <div class="manual-card" id="regras">
+                    <h4><i class="fas fa-gavel me-2"></i>Regras de Negócio Importantes</h4>
+
+                    <div class="alert alert-info"
+                        style="background-color: #1e3a5f; border-color: #1e90ff; color: #e0e0e0;">
+                        <h5 class="alert-heading"><i class="fas fa-info-circle me-2"></i>Obras e Clientes</h5>
+                        <ul class="mb-0">
+                            <li>Cada obra deve estar associada a um cliente</li>
+                            <li>Um cliente pode ter múltiplas obras</li>
+                            <li>Obras podem estar Ativas ou Inativas</li>
+                            <li>O custo total da obra é calculado automaticamente (materiais + mão de obra)</li>
+                        </ul>
+                    </div>
+
+                    <div class="alert alert-warning"
+                        style="background-color: #4a3a1a; border-color: #ff9800; color: #e0e0e0;">
+                        <h5 class="alert-heading"><i class="fas fa-exclamation-triangle me-2"></i>Stock e Movimentos
+                        </h5>
+                        <ul class="mb-0">
+                            <li>Ao registar material numa obra, o stock é <strong>decrementado automaticamente</strong>
+                            </li>
+                            <li>Cada movimento de stock guarda: data/hora, tipo, quantidade, material e obra (se
+                                aplicável)</li>
+                            <li>Não é possível editar movimentos diretamente (são gerados pelo sistema)</li>
+                            <li>Stock não pode ficar negativo</li>
+                        </ul>
+                    </div>
+
+                    <div class="alert alert-success"
+                        style="background-color: #1a3a1a; border-color: #4caf50; color: #e0e0e0;">
+                        <h5 class="alert-heading"><i class="fas fa-check-circle me-2"></i>Mão de Obra e Pagamentos</h5>
+                        <ul class="mb-0">
+                            <li>Registos de mão de obra calculam custo total automaticamente (horas × custo/hora)</li>
+                            <li>Pagamentos são independentes mas associados à obra</li>
+                            <li>Todos os registos guardam data/hora para auditoria</li>
+                            <li>Apenas utilizadores autenticados podem criar/editar registos</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Autenticação -->
+                <div class="manual-card" id="autenticacao">
+                    <h4><i class="fas fa-lock me-2"></i>Sistema de Autenticação</h4>
+                    <p class="text-light">
+                        O BuildTrack utiliza <strong>ASP.NET Core Identity</strong> para gestão de utilizadores e
+                        autenticação.
+                    </p>
+
+                    <h5>Funcionalidades de Segurança</h5>
+                    <ul class="info-list text-light">
+                        <li><i class="fas fa-user-lock"></i>Registo de novos utilizadores</li>
+                        <li><i class="fas fa-sign-in-alt"></i>Login com email e password</li>
+                        <li><i class="fas fa-shield-alt"></i>Proteção de rotas (requer autenticação)</li>
+                        <li><i class="fas fa-eye-slash"></i>Dashboard bloqueado para utilizadores não autenticados</li>
+                        <li><i class="fas fa-cookie"></i>Sessão persistente com cookies</li>
+                    </ul>
+
+                    <div class="code-snippet">
+                        <strong>Política de Passwords:</strong><br>
+                        - Mínimo 6 caracteres<br>
+                        - Requer dígito numérico<br>
+                        - Requer caractere não alfanumérico<br>
+                        - Requer letra maiúscula
+                    </div>
+                </div>
+
+                <!-- Base de Dados -->
+                <div class="manual-card" id="database">
+                    <h4><i class="fas fa-database me-2"></i>Estrutura da Base de Dados</h4>
+                    <p class="text-light">
+                        O sistema utiliza <strong>PostgreSQL</strong> como sistema de gestão de base de dados,
+                        com <strong>Entity Framework Core</strong> para mapeamento objeto-relacional.
+                    </p>
+
+                    <h5>Tabelas Principais</h5>
+                    <div class="table-responsive mt-3">
+                        <table class="table table-dark table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Tabela</th>
+                                    <th>Descrição</th>
+                                    <th>Campos Principais</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>Clientes</code></td>
+                                    <td>Dados dos clientes</td>
+                                    <td>Nome, NIF, Email, Telefone, Morada</td>
+                                </tr>
+                                <tr>
+                                    <td><code>Materiais</code></td>
+                                    <td>Catálogo de materiais</td>
+                                    <td>Nome, Descricao, StockAtual, PrecoUnitario</td>
+                                </tr>
+                                <tr>
+                                    <td><code>Obras</code></td>
+                                    <td>Projetos/obras em curso</td>
+                                    <td>Nome, Localizacao, DataInicio, DataFim, Orcamento, Ativa</td>
+                                </tr>
+                                <tr>
+                                    <td><code>Movimentos</code></td>
+                                    <td>Movimentos de stock</td>
+                                    <td>Data, Tipo, Quantidade, MaterialId, ObraId</td>
+                                </tr>
+                                <tr>
+                                    <td><code>RegistosMaoObra</code></td>
+                                    <td>Registo de trabalho</td>
+                                    <td>Data, Pessoa, HorasTrabalhadas, CustoPorHora</td>
+                                </tr>
+                                <tr>
+                                    <td><code>RegistosPagamentos</code></td>
+                                    <td>Pagamentos efetuados</td>
+                                    <td>Data, Valor, Beneficiario, Descricao</td>
+                                </tr>
+                                <tr>
+                                    <td><code>AspNetUsers</code></td>
+                                    <td>Utilizadores do sistema</td>
+                                    <td>Email, PasswordHash, Nome</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h5>Relações Entre Tabelas</h5>
+                    <ul class="info-list text-light">
+                        <li><i class="fas fa-link"></i>Obras → Clientes (1:N - uma obra pertence a um cliente)</li>
+                        <li><i class="fas fa-link"></i>Movimentos → Materiais (N:1 - vários movimentos de um material)
+                        </li>
+                        <li><i class="fas fa-link"></i>Movimentos → Obras (N:1 - movimento associado a uma obra)</li>
+                        <li><i class="fas fa-link"></i>RegistosMaoObra → Obras (N:1 - registos pertencem a uma obra)
+                        </li>
+                        <li><i class="fas fa-link"></i>RegistosPagamentos → Obras (N:1 - pagamentos pertencem a uma
+                            obra)</li>
+                    </ul>
+                </div>
+
+                <!-- Interface do Utilizador -->
+                <div class="manual-card" id="interface">
+                    <h4><i class="fas fa-desktop me-2"></i>Interface do Utilizador</h4>
+
+                    <h5>Navegação</h5>
+                    <ul class="info-list text-light">
+                        <li><i class="fas fa-bars"></i><strong>Sidebar:</strong> Menu lateral com todas as
+                            funcionalidades</li>
+                        <li><i class="fas fa-compress-alt"></i><strong>Sidebar Colapsável:</strong> Clique no ícone
+                            hamburger para minimizar</li>
+                        <li><i class="fas fa-user-circle"></i><strong>User Menu:</strong> Dropdown no topo com opções de
+                            logout</li>
+                        <li><i class="fas fa-home"></i><strong>Dashboard:</strong> Página inicial com visão geral</li>
+                    </ul>
+
+                    <h5>Tema Visual</h5>
+                    <ul class="info-list text-light">
+                        <li><i class="fas fa-moon"></i>Dark Theme para conforto visual</li>
+                        <li><i class="fas fa-palette"></i>Cores principais: #1e90ff (azul) e tons de cinza escuro</li>
+                        <li><i class="fas fa-icons"></i>Font Awesome 6.5.1 para ícones consistentes</li>
+                        <li><i class="fas fa-mobile-alt"></i>Design responsivo (Bootstrap 5)</li>
+                    </ul>
+
+                    <h5>Componentes AdminLTE</h5>
+                    <ul class="info-list text-light">
+                        <li><i class="fas fa-box"></i><strong>Small Boxes:</strong> Cards com estatísticas coloridas
+                        </li>
+                        <li><i class="fas fa-info-square"></i><strong>Info Boxes:</strong> Caixas informativas com
+                            ícones</li>
+                        <li><i class="fas fa-table"></i><strong>DataTables:</strong> Tabelas com paginação e pesquisa
+                        </li>
+                        <li><i class="fas fa-folder"></i><strong>Tabs:</strong> Organização de conteúdo em abas</li>
+                    </ul>
+                </div>
+
+                <!-- Suporte e Troubleshooting -->
+                <div class="manual-card" id="suporte">
+                    <h4><i class="fas fa-life-ring me-2"></i>Suporte e Resolução de Problemas</h4>
+
+                    <h5>Problemas Comuns</h5>
+
+                    <div class="alert alert-danger"
+                        style="background-color: #4a1a1a; border-color: #f44336; color: #e0e0e0;">
+                        <strong><i class="fas fa-times-circle me-2"></i>Erro ao adicionar material à obra</strong>
+                        <p class="mb-0 mt-2">
+                            <strong>Solução:</strong> Verifique se o material tem stock suficiente. O sistema não
+                            permite
+                            adicionar quantidade maior que o stock disponível.
+                        </p>
+                    </div>
+
+                    <div class="alert alert-danger"
+                        style="background-color: #4a1a1a; border-color: #f44336; color: #e0e0e0;">
+                        <strong><i class="fas fa-times-circle me-2"></i>Não consigo aceder ao dashboard</strong>
+                        <p class="mb-0 mt-2">
+                            <strong>Solução:</strong> Certifique-se de que está autenticado. Faça login primeiro.
+                        </p>
+                    </div>
+
+                    <div class="alert alert-danger"
+                        style="background-color: #4a1a1a; border-color: #f44336; color: #e0e0e0;">
+                        <strong><i class="fas fa-times-circle me-2"></i>Dashboard mostra valores a 0</strong>
+                        <p class="mb-0 mt-2">
+                            <strong>Solução:</strong> Verifique a conexão com a base de dados. Se persistir, reinicie a
+                            aplicação.
+                        </p>
+                    </div>
+
+                    <h5 class="mt-4">Requisitos do Sistema</h5>
+                    <ul class="info-list text-light">
+                        <li><i class="fas fa-server"></i>.NET 9.0 SDK instalado</li>
+                        <li><i class="fas fa-database"></i>PostgreSQL 12+ em execução</li>
+                        <li><i class="fas fa-globe"></i>Browser moderno (Chrome, Firefox, Edge, Safari)</li>
+                        <li><i class="fas fa-network-wired"></i>Conexão de rede para acesso ao servidor</li>
+                    </ul>
+                </div>
+
+                <!-- Sobre o Projeto -->
+                <div class="manual-card" id="sobre">
+                    <h4><i class="fas fa-graduation-cap me-2"></i>Sobre o Projeto</h4>
+                    <p class="text-light">
+                        O <strong>BuildTrack</strong> foi desenvolvido como projeto académico para a disciplina de
+                        Desenvolvimento Web em C#. O objetivo é demonstrar competências em:
+                    </p>
+                    <ul class="text-light">
+                        <li>Desenvolvimento de aplicações web com ASP.NET Core MVC</li>
+                        <li>Utilização de Entity Framework Core para persistência de dados</li>
+                        <li>Implementação de autenticação e autorização</li>
+                        <li>Design de interfaces modernas e responsivas</li>
+                        <li>Aplicação de boas práticas de programação</li>
+                        <li>Gestão de base de dados relacional</li>
+                    </ul>
+
+                    <h5 class="mt-4">Entregáveis do Projeto</h5>
+                    <ul class="info-list text-light">
+                        <li><i class="fas fa-code"></i>Código fonte completo (disponível no GitHub)</li>
+                        <li><i class="fas fa-database"></i>Schema da base de dados PostgreSQL</li>
+                        <li><i class="fas fa-file-powerpoint"></i>Apresentação do projeto (PowerPoint/PDF)</li>
+                        <li><i class="fas fa-book"></i>Manual de utilizador (esta página)</li>
+                        <li><i class="fas fa-video"></i>Vídeo demonstrativo (opcional)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Quick Navigation Sidebar -->
+            <div class="col-lg-3">
+                <div class="quick-nav">
+                    <h5 class="text-light mb-3">
+                        <i class="fas fa-compass me-2"></i>Navegação Rápida
+                    </h5>
+                    <a href="#introducao"><i class="fas fa-chevron-right me-2"></i>Introdução</a>
+                    <a href="#tecnologia"><i class="fas fa-chevron-right me-2"></i>Stack Tecnológica</a>
+                    <a href="#funcionalidades"><i class="fas fa-chevron-right me-2"></i>Funcionalidades</a>
+                    <a href="#workflow"><i class="fas fa-chevron-right me-2"></i>Fluxo de Trabalho</a>
+                    <a href="#regras"><i class="fas fa-chevron-right me-2"></i>Regras de Negócio</a>
+                    <a href="#autenticacao"><i class="fas fa-chevron-right me-2"></i>Autenticação</a>
+                    <a href="#database"><i class="fas fa-chevron-right me-2"></i>Base de Dados</a>
+                    <a href="#interface"><i class="fas fa-chevron-right me-2"></i>Interface</a>
+                    <a href="#suporte"><i class="fas fa-chevron-right me-2"></i>Suporte</a>
+                    <a href="#sobre"><i class="fas fa-chevron-right me-2"></i>Sobre o Projeto</a>
+
+                    <hr style="border-color: #444; margin: 1.5rem 0;">
+
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-primary btn-sm w-100 mt-2">
+                        <i class="fas fa-home me-2"></i>Voltar ao Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
