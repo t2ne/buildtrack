@@ -46,7 +46,7 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label>&nbsp;</label>
-                                <button type="submit" class="btn btn-block"
+                                <button type="submit" class="btn btn-block d-block w-100"
                                     style="background-color: #4caf50; border-color: #4caf50; color: white;">
                                     <i class="fas fa-save"></i> Adicionar
                                 </button>
@@ -109,19 +109,39 @@
         });
 
         function loadMaterials() {
-            // This should be loaded from the server
-            // For now, placeholder
-            console.log('Loading available materials...');
-        }
+            // Load available materials from the system
+            $.ajax({
+                url: '/Materiais/GetMaterialsJson',
+                method: 'GET',
+                dataType: 'json',
+                success: function (materiais) {
+                    var $select = $('select[name="MaterialId"]');
+                    $select.find('option:not(:first)').remove();
 
-        function loadMovimentos() {
+                    console.log('Loaded ' + materiais.length + ' materials');
+
+                    if (materiais.length > 0) {
+                        $.each(materiais, function (index, material) {
+                            $select.append('<option value="' + material.id + '">' + material.nome + '</option>');
+                            console.log('Added: ' + material.nome + ' (ID: ' + material.id + ')');
+                        });
+                    } else {
+                        console.log('No materials available');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Erro ao carregar materiais:', error);
+                    console.error('Status:', status);
+                }
+            });
+        } function loadMovimentos() {
             // This should load movements from the server
-            // For now, placeholder
+            // For now, show empty state
             setTimeout(function () {
                 $('#materiaisTableBody').html(
                     '<tr><td colspan="6" class="text-center py-4">' +
-                    '<i class="fas fa-boxes fa-3x mb-3" style="color: #4caf50; opacity: 0.3;"></i>' +
-                    '<p class="text-muted">Nenhum material registado nesta obra.</p>' +
+                    '<i class="fas fa-boxes fa-3x mb-3" style="color: #666; opacity: 0.3;"></i>' +
+                    '<p style="color: #aaa; margin: 0;">Nenhum material registado nesta obra.</p>' +
                     '</td></tr>'
                 );
             }, 500);

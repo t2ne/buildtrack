@@ -95,5 +95,15 @@ namespace BuildTrackMVC.Controllers
         }
 
         private bool MaterialExists(int id) => _context.Materiais.Any(e => e.Id == id);
+
+        // API endpoint to get materials as JSON
+        [HttpGet]
+        public async Task<IActionResult> GetMaterialsJson()
+        {
+            var materiais = await _context.Materiais
+                .Select(m => new { m.Id, m.Nome, m.Descricao, m.StockDisponivel })
+                .ToListAsync();
+            return Json(materiais);
+        }
     }
 }

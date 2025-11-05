@@ -33,11 +33,10 @@ namespace BuildTrackMVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ObraId,NomePessoa,Valor")] RegistoPagamento pagamento)
+        public async Task<IActionResult> Create([Bind("ObraId,TipoPagamento,Valor,DataPagamento,MetodoPagamento,Descricao")] RegistoPagamento pagamento)
         {
             if (ModelState.IsValid)
             {
-                // DataHora já definido por default se tiveres no model
                 _context.Add(pagamento);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

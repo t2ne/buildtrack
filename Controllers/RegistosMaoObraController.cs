@@ -33,11 +33,10 @@ namespace BuildTrackMVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ObraId,NomePessoa,HorasTrabalhadas")] RegistoMaoObra registo)
+        public async Task<IActionResult> Create([Bind("ObraId,NomeTrabalhador,HorasTrabalhadas,ValorHora,DescricaoTrabalho,DataRegisto")] RegistoMaoObra registo)
         {
             if (ModelState.IsValid)
             {
-                // DataHora já definido por default se tiveres no model
                 _context.Add(registo);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
