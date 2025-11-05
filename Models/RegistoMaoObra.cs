@@ -16,11 +16,11 @@ namespace BuildTrackMVC.Models
         public string NomeTrabalhador { get; set; } = null!;
 
         [Required(ErrorMessage = "As horas trabalhadas são obrigatórias. ")]
-        [Range(0.5, 24, ErrorMessage = "As horas devem estar entre 0.5 e 24. ")]
+        [Range(0.5, 1000, ErrorMessage = "As horas devem estar entre 0.5 e 1000. ")]
         public double HorasTrabalhadas { get; set; }
 
         [Required(ErrorMessage = "O valor por hora é obrigatório. ")]
-        [Range(0.01, 1000, ErrorMessage = "O valor por hora deve ser positivo. ")]
+        [Range(0.01, 1000, ErrorMessage = "O valor por hora deve estar entre 0.01€ e 1000€. ")]
         public decimal ValorHora { get; set; }
 
         [StringLength(500, ErrorMessage = "A descrição não pode ter mais de 500 caracteres.")]

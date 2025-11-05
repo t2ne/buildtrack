@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BuildTrackMVC.Data;
 using BuildTrackMVC.Models;
-using System.Threading.Tasks;
 
 namespace BuildTrackMVC.Controllers
 {
@@ -24,30 +23,6 @@ namespace BuildTrackMVC.Controllers
                 .Include(m => m.Material)
                 .ToListAsync();
             return View(movimentos);
-        }
-
-        // GET: Movimentos/Create
-        public IActionResult Create()
-        {
-            ViewData["Obras"] = _context.Obras.ToList();
-            ViewData["Materiais"] = _context.Materiais.ToList();
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ObraId,MaterialId,Operacao,Quantidade")] Movimento movimento)
-        {
-            if (ModelState.IsValid)
-            {
-                // DataHora já definido por default no model
-                _context.Add(movimento);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["Obras"] = _context.Obras.ToList();
-            ViewData["Materiais"] = _context.Materiais.ToList();
-            return View(movimento);
         }
 
         // API endpoint to add movimento via AJAX
