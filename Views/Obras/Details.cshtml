@@ -415,7 +415,9 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
-            // Activate tab from hash on page load
+            var obraId = @Model.Id;
+
+            // Tab navigation
             var hash = window.location.hash;
             if (hash) {
                 var tab = new bootstrap.Tab(document.querySelector('.nav-pills a[href="' + hash + '"]'));
@@ -424,10 +426,225 @@
                 }
             }
 
-            // Update hash on tab change
             $('.nav-pills a[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
                 window.location.hash = e.target.getAttribute('href');
             });
+
+            // ===== MATERIAIS =====
+            loadMovimentos();
+
+            $('#addMaterialForm').on('submit', function (e) {
+                e.preventDefault();
+                addMaterial();
+            });
+
+            function loadMovimentos() {
+                $.ajax({
+                    url: '/Movimentos/GetMovimentosByObra',
+                    method: 'GET',
+                    data: { obraId: obraId },
+                    success: function (movimentos) {
+                        var tbody = $('#materiaisTableBody');
+                        tbody.empty();
+
+                        if (movimentos.length === 0) {
+                            tbody.html(
+                                '<tr><td colspan="6" class="text-center py-4">' +
+                                '<i class="fas fa-boxes fa-3x mb-3" style="color: #666; opacity: 0.3;"></i>' +
+                                '<p style="color: #aaa; margin: 0;">Nenhum material registado nesta obra.</p>' +
+                                '</td></tr>'
+                            );
+                        } else {
+                            $.each(movimentos, function (index, mov) {
+                                var operacaoBadge = mov.operacao === 'ADD' ?
+                                    '<span class="badge bg-success"><i class="fas fa-plus me-1"></i>Entrada</span>' :
+                                    '<span class="badge bg-danger"><i class="fas fa-minus me-1"></i>Saída</span>';
+
+                                tbody.append(
+                                    '<tr>' +
+                                    '<td>' + mov.id + '</td>' +
+                                    '<td>' + mov.materialNome + '</td>' +
+                                    '<td>' + mov.quantidade + '</td>' +
+                                    '<td>' + operacaoBadge + '</td>' +
+                                    '<td>' + mov.dataHora + '</td>' +
+                                    '<td class="text-center">-</td>' +
+                                    '</tr>'
+                                );
+                            });
+                        }
+                    }
+                });
+            }
+
+            function addMaterial() {
+                var formData = {
+                    ObraId: obraId,
+                    MaterialId: parseInt($('select[name="MaterialId"]').val()),
+                    Quantidade: parseFloat($('input[name="Quantidade"]').val()),
+                    Operacao: $('select[name="TipoOperacao"]').val()
+                };
+
+                $.ajax({
+                    url: '/Movimentos/AddMovimento',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(formData),
+                    success: function (response) {
+                        if (response.success) {
+                            $('#addMaterialForm')[0].reset();
+                            loadMovimentos();
+                        }
+                    },
+                    error: function () {
+                        // Silent error handling
+                    }
+                });
+            }
+
+            // ===== MÃO DE OBRA =====
+            loadRegistos();
+
+            $('#addMaoObraForm').on('submit', function (e) {
+                e.preventDefault();
+                addRegisto();
+            });
+
+            function loadRegistos() {
+                $.ajax({
+                    url: '/RegistosMaoObra/GetRegistosByObra',
+                    method: 'GET',
+                    data: { obraId: obraId },
+                    success: function (registos) {
+                        var tbody = $('#maoObraTableBody');
+                        tbody.empty();
+
+                        if (registos.length === 0) {
+                            tbody.html(
+                                '<tr><td colspan="8" class="text-center py-4">' +
+                                '<i class="fas fa-users-cog fa-3x mb-3" style="color: #666; opacity: 0.3;"></i>' +
+                                '<p style="color: #aaa; margin: 0;">Nenhum registo de mão de obra nesta obra.</p>' +
+                                '</td></tr>'
+                            );
+                        } else {
+                            $.each(registos, function (index, reg) {
+                                tbody.append(
+                                    '<tr>' +
+                                    '<td>' + reg.id + '</td>' +
+                                    '<td>' + reg.nomeTrabalhador + '</td>' +
+                                    '<td>' + reg.horasTrabalhadas + 'h</td>' +
+                                    '<td>€ ' + reg.valorHora.toFixed(2) + '</td>' +
+                                    '<td><strong>€ ' + reg.total.toFixed(2) + '</strong></td>' +
+                                    '<td>' + reg.dataRegisto + '</td>' +
+                                    '<td>' + (reg.descricaoTrabalho || '-') + '</td>' +
+                                    '<td class="text-center">-</td>' +
+                                    '</tr>'
+                                );
+                            });
+                        }
+                    }
+                });
+            }
+
+            function addRegisto() {
+                var formData = {
+                    ObraId: obraId,
+                    NomeTrabalhador: $('input[name="NomeTrabalhador"]').val(),
+                    HorasTrabalhadas: parseFloat($('input[name="HorasTrabalhadas"]').val()),
+                    ValorHora: parseFloat($('input[name="ValorHora"]').val()),
+                    DataRegisto: $('input[name="DataRegisto"]').val(),
+                    DescricaoTrabalho: $('textarea[name="DescricaoTrabalho"]').val()
+                };
+
+                $.ajax({
+                    url: '/RegistosMaoObra/AddRegisto',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(formData),
+                    success: function (response) {
+                        if (response.success) {
+                            $('#addMaoObraForm')[0].reset();
+                            $('input[name="DataRegisto"]').val(new Date().toISOString().split('T')[0]);
+                            loadRegistos();
+                        }
+                    },
+                    error: function () {
+                        // Silent error handling
+                    }
+                });
+            }
+
+            // ===== PAGAMENTOS =====
+            loadPagamentos();
+
+            $('#addPagamentoForm').on('submit', function (e) {
+                e.preventDefault();
+                addPagamento();
+            });
+
+            function loadPagamentos() {
+                $.ajax({
+                    url: '/RegistosPagamentos/GetPagamentosByObra',
+                    method: 'GET',
+                    data: { obraId: obraId },
+                    success: function (response) {
+                        var tbody = $('#pagamentosTableBody');
+                        tbody.empty();
+
+                        if (response.pagamentos.length === 0) {
+                            tbody.html(
+                                '<tr><td colspan="7" class="text-center py-4">' +
+                                '<i class="fas fa-wallet fa-3x mb-3" style="color: #666; opacity: 0.3;"></i>' +
+                                '<p style="color: #aaa; margin: 0;">Nenhum pagamento registado nesta obra.</p>' +
+                                '</td></tr>'
+                            );
+                            $('#totalPagamentos').text('€ 0,00');
+                        } else {
+                            $.each(response.pagamentos, function (index, pag) {
+                                tbody.append(
+                                    '<tr>' +
+                                    '<td>' + pag.id + '</td>' +
+                                    '<td>' + pag.tipoPagamento + '</td>' +
+                                    '<td><strong>€ ' + pag.valor.toFixed(2) + '</strong></td>' +
+                                    '<td>' + pag.dataPagamento + '</td>' +
+                                    '<td>' + pag.metodoPagamento + '</td>' +
+                                    '<td>' + (pag.descricao || '-') + '</td>' +
+                                    '<td class="text-center">-</td>' +
+                                    '</tr>'
+                                );
+                            });
+                            $('#totalPagamentos').text('€ ' + response.total.toFixed(2));
+                        }
+                    }
+                });
+            }
+
+            function addPagamento() {
+                var formData = {
+                    ObraId: obraId,
+                    TipoPagamento: $('select[name="TipoPagamento"]').val(),
+                    Valor: parseFloat($('input[name="Valor"]').val()),
+                    DataPagamento: $('input[name="DataPagamento"]').val(),
+                    MetodoPagamento: $('select[name="MetodoPagamento"]').val(),
+                    Descricao: $('textarea[name="Descricao"]').val()
+                };
+
+                $.ajax({
+                    url: '/RegistosPagamentos/AddPagamento',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(formData),
+                    success: function (response) {
+                        if (response.success) {
+                            $('#addPagamentoForm')[0].reset();
+                            $('input[name="DataPagamento"]').val(new Date().toISOString().split('T')[0]);
+                            loadPagamentos();
+                        }
+                    },
+                    error: function () {
+                        // Silent error handling
+                    }
+                });
+            }
         });
     </script>
 }

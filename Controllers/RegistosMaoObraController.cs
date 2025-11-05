@@ -44,5 +44,51 @@ namespace BuildTrackMVC.Controllers
             ViewData["Obras"] = _context.Obras.ToList();
             return View(registo);
         }
+
+        // API endpoint to add registo via AJAX
+        [HttpPost]
+        public async Task<IActionResult> AddRegisto([FromBody] RegistoMaoObra registo)
+        {
+            try
+            {
+                ModelState.Remove("Obra");
+
+                if (ModelState.IsValid)
+                {
+                    _context.Add(registo);
+                    await _context.SaveChangesAsync();
+
+                    return Json(new { success = true });
+                }
+
+                return Json(new { success = false });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false });
+            }
+        }
+
+        // API endpoint to get registos by obra
+        [HttpGet]
+        public async Task<IActionResult> GetRegistosByObra(int obraId)
+        {
+            var registos = await _context.RegistosMaoObra
+                .Where(r => r.ObraId == obraId)
+                .OrderByDescending(r => r.DataRegisto)
+                .Select(r => new
+                {
+                    r.Id,
+                    r.NomeTrabalhador,
+                    r.HorasTrabalhadas,
+                    r.ValorHora,
+                    Total = r.HorasTrabalhadas * (double)r.ValorHora,
+                    r.DescricaoTrabalho,
+                    DataRegisto = r.DataRegisto.ToString("dd/MM/yyyy")
+                })
+                .ToListAsync();
+
+            return Json(registos);
+        }
     }
 }

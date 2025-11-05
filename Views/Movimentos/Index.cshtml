@@ -182,10 +182,10 @@
                                 var operationIcon = item.Operacao == "ADD" ? "fa-plus" : "fa-minus";
 
                                 <tr
-                                    data-search="@item.Obra.Nome.ToLower() @item.Obra.Cliente.Nome.ToLower() @item.Material.Nome.ToLower() @operationText.ToLower()">
-                                    <td><strong>@item.Obra.Nome</strong></td>
-                                    <td>@item.Obra.Cliente.Nome</td>
-                                    <td>@item.Material.Nome</td>
+                                    data-search="@item.Obra?.Nome?.ToLower() @item.Obra?.Cliente?.Nome?.ToLower() @item.Material?.Nome?.ToLower() @operationText.ToLower()">
+                                    <td><strong>@(item.Obra?.Nome ?? "-")</strong></td>
+                                    <td>@(item.Obra?.Cliente?.Nome ?? "-")</td>
+                                    <td>@(item.Material?.Nome ?? "-")</td>
                                     <td>
                                         <span class="operation-badge @operationClass">
                                             <i class="fas @operationIcon me-1"></i>@operationText

@@ -20,7 +20,7 @@ namespace BuildTrackMVC.Models
         public decimal Valor { get; set; }
 
         [Required(ErrorMessage = "A data de pagamento é obrigatória.")]
-        public DateTime DataPagamento { get; set; } = DateTime.Now;
+        public DateTime DataPagamento { get; set; } = DateTime.UtcNow;
 
         [Required(ErrorMessage = "O método de pagamento é obrigatório.")]
         [StringLength(50, ErrorMessage = "O método não pode ter mais de 50 caracteres.")]

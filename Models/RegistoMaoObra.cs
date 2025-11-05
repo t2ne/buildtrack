@@ -27,6 +27,6 @@ namespace BuildTrackMVC.Models
         public string? DescricaoTrabalho { get; set; }
 
         [Required(ErrorMessage = "A data de registo é obrigatória.")]
-        public DateTime DataRegisto { get; set; } = DateTime.Now;
+        public DateTime DataRegisto { get; set; } = DateTime.UtcNow;
     }
 }

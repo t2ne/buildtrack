@@ -21,6 +21,6 @@ namespace BuildTrackMVC.Models
 
         public int Quantidade { get; set; }
 
-        public DateTime DataHora { get; set; } = DateTime.Now;
+        public DateTime DataHora { get; set; } = DateTime.UtcNow;
     }
 }
