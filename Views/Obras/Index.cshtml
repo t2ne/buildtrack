@@ -129,15 +129,19 @@
 
     .empty-state {
         text-align: center;
-        padding: 3rem;
+        padding: 2rem;
         color: #888;
     }
 
     .empty-state i {
-        font-size: 4rem;
+        font-size: 3rem;
         color: #ff9800;
         opacity: 0.3;
-        margin-bottom: 1rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .empty-state p {
+        margin-bottom: 0.25rem;
     }
 </style>
 
@@ -157,26 +161,26 @@
     <div class="container-fluid">
         <div class="obras-header">
             <div class="row align-items-center">
-                <div class="col-md-8">
-                    <div class="input-group">
-                        <span class="input-group-text search-icon">
-                            <i class="fas fa-search"></i>
-                        </span>
-                        <input type="text" class="form-control search-box" id="searchInput"
-                            placeholder="Pesquisar por nome, cliente, morada ou estado...">
-                    </div>
-                </div>
-                <div class="col-md-4 text-end">
-                    <a asp-action="Create" class="btn w-100"
-                        style="background-color: #ff9800; color: white; font-weight: 600; padding: 0.75rem; border-radius: 6px;">
+                <div class="col-md-6 mb-3 mb-md-0">
+                    <a asp-action="Create" class="btn"
+                        style="background-color: #ff9800; color: white; font-weight: 600; padding: 0.5rem 1rem; border-radius: 6px;">
                         <i class="fas fa-plus me-2"></i>Nova Obra
                     </a>
                     @if (Model != null && Model.Any())
                     {
-                        <span class="badge-count mt-2 d-inline-block">
-                            <i class="fas fa-hard-hat me-1"></i>@Model.Count() obras
+                        <span class="badge-count ms-3">
+                            <i class="fas fa-hard-hat me-1"></i><span id="obraCount">@Model.Count()</span> obras
                         </span>
                     }
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-text" style="background-color: #1e1e1e; border-color: #444;">
+                            <i class="fas fa-search search-icon"></i>
+                        </span>
+                        <input type="text" class="form-control search-box" id="searchInput"
+                            placeholder="Pesquisar por nome, cliente, morada ou estado...">
+                    </div>
                 </div>
             </div>
         </div>
@@ -185,22 +189,21 @@
             <table class="table table-dark table-hover" id="obrasTable">
                 <thead>
                     <tr>
-                        <th style="width: 5%;"><i class="fas fa-hashtag me-2"></i>ID</th>
                         <th style="width: 25%;"><i class="fas fa-hard-hat me-2"></i>NOME</th>
-                        <th style="width: 15%;"><i class="fas fa-user me-2"></i>CLIENTE</th>
-                        <th style="width: 20%;"><i class="fas fa-map-marker-alt me-2"></i>MORADA</th>
+                        <th style="width: 18%;"><i class="fas fa-user me-2"></i>CLIENTE</th>
+                        <th style="width: 22%;"><i class="fas fa-map-marker-alt me-2"></i>MORADA</th>
                         <th style="width: 10%;"><i class="fas fa-toggle-on me-2"></i>ESTADO</th>
-                        <th style="width: 10%;"><i class="fas fa-location-arrow me-2"></i>GPS</th>
-                        <th style="width: 15%;" class="text-center"><i class="fas fa-cog me-2"></i>AÇÕES</th>
+                        <th style="width: 8%;"><i class="fas fa-location-arrow me-2"></i>GPS</th>
+                        <th style="width: 17%;" class="text-center"><i class="fas fa-cog me-2"></i>AÇÕES</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="obrasTableBody">
                     @if (Model != null && Model.Any())
                     {
                         @foreach (var obra in Model)
                         {
-                            <tr>
-                                <td><strong>@obra.Id</strong></td>
+                            var searchData = $"{obra.Nome} {obra.Descricao} {obra.Cliente?.Nome} {obra.Morada} {(obra.Ativa ? "ativa" : "inativa")}".ToLower();
+                            <tr data-search="@searchData">
                                 <td>
                                     <div>
                                         <strong style="color: #fff;">@obra.Nome</strong>
@@ -260,14 +263,11 @@
                     else
                     {
                         <tr>
-                            <td colspan="7">
+                            <td colspan="6">
                                 <div class="empty-state">
                                     <i class="fas fa-hard-hat"></i>
-                                    <p class="mb-3">Nenhuma obra registada.</p>
-                                    <a asp-action="Create" class="btn"
-                                        style="background-color: #ff9800; color: white; font-weight: 600; padding: 0.5rem 1.5rem; border-radius: 6px;">
-                                        <i class="fas fa-plus me-2"></i>Criar Primeira Obra
-                                    </a>
+                                    <p>Nenhuma obra registada.</p>
+                                    <p class="mb-0">Comece por adicionar uma nova obra.</p>
                                 </div>
                             </td>
                         </tr>
@@ -293,12 +293,95 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
-            $('#searchInput').on('keyup', function () {
-                var value = $(this).val().toLowerCase();
-                $('#obrasTable tbody tr').filter(function () {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            var $tableBody = $('#obrasTableBody');
+            var $searchInput = $('#searchInput');
+            var $statusFilter = $('#statusFilter');
+            var $locationFilter = $('#locationFilter');
+            var $badgeCount = $('.badge-count');
+            var $noResults = $('#noResults');
+
+            function updateCount() {
+                var visibleCount = $tableBody.find('tr[data-search]:visible').length;
+                $('#obraCount').text(visibleCount);
+            }
+
+            function showNoResults(show) {
+                if (show) {
+                    if ($noResults.length === 0) {
+                        $tableBody.append(
+                            '<tr id="noResults"><td colspan="6" class="text-center py-4">' +
+                            '<i class="fas fa-search mb-2" style="font-size: 2rem; color: #666;"></i>' +
+                            '<p style="color: #aaa;">Nenhuma obra encontrada</p>' +
+                            '</td></tr>'
+                        );
+                    }
+                } else {
+                    $noResults.remove();
+                }
+            }
+
+            function performSearch() {
+                var searchValue = $searchInput.val().toLowerCase().trim();
+                var statusValue = $statusFilter.val();
+                var locationValue = $locationFilter.val();
+                var hasVisibleRows = false;
+
+                $tableBody.find('tr[data-search]').each(function () {
+                    var $row = $(this);
+                    var searchData = $row.data('search') || '';
+                    var showRow = true;
+
+                    // Text search
+                    if (searchValue && searchData.indexOf(searchValue) === -1) {
+                        showRow = false;
+                    }
+
+                    // Status filter
+                    if (statusValue !== '') {
+                        var isActive = $row.find('.badge.bg-success').length > 0;
+                        if ((statusValue === 'true' && !isActive) || (statusValue === 'false' && isActive)) {
+                            showRow = false;
+                        }
+                    }
+
+                    // Location filter
+                    if (locationValue !== '') {
+                        var locationBadge = $row.find('td:eq(5) .badge');
+                        var hasLoc = locationBadge.length > 0 &&
+                            (locationBadge.css('background-color') === 'rgb(255, 152, 0)' ||
+                                locationBadge.css('background-color') === '#ff9800');
+                        if ((locationValue === 'true' && !hasLoc) || (locationValue === 'false' && hasLoc)) {
+                            showRow = false;
+                        }
+                    }
+
+                    $row.toggle(showRow);
+                    if (showRow) hasVisibleRows = true;
                 });
+
+                showNoResults(!hasVisibleRows);
+                updateCount();
+            }
+
+            // Search input
+            $searchInput.on('keyup', performSearch);
+
+            // Filter changes
+            $statusFilter.on('change', performSearch);
+            $locationFilter.on('change', performSearch);
+
+            // Clear filters
+            $('#clearFilters').on('click', function () {
+                $statusFilter.val('');
+                $locationFilter.val('');
+                $searchInput.val('');
+                $tableBody.find('tr[data-search]').show();
+                showNoResults(false);
+                updateCount();
             });
+
+            // Initial count
+            updateCount();
         });
     </script>
 }

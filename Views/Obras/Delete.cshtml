@@ -4,6 +4,109 @@
     ViewData["Title"] = "Eliminar Obra";
 }
 
+<style>
+    .alert-danger {
+        background-color: #3d1f1f;
+        border: 1px solid #dc3545;
+        color: #f8d7da;
+    }
+
+    .alert-danger .icon {
+        color: #dc3545;
+    }
+
+    .card-outline-danger {
+        border-top: 3px solid #dc3545;
+        background-color: #2a2a2a;
+        border: 1px solid #444;
+    }
+
+    .card-header {
+        background-color: #2a2a2a;
+        border-bottom: 1px solid #444;
+    }
+
+    .card-body dl {
+        margin-bottom: 0;
+    }
+
+    .card-body dt {
+        color: #aaa;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .card-body dt i {
+        color: #ff9800;
+        width: 20px;
+        text-align: center;
+    }
+
+    .card-body dd {
+        color: #fff;
+        margin-bottom: 1rem;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .btn-danger:hover {
+        background-color: #c82333;
+        border-color: #bd2130;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+    }
+
+    .btn-secondary {
+        background-color: #444;
+        border: 1px solid #666;
+        color: #ddd;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .btn-secondary:hover {
+        background-color: #555;
+        border-color: #777;
+        color: #fff;
+        transform: translateY(-2px);
+    }
+
+    .breadcrumb {
+        background-color: transparent;
+        margin-bottom: 0;
+    }
+
+    .breadcrumb-item a {
+        color: #ff9800;
+        text-decoration: none;
+    }
+
+    .breadcrumb-item a:hover {
+        color: #f57c00;
+        text-decoration: underline;
+    }
+
+    .breadcrumb-item.active {
+        color: #aaa;
+    }
+
+    .breadcrumb-item+.breadcrumb-item::before {
+        color: #666;
+    }
+
+    .badge {
+        font-size: 0.875rem;
+        padding: 0.4rem 0.8rem;
+    }
+</style>
+
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
@@ -14,7 +117,7 @@
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a asp-action="Index" style="color: #ff9800;">Obras</a></li>
+                    <li class="breadcrumb-item"><a asp-action="Index">Obras</a></li>
                     <li class="breadcrumb-item active">Eliminar</li>
                 </ol>
             </div>
@@ -24,14 +127,20 @@
 
 <section class="content">
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-8 offset-md-2">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 col-xl-8">
                 <div class="alert alert-danger">
                     <h5><i class="icon fas fa-ban"></i> Atenção!</h5>
                     Tem a certeza que deseja eliminar esta obra? Esta ação não pode ser revertida.
+                    @if (Model.Ativa)
+                    {
+                        <br />
+                    
+                        <strong>A obra está atualmente ativa.</strong>
+                    }
                 </div>
 
-                <div class="card card-outline card-danger">
+                <div class="card card-outline-danger">
                     <div class="card-header">
                         <h3 class="card-title">
                             <i class="fas fa-hard-hat"></i> Detalhes da Obra a Eliminar
@@ -40,29 +149,32 @@
                     <div class="card-body">
                         <dl class="row">
                             <dt class="col-sm-3">
-                                <i class="fas fa-hard-hat" style="color: #ff9800;"></i> Nome
+                                <i class="fas fa-hard-hat"></i> Nome
                             </dt>
                             <dd class="col-sm-9">@Model.Nome</dd>
 
-                            <dt class="col-sm-3">
-                                <i class="fas fa-file-alt" style="color: #ff9800;"></i> Descrição
-                            </dt>
-                            <dd class="col-sm-9">@Model.Descricao</dd>
+                            @if (!string.IsNullOrEmpty(Model.Descricao))
+                            {
+                                <dt class="col-sm-3">
+                                    <i class="fas fa-file-alt"></i> Descrição
+                                </dt>
+                                <dd class="col-sm-9">@Model.Descricao</dd>
+                            }
 
                             <dt class="col-sm-3">
-                                <i class="fas fa-user" style="color: #ff9800;"></i> Cliente
+                                <i class="fas fa-user"></i> Cliente
                             </dt>
                             <dd class="col-sm-9">@Model.Cliente?.Nome</dd>
 
                             <dt class="col-sm-3">
-                                <i class="fas fa-map-marker-alt" style="color: #ff9800;"></i> Morada
+                                <i class="fas fa-map-marker-alt"></i> Morada
                             </dt>
                             <dd class="col-sm-9">@Model.Morada</dd>
 
                             @if (Model.Latitude.HasValue && Model.Longitude.HasValue)
                             {
                                 <dt class="col-sm-3">
-                                    <i class="fas fa-location-arrow" style="color: #ff9800;"></i> Coordenadas
+                                    <i class="fas fa-location-arrow"></i> Coordenadas
                                 </dt>
                                 <dd class="col-sm-9">
                                     Latitude: @Model.Latitude?.ToString("F6"), Longitude: @Model.Longitude?.ToString("F6")
@@ -70,19 +182,19 @@
                             }
 
                             <dt class="col-sm-3">
-                                <i class="fas fa-toggle-on" style="color: #ff9800;"></i> Estado
+                                <i class="fas fa-toggle-on"></i> Estado
                             </dt>
                             <dd class="col-sm-9">
                                 @if (Model.Ativa)
                                 {
-                                    <span class="badge badge-success">
-                                        <i class="fas fa-check-circle"></i> Ativa
+                                    <span class="badge bg-success">
+                                        <i class="fas fa-check-circle me-1"></i>Ativa
                                     </span>
                                 }
                                 else
                                 {
-                                    <span class="badge badge-secondary">
-                                        <i class="fas fa-pause-circle"></i> Inativa
+                                    <span class="badge bg-secondary">
+                                        <i class="fas fa-pause-circle me-1"></i>Inativa
                                     </span>
                                 }
                             </dd>
@@ -93,13 +205,13 @@
                             <input type="hidden" asp-for="Id" />
                             <div class="row">
                                 <div class="col-md-6">
-                                    <button type="submit" class="btn btn-danger btn-block">
-                                        <i class="fas fa-trash-alt"></i> Confirmar Eliminação
+                                    <button type="submit" class="btn btn-danger w-100">
+                                        <i class="fas fa-trash-alt me-2"></i>Confirmar Eliminação
                                     </button>
                                 </div>
                                 <div class="col-md-6">
-                                    <a asp-action="Index" class="btn btn-secondary btn-block">
-                                        <i class="fas fa-times"></i> Cancelar
+                                    <a asp-action="Index" class="btn btn-secondary w-100">
+                                        <i class="fas fa-times me-2"></i>Cancelar
                                     </a>
                                 </div>
                             </div>

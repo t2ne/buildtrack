@@ -2,7 +2,164 @@
 
 @{
     ViewData["Title"] = "Editar Obra";
+    var clientes = ViewData["Clientes"] as List<BuildTrackMVC.Models.Cliente>;
 }
+
+<style>
+    /* Gradient header for obras */
+    .obras-header {
+        background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+        color: white;
+        padding: 2rem;
+        border-radius: 8px 8px 0 0;
+        margin-bottom: 0;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .obras-header h4 {
+        margin: 0;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .obras-header i {
+        font-size: 1.5rem;
+    }
+
+    /* Form card */
+    .form-card {
+        background-color: #2a2a2a;
+        border: 1px solid #444;
+        border-radius: 0 0 8px 8px;
+        padding: 2rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Input wrapper with icon */
+    .input-wrapper {
+        position: relative;
+        margin-bottom: 1.5rem;
+    }
+
+    .input-wrapper label {
+        color: #ddd;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .input-wrapper label i {
+        color: #ff9800;
+        width: 20px;
+        text-align: center;
+    }
+
+    .input-wrapper .form-control,
+    .input-wrapper .form-select {
+        background-color: #1e1e1e;
+        border: 1px solid #444;
+        color: #fff;
+        padding: 0.6rem 1rem;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+    }
+
+    .input-wrapper .form-control:focus,
+    .input-wrapper .form-select:focus {
+        background-color: #2a2a2a;
+        border-color: #ff9800;
+        box-shadow: 0 0 0 0.2rem rgba(255, 152, 0, 0.25);
+        color: #fff;
+    }
+
+    .input-wrapper textarea.form-control {
+        resize: vertical;
+        min-height: 100px;
+    }
+
+    .input-wrapper small {
+        color: #999;
+        font-size: 0.85rem;
+        margin-top: 0.25rem;
+        display: block;
+    }
+
+    /* Buttons */
+    .btn-obras-primary {
+        background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+        border: none;
+        color: white;
+        font-weight: 500;
+        padding: 0.6rem 1.5rem;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-obras-primary:hover {
+        background: linear-gradient(135deg, #f57c00 0%, #e65100 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(255, 152, 0, 0.3);
+        color: white;
+    }
+
+    .btn-secondary {
+        background-color: #444;
+        border: 1px solid #666;
+        color: #ddd;
+        font-weight: 500;
+        padding: 0.6rem 1.5rem;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-secondary:hover {
+        background-color: #555;
+        border-color: #777;
+        color: #fff;
+        transform: translateY(-2px);
+    }
+
+    /* Validation */
+    .text-danger {
+        color: #dc3545 !important;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+        display: block;
+    }
+
+    .input-validation-error {
+        border-color: #dc3545 !important;
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+        background-color: transparent;
+        margin-bottom: 0;
+    }
+
+    .breadcrumb-item a {
+        color: #ff9800;
+        text-decoration: none;
+    }
+
+    .breadcrumb-item a:hover {
+        color: #f57c00;
+        text-decoration: underline;
+    }
+
+    .breadcrumb-item.active {
+        color: #aaa;
+    }
+
+    .breadcrumb-item+.breadcrumb-item::before {
+        color: #666;
+    }
+</style>
 
 <div class="content-header">
     <div class="container-fluid">
@@ -14,7 +171,7 @@
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a asp-action="Index" style="color: #ff9800;">Obras</a></li>
+                    <li class="breadcrumb-item"><a asp-action="Index">Obras</a></li>
                     <li class="breadcrumb-item active">Editar</li>
                 </ol>
             </div>
@@ -24,106 +181,128 @@
 
 <section class="content">
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-8 offset-md-2">
-                <div class="card card-outline card-warning" style="border-top: 3px solid #ff9800;">
-                    <div class="card-header">
-                        <h3 class="card-title">
-                            <i class="fas fa-edit"></i> A editar: @Model.Nome
-                        </h3>
-                    </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-10 col-xl-8">
+                <div class="obras-header">
+                    <h4>
+                        <i class="fas fa-edit"></i>
+                        Editar Obra: @Model.Nome
+                    </h4>
+                </div>
+                <div class="form-card">
                     <form asp-action="Edit" method="post">
                         <input type="hidden" asp-for="Id" />
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <div class="form-group">
-                                        <label asp-for="Nome" class="control-label">
-                                            <i class="fas fa-hard-hat" style="color: #ff9800;"></i> Nome da Obra
-                                        </label>
-                                        <input asp-for="Nome" class="form-control" />
-                                        <span asp-validation-for="Nome" class="text-danger"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label asp-for="Ativa" class="control-label">
-                                            <i class="fas fa-toggle-on" style="color: #ff9800;"></i> Estado
-                                        </label>
-                                        <select asp-for="Ativa" class="form-control">
-                                            <option value="true">Ativa</option>
-                                            <option value="false">Inativa</option>
-                                        </select>
-                                        <span asp-validation-for="Ativa" class="text-danger"></span>
-                                    </div>
+
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="input-wrapper">
+                                    <label asp-for="Nome">
+                                        <i class="fas fa-hard-hat"></i>
+                                        Nome da Obra
+                                    </label>
+                                    <input asp-for="Nome" class="form-control" placeholder="Digite o nome da obra" />
+                                    <span asp-validation-for="Nome" class="text-danger"></span>
                                 </div>
                             </div>
-
-                            <div class="form-group">
-                                <label asp-for="Descricao" class="control-label">
-                                    <i class="fas fa-file-alt" style="color: #ff9800;"></i> Descrição
-                                </label>
-                                <textarea asp-for="Descricao" class="form-control" rows="3"></textarea>
-                                <span asp-validation-for="Descricao" class="text-danger"></span>
+                            <div class="col-md-4">
+                                <div class="input-wrapper">
+                                    <label asp-for="Ativa">
+                                        <i class="fas fa-toggle-on"></i>
+                                        Estado
+                                    </label>
+                                    <select asp-for="Ativa" class="form-select">
+                                        <option value="true">Ativa</option>
+                                        <option value="false">Inativa</option>
+                                    </select>
+                                    <span asp-validation-for="Ativa" class="text-danger"></span>
+                                </div>
                             </div>
+                        </div>
 
-                            <div class="form-group">
-                                <label asp-for="ClienteId" class="control-label">
-                                    <i class="fas fa-user" style="color: #ff9800;"></i> Cliente
-                                </label>
-                                <select asp-for="ClienteId" class="form-control">
-                                    @foreach (var cliente in ViewData["Clientes"] as List<BuildTrackMVC.Models.Cliente>)
+                        <div class="input-wrapper">
+                            <label asp-for="Descricao">
+                                <i class="fas fa-file-alt"></i>
+                                Descrição
+                            </label>
+                            <textarea asp-for="Descricao" class="form-control" rows="3"
+                                placeholder="Descrição da obra (opcional)"></textarea>
+                            <span asp-validation-for="Descricao" class="text-danger"></span>
+                        </div>
+
+                        <div class="input-wrapper">
+                            <label asp-for="ClienteId">
+                                <i class="fas fa-user"></i>
+                                Cliente
+                            </label>
+                            @if (clientes != null && clientes.Any())
+                            {
+                                <select asp-for="ClienteId" class="form-select">
+                                    <option value="">Selecione um cliente</option>
+                                    @foreach (var cliente in clientes)
                                     {
                                         <option value="@cliente.Id">@cliente.Nome (@cliente.NIF)</option>
                                     }
                                 </select>
-                                <span asp-validation-for="ClienteId" class="text-danger"></span>
-                            </div>
+                            }
+                            else
+                            {
+                                <select asp-for="ClienteId" class="form-select" disabled>
+                                    <option value="">Nenhum cliente disponível</option>
+                                </select>
+                                <small class="text-warning">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    É necessário criar pelo menos um cliente antes de criar uma obra.
+                                </small>
+                            }
+                            <span asp-validation-for="ClienteId" class="text-danger"></span>
+                        </div>
 
-                            <div class="form-group">
-                                <label asp-for="Morada" class="control-label">
-                                    <i class="fas fa-map-marker-alt" style="color: #ff9800;"></i> Morada
-                                </label>
-                                <input asp-for="Morada" class="form-control" />
-                                <span asp-validation-for="Morada" class="text-danger"></span>
-                            </div>
+                        <div class="input-wrapper">
+                            <label asp-for="Morada">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Morada
+                            </label>
+                            <input asp-for="Morada" class="form-control" placeholder="Morada da obra" />
+                            <span asp-validation-for="Morada" class="text-danger"></span>
+                        </div>
 
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label asp-for="Latitude" class="control-label">
-                                            <i class="fas fa-location-arrow" style="color: #ff9800;"></i> Latitude
-                                        </label>
-                                        <input asp-for="Latitude" class="form-control" step="any" />
-                                        <span asp-validation-for="Latitude" class="text-danger"></span>
-                                        <small class="form-text text-muted">Opcional - coordenadas GPS</small>
-                                    </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="input-wrapper">
+                                    <label asp-for="Latitude">
+                                        <i class="fas fa-location-arrow"></i>
+                                        Latitude
+                                    </label>
+                                    <input asp-for="Latitude" class="form-control" type="number" step="any"
+                                        placeholder="Ex: 38.7223" />
+                                    <small>Coordenadas GPS (opcional)</small>
+                                    <span asp-validation-for="Latitude" class="text-danger"></span>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label asp-for="Longitude" class="control-label">
-                                            <i class="fas fa-location-arrow" style="color: #ff9800;"></i> Longitude
-                                        </label>
-                                        <input asp-for="Longitude" class="form-control" step="any" />
-                                        <span asp-validation-for="Longitude" class="text-danger"></span>
-                                        <small class="form-text text-muted">Opcional - coordenadas GPS</small>
-                                    </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-wrapper">
+                                    <label asp-for="Longitude">
+                                        <i class="fas fa-location-arrow"></i>
+                                        Longitude
+                                    </label>
+                                    <input asp-for="Longitude" class="form-control" type="number" step="any"
+                                        placeholder="Ex: -9.1393" />
+                                    <small>Coordenadas GPS (opcional)</small>
+                                    <span asp-validation-for="Longitude" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
-                        <div class="card-footer">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <button type="submit" class="btn btn-block"
-                                        style="background-color: #ff9800; border-color: #ff9800; color: white;">
-                                        <i class="fas fa-save"></i> Guardar Alterações
-                                    </button>
-                                </div>
-                                <div class="col-md-6">
-                                    <a asp-action="Index" class="btn btn-secondary btn-block">
-                                        <i class="fas fa-times"></i> Cancelar
-                                    </a>
-                                </div>
+
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <button type="submit" class="btn btn-obras-primary w-100">
+                                    <i class="fas fa-save me-2"></i>Guardar Alterações
+                                </button>
+                            </div>
+                            <div class="col-md-6">
+                                <a asp-action="Index" class="btn btn-secondary w-100">
+                                    <i class="fas fa-times me-2"></i>Cancelar
+                                </a>
                             </div>
                         </div>
                     </form>

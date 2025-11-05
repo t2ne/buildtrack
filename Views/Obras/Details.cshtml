@@ -4,6 +4,227 @@
     ViewData["Title"] = "Detalhes da Obra";
 }
 
+<style>
+    /* Dark theme styles */
+    .card {
+        background-color: #2a2a2a;
+        border: 1px solid #444;
+    }
+
+    .card-header {
+        background-color: #2a2a2a;
+        border-bottom: 1px solid #444;
+        color: #fff;
+    }
+
+    .card-body {
+        background-color: #2a2a2a;
+        color: #fff;
+    }
+
+    .card-outline {
+        border-top: 3px solid #ff9800;
+    }
+
+    /* Info boxes */
+    .info-box {
+        background-color: rgba(255, 152, 0, 0.1);
+        border: 1px solid rgba(255, 152, 0, 0.3);
+        color: #fff;
+        min-height: 80px;
+    }
+
+    .info-box .info-box-icon {
+        background-color: #ff9800;
+        color: #fff;
+    }
+
+    .info-box .info-box-content {
+        color: #fff;
+    }
+
+    .info-box .info-box-text {
+        color: #aaa;
+        font-size: 0.9rem;
+    }
+
+    .info-box .info-box-number {
+        color: #fff;
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+
+    .info-box .progress-description {
+        color: #999;
+        font-size: 0.85rem;
+    }
+
+    /* Tabs */
+    .nav-pills .nav-link {
+        color: #aaa;
+        background-color: transparent;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+    }
+
+    .nav-pills .nav-link:hover {
+        background-color: rgba(255, 152, 0, 0.1);
+        color: #ff9800;
+    }
+
+    .nav-pills .nav-link.active {
+        background-color: #ff9800;
+        color: #fff;
+    }
+
+    .nav-pills .nav-link i {
+        margin-right: 0.5rem;
+    }
+
+    /* Tab content */
+    .tab-content {
+        padding-top: 1rem;
+    }
+
+    .tab-pane {
+        animation: fadeIn 0.3s;
+    }
+
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Alerts */
+    .alert-info {
+        background-color: rgba(30, 144, 255, 0.1);
+        border: 1px solid rgba(30, 144, 255, 0.3);
+        color: #9ecfff;
+    }
+
+    .alert-info .icon {
+        color: #1e90ff;
+    }
+
+    /* Description lists */
+    dl.row {
+        margin-bottom: 0;
+    }
+
+    dl.row dt {
+        color: #aaa;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    dl.row dt i {
+        color: #ff9800;
+        width: 20px;
+        text-align: center;
+    }
+
+    dl.row dd {
+        color: #fff;
+        margin-bottom: 1rem;
+    }
+
+    /* Badges */
+    .badge {
+        font-size: 0.875rem;
+        padding: 0.4rem 0.8rem;
+    }
+
+    .badge.bg-success {
+        background-color: #28a745 !important;
+    }
+
+    .badge.bg-secondary {
+        background-color: #6c757d !important;
+    }
+
+    /* Buttons */
+    .btn-obras {
+        background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+        border: none;
+        color: white;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-obras:hover {
+        background: linear-gradient(135deg, #f57c00 0%, #e65100 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(255, 152, 0, 0.3);
+        color: white;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+        transition: all 0.3s ease;
+    }
+
+    .btn-danger:hover {
+        background-color: #c82333;
+        border-color: #bd2130;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+    }
+
+    .btn-secondary {
+        background-color: #444;
+        border: 1px solid #666;
+        color: #ddd;
+        transition: all 0.3s ease;
+    }
+
+    .btn-secondary:hover {
+        background-color: #555;
+        border-color: #777;
+        color: #fff;
+        transform: translateY(-2px);
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+        background-color: transparent;
+        margin-bottom: 0;
+    }
+
+    .breadcrumb-item a {
+        color: #ff9800;
+        text-decoration: none;
+    }
+
+    .breadcrumb-item a:hover {
+        color: #f57c00;
+        text-decoration: underline;
+    }
+
+    .breadcrumb-item.active {
+        color: #aaa;
+    }
+
+    .breadcrumb-item+.breadcrumb-item::before {
+        color: #666;
+    }
+
+    /* Text utilities */
+    .text-muted {
+        color: #999 !important;
+    }
+</style>
+
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
@@ -12,17 +233,17 @@
                     <i class="fas fa-hard-hat" style="color: #ff9800;"></i> @Model.Nome
                     @if (Model.Ativa)
                     {
-                        <span class="badge badge-success ml-2">Ativa</span>
+                        <span class="badge bg-success ms-2">Ativa</span>
                     }
                     else
                     {
-                        <span class="badge badge-secondary ml-2">Inativa</span>
+                        <span class="badge bg-secondary ms-2">Inativa</span>
                     }
                 </h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a asp-action="Index" style="color: #ff9800;">Obras</a></li>
+                    <li class="breadcrumb-item"><a asp-action="Index">Obras</a></li>
                     <li class="breadcrumb-item active">Detalhes</li>
                 </ol>
             </div>
@@ -34,39 +255,38 @@
     <div class="container-fluid">
         <div class="row mb-3">
             <div class="col-md-12">
-                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn"
-                    style="background-color: #ff9800; border-color: #ff9800; color: white;">
-                    <i class="fas fa-edit"></i> Editar Obra
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-obras">
+                    <i class="fas fa-edit me-1"></i> Editar Obra
                 </a>
                 <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">
-                    <i class="fas fa-trash-alt"></i> Eliminar
+                    <i class="fas fa-trash-alt me-1"></i> Eliminar
                 </a>
                 <a asp-action="Index" class="btn btn-secondary">
-                    <i class="fas fa-arrow-left"></i> Voltar à Lista
+                    <i class="fas fa-arrow-left me-1"></i> Voltar à Lista
                 </a>
             </div>
         </div>
 
-        <div class="card card-outline" style="border-top: 3px solid #ff9800;">
+        <div class="card card-outline">
             <div class="card-header p-2">
                 <ul class="nav nav-pills">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#tab_1" data-toggle="tab">
+                        <a class="nav-link active" data-bs-toggle="tab" href="#tab_1">
                             <i class="fas fa-info-circle"></i> Dados Gerais
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#tab_2" data-toggle="tab">
+                        <a class="nav-link" data-bs-toggle="tab" href="#tab_2">
                             <i class="fas fa-boxes"></i> Registo de Material
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#tab_3" data-toggle="tab">
+                        <a class="nav-link" data-bs-toggle="tab" href="#tab_3">
                             <i class="fas fa-users-cog"></i> Mão de Obra
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#tab_4" data-toggle="tab">
+                        <a class="nav-link" data-bs-toggle="tab" href="#tab_4">
                             <i class="fas fa-euro-sign"></i> Pagamentos
                         </a>
                     </li>
@@ -75,11 +295,11 @@
             <div class="card-body">
                 <div class="tab-content">
                     <!-- Tab 1: Dados Gerais -->
-                    <div class="tab-pane active" id="tab_1">
+                    <div class="tab-pane fade show active" id="tab_1">
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="info-box" style="background-color: rgba(255, 152, 0, 0.1);">
-                                    <span class="info-box-icon" style="background-color: #ff9800;">
+                                <div class="info-box">
+                                    <span class="info-box-icon">
                                         <i class="fas fa-hard-hat"></i>
                                     </span>
                                     <div class="info-box-content">
@@ -89,8 +309,9 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="info-box" style="background-color: rgba(30, 144, 255, 0.1);">
-                                    <span class="info-box-icon bg-info">
+                                <div class="info-box"
+                                    style="background-color: rgba(30, 144, 255, 0.1); border-color: rgba(30, 144, 255, 0.3);">
+                                    <span class="info-box-icon" style="background-color: #1e90ff;">
                                         <i class="fas fa-user"></i>
                                     </span>
                                     <div class="info-box-content">
@@ -105,7 +326,7 @@
                             </div>
                         </div>
 
-                        <div class="card">
+                        <div class="card mt-3">
                             <div class="card-header">
                                 <h3 class="card-title">
                                     <i class="fas fa-info-circle"></i> Informações Detalhadas
@@ -113,29 +334,23 @@
                             </div>
                             <div class="card-body">
                                 <dl class="row">
-                                    <dt class="col-sm-3">
-                                        <i class="fas fa-file-alt" style="color: #ff9800;"></i> Descrição
-                                    </dt>
-                                    <dd class="col-sm-9">
-                                        @if (!string.IsNullOrEmpty(Model.Descricao))
-                                        {
-                                            @Model.Descricao
-                                        }
-                                        else
-                                        {
-                                            <span class="text-muted">Sem descrição</span>
-                                        }
-                                    </dd>
+                                    @if (!string.IsNullOrEmpty(Model.Descricao))
+                                    {
+                                        <dt class="col-sm-3">
+                                            <i class="fas fa-file-alt"></i> Descrição
+                                        </dt>
+                                        <dd class="col-sm-9">@Model.Descricao</dd>
+                                    }
 
                                     <dt class="col-sm-3">
-                                        <i class="fas fa-map-marker-alt" style="color: #ff9800;"></i> Morada
+                                        <i class="fas fa-map-marker-alt"></i> Morada
                                     </dt>
                                     <dd class="col-sm-9">@Model.Morada</dd>
 
                                     @if (Model.Latitude.HasValue && Model.Longitude.HasValue)
                                     {
                                         <dt class="col-sm-3">
-                                            <i class="fas fa-location-arrow" style="color: #ff9800;"></i> Coordenadas GPS
+                                            <i class="fas fa-location-arrow"></i> Coordenadas GPS
                                         </dt>
                                         <dd class="col-sm-9">
                                             <strong>Latitude:</strong> @Model.Latitude?.ToString("F6")<br />
@@ -144,19 +359,19 @@
                                     }
 
                                     <dt class="col-sm-3">
-                                        <i class="fas fa-toggle-on" style="color: #ff9800;"></i> Estado
+                                        <i class="fas fa-toggle-on"></i> Estado
                                     </dt>
                                     <dd class="col-sm-9">
                                         @if (Model.Ativa)
                                         {
-                                            <span class="badge badge-success">
-                                                <i class="fas fa-check-circle"></i> Obra Ativa
+                                            <span class="badge bg-success">
+                                                <i class="fas fa-check-circle me-1"></i> Obra Ativa
                                             </span>
                                         }
                                         else
                                         {
-                                            <span class="badge badge-secondary">
-                                                <i class="fas fa-pause-circle"></i> Obra Inativa
+                                            <span class="badge bg-secondary">
+                                                <i class="fas fa-pause-circle me-1"></i> Obra Inativa
                                             </span>
                                         }
                                     </dd>
@@ -166,7 +381,7 @@
                     </div>
 
                     <!-- Tab 2: Registo de Material -->
-                    <div class="tab-pane" id="tab_2">
+                    <div class="tab-pane fade" id="tab_2">
                         <div class="alert alert-info">
                             <h5><i class="icon fas fa-info"></i> Registo de Material</h5>
                             Aqui pode adicionar ou remover materiais da obra. Os movimentos afetam o stock global.
@@ -175,7 +390,7 @@
                     </div>
 
                     <!-- Tab 3: Mão de Obra -->
-                    <div class="tab-pane" id="tab_3">
+                    <div class="tab-pane fade" id="tab_3">
                         <div class="alert alert-info">
                             <h5><i class="icon fas fa-info"></i> Registos de Mão de Obra</h5>
                             Registos de trabalho realizado nesta obra.
@@ -184,7 +399,7 @@
                     </div>
 
                     <!-- Tab 4: Pagamentos -->
-                    <div class="tab-pane" id="tab_4">
+                    <div class="tab-pane fade" id="tab_4">
                         <div class="alert alert-info">
                             <h5><i class="icon fas fa-info"></i> Registos de Pagamentos</h5>
                             Histórico de pagamentos efetuados relacionados com esta obra.
@@ -203,12 +418,15 @@
             // Activate tab from hash on page load
             var hash = window.location.hash;
             if (hash) {
-                $('.nav-pills a[href="' + hash + '"]').tab('show');
+                var tab = new bootstrap.Tab(document.querySelector('.nav-pills a[href="' + hash + '"]'));
+                if (tab) {
+                    tab.show();
+                }
             }
 
             // Update hash on tab change
-            $('.nav-pills a').on('shown.bs.tab', function (e) {
-                window.location.hash = e.target.hash;
+            $('.nav-pills a[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
+                window.location.hash = e.target.getAttribute('href');
             });
         });
     </script>

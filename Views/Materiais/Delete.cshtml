@@ -155,17 +155,3 @@
         </div>
     </div>
 </section>
-
-@section Scripts {
-    <script>
-        $(function () {
-            $('#deleteForm').on('submit', function (e) {
-                e.preventDefault();
-
-                if (confirm('Tem ABSOLUTA CERTEZA que deseja apagar este material? Esta ação NÃO pode ser desfeita!')) {
-                    this.submit();
-                }
-            });
-        });
-    </script>
-}
