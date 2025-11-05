@@ -1,0 +1,239 @@
+@model BuildTrackMVC.Models.Material
+
+@{
+    ViewData["Title"] = "Novo Material";
+}
+
+<style>
+    .form-card {
+        background-color: #2a2a2a;
+        border: 1px solid #444;
+        border-radius: 8px;
+        padding: 2rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .form-card h4 {
+        color: #4caf50;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 2px solid #4caf50;
+    }
+
+    .form-label {
+        color: #e0e0e0;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-control {
+        background-color: #1e1e1e;
+        border: 1px solid #444;
+        color: #e0e0e0;
+        border-radius: 6px;
+        padding: 0.75rem;
+    }
+
+    .form-control:focus {
+        background-color: #2a2a2a;
+        border-color: #4caf50;
+        color: #fff;
+        box-shadow: 0 0 0 0.2rem rgba(76, 175, 80, 0.25);
+    }
+
+    .form-control.is-invalid {
+        border-color: #f44336;
+    }
+
+    .form-control.is-valid {
+        border-color: #4caf50;
+    }
+
+    .invalid-feedback,
+    .text-danger {
+        color: #f44336 !important;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+    }
+
+    .valid-feedback {
+        color: #4caf50 !important;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+    }
+
+    .form-text {
+        color: #aaa;
+        font-size: 0.875rem;
+    }
+
+    .btn-group-actions {
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid #444;
+    }
+
+    .required-badge {
+        color: #f44336;
+        font-size: 0.75rem;
+        vertical-align: super;
+    }
+
+    .input-icon {
+        position: absolute;
+        right: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #666;
+        pointer-events: none;
+    }
+
+    .input-wrapper {
+        position: relative;
+    }
+</style>
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-light">
+                    <i class="fas fa-box-open me-2"></i>Novo Material
+                </h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-end">
+                    <li class="breadcrumb-item"><a asp-action="Index" style="color: #4caf50;">Materiais</a></li>
+                    <li class="breadcrumb-item active">Novo</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <div class="form-card">
+                    <h4><i class="fas fa-info-circle me-2"></i>Dados do Material</h4>
+
+                    <form asp-action="Create" method="post" id="materialForm" novalidate>
+                        <div class="mb-3">
+                            <label asp-for="Nome" class="form-label">
+                                Nome <span class="required-badge">*</span>
+                            </label>
+                            <div class="input-wrapper">
+                                <input asp-for="Nome" class="form-control" placeholder="Introduza o nome do material" />
+                                <i class="fas fa-box input-icon"></i>
+                            </div>
+                            <span asp-validation-for="Nome" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Descricao" class="form-label">
+                                Descrição <span class="required-badge">*</span>
+                            </label>
+                            <div class="input-wrapper">
+                                <textarea asp-for="Descricao" class="form-control" rows="3"
+                                    placeholder="Descrição detalhada do material"></textarea>
+                                <i class="fas fa-info-circle input-icon" style="top: 1.5rem;"></i>
+                            </div>
+                            <span asp-validation-for="Descricao" class="text-danger"></span>
+                            <small class="form-text">Descreva as características e especificações do material</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="StockDisponivel" class="form-label">
+                                Stock Disponível <span class="required-badge">*</span>
+                            </label>
+                            <div class="input-wrapper">
+                                <input asp-for="StockDisponivel" class="form-control" type="number" min="0"
+                                    placeholder="0" />
+                                <i class="fas fa-warehouse input-icon"></i>
+                            </div>
+                            <span asp-validation-for="StockDisponivel" class="text-danger"></span>
+                            <small class="form-text">Quantidade inicial em stock</small>
+                        </div>
+
+                        <div class="btn-group-actions">
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-save me-2"></i>Guardar Material
+                            </button>
+                            <a asp-action="Index" class="btn btn-secondary ms-2">
+                                <i class="fas fa-times me-2"></i>Cancelar
+                            </a>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="alert" style="background-color: #1a3a1a; border-color: #4caf50; color: #e0e0e0;">
+                    <i class="fas fa-info-circle me-2"></i>
+                    <strong>Nota:</strong> Todos os campos marcados com <span class="required-badge">*</span> são
+                    obrigatórios.
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(function () {
+            const form = $('#materialForm');
+            const inputs = form.find('input[type="text"], input[type="number"], textarea');
+
+            inputs.on('blur', function () {
+                const input = $(this);
+
+                $.validator.unobtrusive.parseElement(input);
+
+                if (input.valid()) {
+                    input.removeClass('is-invalid').addClass('is-valid');
+                } else {
+                    input.removeClass('is-valid').addClass('is-invalid');
+                }
+            });
+
+            inputs.on('input', function () {
+                const input = $(this);
+                if (input.hasClass('is-invalid') || input.hasClass('is-valid')) {
+                    if (input.valid()) {
+                        input.removeClass('is-invalid').addClass('is-valid');
+                    } else {
+                        input.removeClass('is-valid').addClass('is-invalid');
+                    }
+                }
+            });
+
+            form.submit(function (e) {
+                if (!$(this).valid()) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    $(this).find('.input-validation-error').each(function () {
+                        $(this).removeClass('is-valid').addClass('is-invalid');
+                    });
+
+                    const firstError = $(this).find('.is-invalid').first();
+                    if (firstError.length) {
+                        $('html, body').animate({
+                            scrollTop: firstError.offset().top - 100
+                        }, 300);
+                        firstError.focus();
+                    }
+
+                    return false;
+                }
+            });
+
+            // Stock - only allow positive numbers
+            $('input[name="StockDisponivel"]').on('keypress', function (e) {
+                if (!/^\d$/.test(String.fromCharCode(e.which))) {
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
+}

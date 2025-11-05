@@ -1,0 +1,186 @@
+@model BuildTrackMVC.Models.Material
+
+@{
+    ViewData["Title"] = "Detalhes do Material";
+    var stockClass = Model.StockDisponivel == 0 ? "stock-low" :
+    Model.StockDisponivel < 10 ? "stock-medium" : "stock-high";
+}
+
+<style>
+    .details-card {
+        background-color: #2a2a2a;
+        border: 1px solid #444;
+        border-radius: 8px;
+        padding: 2rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .details-card h4 {
+        color: #4caf50;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 2px solid #4caf50;
+    }
+
+    .detail-row {
+        padding: 1rem 0;
+        border-bottom: 1px solid #333;
+    }
+
+    .detail-row:last-child {
+        border-bottom: none;
+    }
+
+    .detail-label {
+        color: #aaa;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.5rem;
+    }
+
+    .detail-value {
+        color: #e0e0e0;
+        font-size: 1.1rem;
+    }
+
+    .detail-icon {
+        color: #4caf50;
+        margin-right: 0.75rem;
+        width: 20px;
+        text-align: center;
+    }
+
+    .action-buttons {
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid #444;
+    }
+
+    .info-badge {
+        background-color: #1a3a1a;
+        border: 1px solid #4caf50;
+        border-radius: 6px;
+        padding: 1rem;
+        color: #e0e0e0;
+    }
+
+    .stock-badge {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        border-radius: 12px;
+        font-size: 1.25rem;
+        font-weight: 600;
+    }
+
+    .stock-low {
+        background-color: #f44336;
+        color: white;
+    }
+
+    .stock-medium {
+        background-color: #ff9800;
+        color: white;
+    }
+
+    .stock-high {
+        background-color: #4caf50;
+        color: white;
+    }
+</style>
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-light">
+                    <i class="fas fa-box me-2"></i>Detalhes do Material
+                </h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-end">
+                    <li class="breadcrumb-item"><a asp-action="Index" style="color: #4caf50;">Materiais</a></li>
+                    <li class="breadcrumb-item active">Detalhes</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <div class="details-card">
+                    <h4><i class="fas fa-info-circle me-2"></i>Informação do Material</h4>
+
+                    <div class="detail-row">
+                        <div class="detail-label">
+                            <i class="fas fa-box detail-icon"></i>Nome do Material
+                        </div>
+                        <div class="detail-value">
+                            <strong>@Model.Nome</strong>
+                        </div>
+                    </div>
+
+                    <div class="detail-row">
+                        <div class="detail-label">
+                            <i class="fas fa-info-circle detail-icon"></i>Descrição
+                        </div>
+                        <div class="detail-value">
+                            @Model.Descricao
+                        </div>
+                    </div>
+
+                    <div class="detail-row">
+                        <div class="detail-label">
+                            <i class="fas fa-warehouse detail-icon"></i>Stock Disponível
+                        </div>
+                        <div class="detail-value">
+                            <span class="stock-badge @stockClass">
+                                <i class="fas fa-boxes-stacked me-2"></i>@Model.StockDisponivel unidades
+                            </span>
+                            @if (Model.StockDisponivel == 0)
+                            {
+                                <div class="mt-2">
+                                    <small class="text-danger">
+                                        <i class="fas fa-exclamation-triangle me-1"></i>
+                                        Material esgotado! Considere reabastecer o stock.
+                                    </small>
+                                </div>
+                            }
+                            else if (Model.StockDisponivel < 10)
+                            {
+                                <div class="mt-2">
+                                    <small style="color: #ff9800;">
+                                        <i class="fas fa-exclamation-circle me-1"></i>
+                                        Stock baixo! Considere fazer um pedido de reposição.
+                                    </small>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">
+                            <i class="fas fa-edit me-2"></i>Editar Material
+                        </a>
+                        <a asp-action="Index" class="btn btn-secondary ms-2">
+                            <i class="fas fa-arrow-left me-2"></i>Voltar à Lista
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger ms-2">
+                            <i class="fas fa-trash me-2"></i>Apagar
+                        </a>
+                    </div>
+                </div>
+
+                <div class="info-badge">
+                    <i class="fas fa-lightbulb me-2"></i>
+                    <strong>Dica:</strong> Pode editar as informações deste material clicando no botão "Editar Material"
+                    acima.
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
