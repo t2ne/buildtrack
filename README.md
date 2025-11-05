@@ -1,8 +1,8 @@
-# BuildTrackMVC
+# BuildTrack
 
-C# + .NET MVC application using Entity Framework Core for scaffolding and PostgreSQL as the backend database.
+C# + .NET MVC application using the Entity Framework Core for scaffolding and PostgreSQL as the backend database.
 
-GitHub: [t2ne/buildtrack](https://github.com/t2ne/buildtrack)
+GitHub: [BuildTrack](https://github.com/t2ne/buildtrack)
 
 ---
 
@@ -32,7 +32,7 @@ dotnet tool install --global dotnet-ef
 1. Open your terminal and create the database using `psql`:
 
 ```bash
-psql -U postgres -c "CREATE DATABASE buildtrackmvc;"
+psql -U postgres -c "CREATE DATABASE buildtrackmvc";
 ```
 
 > Replace `postgres` with your PostgreSQL username if different.
@@ -90,11 +90,6 @@ The app should now be accessible at `https://localhost:5015` (or the port indica
 
 ---
 
-## Extras / Useful Commands
+## Author
 
-```bash
-dotnet new mvc
-dotnet add package Microsoft.EntityFrameworkCore
-dotnet add package Microsoft.EntityFrameworkCore.Tools
-dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL
-```
+- [t2ne](https://github.com/t2ne)
