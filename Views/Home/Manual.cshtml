@@ -219,8 +219,9 @@
                         <li><i class="fas fa-chart-bar"></i>Estatísticas em tempo real de todas as entidades</li>
                         <li><i class="fas fa-box"></i>Small Boxes com contagens de Clientes, Materiais, Obras Ativas e
                             Movimentos</li>
-                        <li><i class="fas fa-info-circle"></i>Info Boxes para Mão de Obra e Pagamentos</li>
-                        <li><i class="fas fa-bolt"></i>Ações Rápidas para criar novos registos</li>
+                        <li><i class="fas fa-info-circle"></i>Info Boxes apenas para Movimentos e Ajuda (Manual)</li>
+                        <li><i class="fas fa-bolt"></i>Ações Rápidas: Novo Cliente, Novo Material e Nova Obra</li>
+                        <li><i class="fas fa-lock"></i>Acesso restrito - requer autenticação para visualizar</li>
                     </ul>
 
                     <h5><i class="fas fa-users me-2"></i>Gestão de Clientes</h5>
@@ -234,24 +235,30 @@
                     <h5><i class="fas fa-boxes-stacked me-2"></i>Gestão de Materiais</h5>
                     <ul class="info-list text-light">
                         <li><i class="fas fa-warehouse"></i>CRUD completo de materiais</li>
-                        <li><i class="fas fa-calculator"></i>Controlo de stock atual e preço unitário</li>
+                        <li><i class="fas fa-calculator"></i>Controlo de stock disponível (atualizado automaticamente)
+                        </li>
                         <li><i class="fas fa-info"></i>Descrição detalhada de cada material</li>
-                        <li><i class="fas fa-history"></i>Histórico de movimentos por material</li>
+                        <li><i class="fas fa-shield-alt"></i>Validação de stock: não permite saídas sem stock suficiente
+                        </li>
+                        <li><i class="fas fa-sync"></i>Stock atualizado em tempo real com movimentos de entrada/saída
+                        </li>
                     </ul>
 
                     <h5><i class="fas fa-building me-2"></i>Gestão de Obras</h5>
                     <ul class="info-list text-light">
                         <li><i class="fas fa-folder-plus"></i>Criação de obras com dados completos</li>
                         <li><i class="fas fa-calendar"></i>Datas de início e fim previstas</li>
-                        <li><i class="fas fa-euro-sign"></i>Orçamento estimado e custo total calculado</li>
+                        <li><i class="fas fa-map-marker-alt"></i>Morada e coordenadas GPS (latitude/longitude)</li>
                         <li><i class="fas fa-toggle-on"></i>Estado da obra (Ativa/Inativa)</li>
-                        <li><i class="fas fa-user-tie"></i>Associação com cliente</li>
+                        <li><i class="fas fa-user-tie"></i>Associação obrigatória com cliente</li>
+                        <li><i class="fas fa-hard-hat"></i>Ícone personalizado (capacete) para identificação visual</li>
                         <li><i class="fas fa-tabs"></i>Sistema de tabs para organização:
                             <ul class="mt-2">
-                                <li><strong>Dados Gerais:</strong> Informação principal da obra</li>
-                                <li><strong>Registo de Material:</strong> Materiais utilizados na obra</li>
-                                <li><strong>Mão de Obra:</strong> Registos de trabalho realizado</li>
-                                <li><strong>Pagamentos:</strong> Pagamentos efetuados</li>
+                                <li><strong>Dados Gerais:</strong> Informação principal da obra com info boxes</li>
+                                <li><strong>Registo de Material:</strong> Adicionar materiais (entrada/saída com
+                                    validação de stock)</li>
+                                <li><strong>Mão de Obra:</strong> Registos de horas trabalhadas e custos</li>
+                                <li><strong>Pagamentos:</strong> Histórico de pagamentos com total calculado</li>
                             </ul>
                         </li>
                     </ul>
@@ -259,27 +266,35 @@
                     <h5><i class="fas fa-exchange-alt me-2"></i>Movimentos de Stock</h5>
                     <ul class="info-list text-light">
                         <li><i class="fas fa-arrow-right"></i>Registo automático de entradas/saídas de material</li>
-                        <li><i class="fas fa-clipboard-list"></i>Tipos: Entrada, Saída para Obra, Ajuste</li>
-                        <li><i class="fas fa-clock"></i>Data e hora de cada movimento</li>
-                        <li><i class="fas fa-eye"></i>Visualização apenas (gerado automaticamente)</li>
+                        <li><i class="fas fa-clipboard-list"></i>Tipos: Entrada (adiciona stock), Saída (remove stock)
+                        </li>
+                        <li><i class="fas fa-clock"></i>Data e hora registadas automaticamente (UTC)</li>
+                        <li><i class="fas fa-link"></i>Associação com obra e material</li>
+                        <li><i class="fas fa-search"></i>Pesquisa por obra, cliente, material, quantidade e data</li>
+                        <li><i class="fas fa-shield-check"></i>Validação: impede saídas superiores ao stock disponível
+                        </li>
                     </ul>
 
                     <h5><i class="fas fa-person-digging me-2"></i>Registos de Mão de Obra</h5>
                     <ul class="info-list text-light">
-                        <li><i class="fas fa-user-hard-hat"></i>Registo de trabalho por pessoa/equipa</li>
+                        <li><i class="fas fa-user-hard-hat"></i>Nome do trabalhador ou equipa</li>
                         <li><i class="fas fa-calendar-day"></i>Data do trabalho realizado</li>
-                        <li><i class="fas fa-hourglass"></i>Horas trabalhadas</li>
-                        <li><i class="fas fa-money-bill"></i>Custo por hora e custo total automático</li>
-                        <li><i class="fas fa-sticky-note"></i>Observações sobre o trabalho</li>
+                        <li><i class="fas fa-hourglass"></i>Horas trabalhadas (0.5 a 1000 horas)</li>
+                        <li><i class="fas fa-money-bill"></i>Valor por hora e total calculado automaticamente</li>
+                        <li><i class="fas fa-sticky-note"></i>Descrição opcional do trabalho</li>
+                        <li><i class="fas fa-save"></i>Guardado sem alertas (submissão silenciosa)</li>
                     </ul>
 
                     <h5><i class="fas fa-money-bill-transfer me-2"></i>Registos de Pagamentos</h5>
                     <ul class="info-list text-light">
-                        <li><i class="fas fa-receipt"></i>Registo de pagamentos efetuados</li>
+                        <li><i class="fas fa-tag"></i>Tipo de pagamento (Material, Mão de Obra, Fornecedor, Outro)</li>
                         <li><i class="fas fa-calendar-check"></i>Data do pagamento</li>
                         <li><i class="fas fa-euro-sign"></i>Valor pago</li>
-                        <li><i class="fas fa-user"></i>Identificação do beneficiário</li>
-                        <li><i class="fas fa-comment"></i>Descrição/motivo do pagamento</li>
+                        <li><i class="fas fa-credit-card"></i>Método de pagamento (Dinheiro, Transferência, Multibanco,
+                            Cheque)</li>
+                        <li><i class="fas fa-comment"></i>Descrição opcional</li>
+                        <li><i class="fas fa-calculator"></i>Total de pagamentos calculado e exibido no rodapé da tabela
+                        </li>
                     </ul>
                 </div>
 
@@ -323,8 +338,9 @@
                         <span class="step-number">5</span>
                         <strong class="text-light">Registo de Materiais na Obra</strong>
                         <p class="text-light mb-0 mt-2">
-                            Na página de detalhes da obra (tab "Registo de Material"), adicione os materiais utilizados.
-                            O stock é atualizado automaticamente e cria-se um movimento.
+                            Na página de detalhes da obra (tab "Registo de Material"), adicione materiais com operação
+                            de Entrada ou Saída.
+                            O stock é atualizado automaticamente e o sistema valida se há stock suficiente para saídas.
                         </p>
                     </div>
 
@@ -332,8 +348,9 @@
                         <span class="step-number">6</span>
                         <strong class="text-light">Registo de Mão de Obra</strong>
                         <p class="text-light mb-0 mt-2">
-                            Registe as horas trabalhadas (tab "Mão de Obra"). O custo total da obra é atualizado
-                            automaticamente.
+                            Registe as horas trabalhadas na tab "Mão de Obra". Insira nome do trabalhador, horas,
+                            valor/hora e data.
+                            O custo total é calculado automaticamente.
                         </p>
                     </div>
 
@@ -365,7 +382,9 @@
                             <li>Cada obra deve estar associada a um cliente</li>
                             <li>Um cliente pode ter múltiplas obras</li>
                             <li>Obras podem estar Ativas ou Inativas</li>
-                            <li>O custo total da obra é calculado automaticamente (materiais + mão de obra)</li>
+                            <li>Coordenadas GPS (latitude/longitude) opcionais para localização</li>
+                            <li>Info boxes nos detalhes exibem nome da obra e dados do cliente associado</li>
+                            <li>Ícone do cliente (azul) e da obra (laranja - capacete) para identificação visual</li>
                         </ul>
                     </div>
 
@@ -374,12 +393,13 @@
                         <h5 class="alert-heading"><i class="fas fa-exclamation-triangle me-2"></i>Stock e Movimentos
                         </h5>
                         <ul class="mb-0">
-                            <li>Ao registar material numa obra, o stock é <strong>decrementado automaticamente</strong>
-                            </li>
-                            <li>Cada movimento de stock guarda: data/hora, tipo, quantidade, material e obra (se
-                                aplicável)</li>
-                            <li>Não é possível editar movimentos diretamente (são gerados pelo sistema)</li>
-                            <li>Stock não pode ficar negativo</li>
+                            <li><strong>Entrada:</strong> Adiciona material ao stock disponível</li>
+                            <li><strong>Saída:</strong> Remove material do stock (com validação de quantidade
+                                disponível)</li>
+                            <li>Cada movimento guarda: data/hora (UTC), tipo, quantidade, material e obra</li>
+                            <li>Stock não pode ficar negativo - o sistema bloqueia saídas sem stock suficiente</li>
+                            <li>Mensagem de erro exibida quando stock é insuficiente</li>
+                            <li>Movimentos são criados automaticamente ao registar materiais na obra</li>
                         </ul>
                     </div>
 
@@ -387,10 +407,12 @@
                         style="background-color: #1a3a1a; border-color: #4caf50; color: #e0e0e0;">
                         <h5 class="alert-heading"><i class="fas fa-check-circle me-2"></i>Mão de Obra e Pagamentos</h5>
                         <ul class="mb-0">
-                            <li>Registos de mão de obra calculam custo total automaticamente (horas × custo/hora)</li>
-                            <li>Pagamentos são independentes mas associados à obra</li>
+                            <li>Registos de mão de obra calculam custo total automaticamente (horas × valor/hora)</li>
+                            <li>Horas permitidas: entre 0.5 e 24 horas por registo</li>
+                            <li>Pagamentos têm tipo, método, valor e descrição opcional</li>
+                            <li>Total de pagamentos exibido no rodapé da tabela</li>
                             <li>Todos os registos guardam data/hora para auditoria</li>
-                            <li>Apenas utilizadores autenticados podem criar/editar registos</li>
+                            <li>Submissão silenciosa (sem alerts) - tabelas atualizam automaticamente</li>
                         </ul>
                     </div>
                 </div>
@@ -448,27 +470,29 @@
                                 <tr>
                                     <td><code>Materiais</code></td>
                                     <td>Catálogo de materiais</td>
-                                    <td>Nome, Descricao, StockAtual, PrecoUnitario</td>
+                                    <td>Nome, Descricao, StockDisponivel</td>
                                 </tr>
                                 <tr>
                                     <td><code>Obras</code></td>
                                     <td>Projetos/obras em curso</td>
-                                    <td>Nome, Localizacao, DataInicio, DataFim, Orcamento, Ativa</td>
+                                    <td>Nome, ClienteId, Morada, Latitude, Longitude, Descricao, DataInicio, DataFim,
+                                        Ativa</td>
                                 </tr>
                                 <tr>
                                     <td><code>Movimentos</code></td>
                                     <td>Movimentos de stock</td>
-                                    <td>Data, Tipo, Quantidade, MaterialId, ObraId</td>
+                                    <td>DataHora, Operacao (Entrada/Saída), Quantidade, MaterialId, ObraId</td>
                                 </tr>
                                 <tr>
                                     <td><code>RegistosMaoObra</code></td>
                                     <td>Registo de trabalho</td>
-                                    <td>Data, Pessoa, HorasTrabalhadas, CustoPorHora</td>
+                                    <td>ObraId, NomeTrabalhador, HorasTrabalhadas, ValorHora, DataRegisto,
+                                        DescricaoTrabalho</td>
                                 </tr>
                                 <tr>
                                     <td><code>RegistosPagamentos</code></td>
                                     <td>Pagamentos efetuados</td>
-                                    <td>Data, Valor, Beneficiario, Descricao</td>
+                                    <td>ObraId, TipoPagamento, Valor, DataPagamento, MetodoPagamento, Descricao</td>
                                 </tr>
                                 <tr>
                                     <td><code>AspNetUsers</code></td>
@@ -498,21 +522,26 @@
 
                     <h5>Navegação</h5>
                     <ul class="info-list text-light">
-                        <li><i class="fas fa-bars"></i><strong>Sidebar:</strong> Menu lateral com todas as
-                            funcionalidades</li>
-                        <li><i class="fas fa-compress-alt"></i><strong>Sidebar Colapsável:</strong> Clique no ícone
-                            hamburger para minimizar</li>
-                        <li><i class="fas fa-user-circle"></i><strong>User Menu:</strong> Dropdown no topo com opções de
-                            logout</li>
-                        <li><i class="fas fa-home"></i><strong>Dashboard:</strong> Página inicial com visão geral</li>
+                        <li><i class="fas fa-bars"></i><strong>Sidebar:</strong> Menu lateral com seções "Tabelas
+                            Gerais" e "Movimentos"</li>
+                        <li><i class="fas fa-compress-alt"></i><strong>Sidebar Colapsável:</strong> Minimizado por
+                            padrão, clique para expandir</li>
+                        <li><i class="fas fa-user-circle"></i><strong>User Menu:</strong> Dropdown no topo com nome do
+                            utilizador e logout</li>
+                        <li><i class="fas fa-home"></i><strong>Dashboard:</strong> Página inicial com visão geral
+                            (requer login)</li>
+                        <li><i class="fas fa-book"></i><strong>Manual:</strong> Acessível pela navbar (disponível sem
+                            login)</li>
                     </ul>
 
                     <h5>Tema Visual</h5>
                     <ul class="info-list text-light">
                         <li><i class="fas fa-moon"></i>Dark Theme para conforto visual</li>
-                        <li><i class="fas fa-palette"></i>Cores principais: #1e90ff (azul) e tons de cinza escuro</li>
+                        <li><i class="fas fa-palette"></i>Cores por entidade: Clientes (azul), Materiais (verde), Obras
+                            (laranja), Movimentos (vermelho)</li>
                         <li><i class="fas fa-icons"></i>Font Awesome 6.5.1 para ícones consistentes</li>
-                        <li><i class="fas fa-mobile-alt"></i>Design responsivo (Bootstrap 5)</li>
+                        <li><i class="fas fa-mobile-alt"></i>Design responsivo (Bootstrap 5.3.3)</li>
+                        <li><i class="fas fa-filter"></i>Pesquisa em tempo real em todas as tabelas</li>
                     </ul>
 
                     <h5>Componentes AdminLTE</h5>
@@ -537,9 +566,11 @@
                         style="background-color: #4a1a1a; border-color: #f44336; color: #e0e0e0;">
                         <strong><i class="fas fa-times-circle me-2"></i>Erro ao adicionar material à obra</strong>
                         <p class="mb-0 mt-2">
-                            <strong>Solução:</strong> Verifique se o material tem stock suficiente. O sistema não
-                            permite
-                            adicionar quantidade maior que o stock disponível.
+                            <strong>Possíveis causas:</strong><br>
+                            • Stock insuficiente para operação de Saída<br>
+                            • Verificar mensagem de erro que indica stock disponível vs. necessário<br>
+                            <strong>Solução:</strong> Use operação "Entrada" para adicionar stock ou reduza a quantidade
+                            da saída.
                         </p>
                     </div>
 
