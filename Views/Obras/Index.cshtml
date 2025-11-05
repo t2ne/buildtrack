@@ -135,13 +135,17 @@
 
     .empty-state i {
         font-size: 3rem;
-        color: #ff9800;
+        color: #555;
         opacity: 0.3;
         margin-bottom: 0.75rem;
     }
 
     .empty-state p {
         margin-bottom: 0.25rem;
+    }
+
+    .empty-state h5 {
+        color: #aaa;
     }
 </style>
 
@@ -276,6 +280,14 @@
             </table>
         </div>
 
+        <div id="noResultsMessage" class="table-card mt-3" style="display: none;">
+            <div class="empty-state">
+                <i class="fas fa-search-minus"></i>
+                <h5>Nenhum resultado encontrado</h5>
+                <p>Tente pesquisar com outros termos.</p>
+            </div>
+        </div>
+
         @if (Model != null && Model.Any())
         {
             <div class="mt-3 p-3" style="background-color: #2a2a2a; border-radius: 6px; border: 1px solid #444;">
@@ -293,95 +305,49 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
-            var $tableBody = $('#obrasTableBody');
-            var $searchInput = $('#searchInput');
-            var $statusFilter = $('#statusFilter');
-            var $locationFilter = $('#locationFilter');
-            var $badgeCount = $('.badge-count');
-            var $noResults = $('#noResults');
+            const searchInput = $('#searchInput');
+            const tableBody = $('#obrasTableBody');
+            const rows = tableBody.find('tr[data-search]');
+            const noResultsMsg = $('#noResultsMessage');
+            const countBadge = $('#obraCount');
 
-            function updateCount() {
-                var visibleCount = $tableBody.find('tr[data-search]:visible').length;
-                $('#obraCount').text(visibleCount);
-            }
+            searchInput.on('keyup', function () {
+                const searchTerm = $(this).val().toLowerCase().trim();
+                let visibleCount = 0;
 
-            function showNoResults(show) {
-                if (show) {
-                    if ($noResults.length === 0) {
-                        $tableBody.append(
-                            '<tr id="noResults"><td colspan="6" class="text-center py-4">' +
-                            '<i class="fas fa-search mb-2" style="font-size: 2rem; color: #666;"></i>' +
-                            '<p style="color: #aaa;">Nenhuma obra encontrada</p>' +
-                            '</td></tr>'
-                        );
-                    }
-                } else {
-                    $noResults.remove();
-                }
-            }
+                rows.each(function () {
+                    const row = $(this);
+                    const searchData = row.attr('data-search');
 
-            function performSearch() {
-                var searchValue = $searchInput.val().toLowerCase().trim();
-                var statusValue = $statusFilter.val();
-                var locationValue = $locationFilter.val();
-                var hasVisibleRows = false;
-
-                $tableBody.find('tr[data-search]').each(function () {
-                    var $row = $(this);
-                    var searchData = $row.data('search') || '';
-                    var showRow = true;
-
-                    // Text search
-                    if (searchValue && searchData.indexOf(searchValue) === -1) {
-                        showRow = false;
-                    }
-
-                    // Status filter
-                    if (statusValue !== '') {
-                        var isActive = $row.find('.badge.bg-success').length > 0;
-                        if ((statusValue === 'true' && !isActive) || (statusValue === 'false' && isActive)) {
-                            showRow = false;
+                    if (!searchData) {
+                        if (searchTerm) {
+                            row.hide();
                         }
+                        return;
                     }
 
-                    // Location filter
-                    if (locationValue !== '') {
-                        var locationBadge = $row.find('td:eq(5) .badge');
-                        var hasLoc = locationBadge.length > 0 &&
-                            (locationBadge.css('background-color') === 'rgb(255, 152, 0)' ||
-                                locationBadge.css('background-color') === '#ff9800');
-                        if ((locationValue === 'true' && !hasLoc) || (locationValue === 'false' && hasLoc)) {
-                            showRow = false;
-                        }
+                    if (searchData.includes(searchTerm)) {
+                        row.show();
+                        visibleCount++;
+                    } else {
+                        row.hide();
                     }
-
-                    $row.toggle(showRow);
-                    if (showRow) hasVisibleRows = true;
                 });
 
-                showNoResults(!hasVisibleRows);
-                updateCount();
-            }
+                countBadge.text(visibleCount);
 
-            // Search input
-            $searchInput.on('keyup', performSearch);
-
-            // Filter changes
-            $statusFilter.on('change', performSearch);
-            $locationFilter.on('change', performSearch);
-
-            // Clear filters
-            $('#clearFilters').on('click', function () {
-                $statusFilter.val('');
-                $locationFilter.val('');
-                $searchInput.val('');
-                $tableBody.find('tr[data-search]').show();
-                showNoResults(false);
-                updateCount();
+                if (visibleCount === 0 && searchTerm) {
+                    noResultsMsg.show();
+                } else {
+                    noResultsMsg.hide();
+                }
             });
 
-            // Initial count
-            updateCount();
+            searchInput.focus(function () {
+                $(this).parent().css('box-shadow', '0 0 0 0.2rem rgba(255, 152, 0, 0.25)');
+            }).blur(function () {
+                $(this).parent().css('box-shadow', 'none');
+            });
         });
     </script>
 }
