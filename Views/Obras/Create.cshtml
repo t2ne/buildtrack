@@ -1,0 +1,263 @@
+@model BuildTrackMVC.Models.Obra
+
+@{
+    ViewData["Title"] = "Nova Obra";
+}
+
+<style>
+    .form-card {
+        background-color: #2a2a2a;
+        border: 1px solid #444;
+        border-radius: 8px;
+        padding: 2rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .form-card h4 {
+        color: #ff9800;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 2px solid #ff9800;
+    }
+
+    .form-label {
+        color: #e0e0e0;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-control {
+        background-color: #1e1e1e;
+        border: 1px solid #444;
+        color: #e0e0e0;
+        border-radius: 6px;
+        padding: 0.75rem;
+    }
+
+    .form-control:focus {
+        background-color: #2a2a2a;
+        border-color: #ff9800;
+        color: #fff;
+        box-shadow: 0 0 0 0.2rem rgba(255, 152, 0, 0.25);
+    }
+
+    .form-control.is-invalid {
+        border-color: #f44336;
+    }
+
+    .form-control.is-valid {
+        border-color: #4caf50;
+    }
+
+    .invalid-feedback,
+    .text-danger {
+        color: #f44336 !important;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+    }
+
+    .valid-feedback {
+        color: #4caf50 !important;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+    }
+
+    .form-text {
+        color: #aaa;
+        font-size: 0.875rem;
+    }
+
+    .btn-group-actions {
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid #444;
+    }
+
+    .required-badge {
+        color: #f44336;
+        font-size: 0.75rem;
+        vertical-align: super;
+    }
+
+    .input-icon {
+        position: absolute;
+        right: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #666;
+        pointer-events: none;
+    }
+
+    .input-wrapper {
+        position: relative;
+    }
+</style>
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-light">
+                    <i class="fas fa-hard-hat me-2"></i>Nova Obra
+                </h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-end">
+                    <li class="breadcrumb-item"><a asp-action="Index" style="color: #ff9800;">Obras</a></li>
+                    <li class="breadcrumb-item active">Nova</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <div class="form-card">
+                    <h4><i class="fas fa-info-circle me-2"></i>Dados da Obra</h4>
+
+                    <form asp-action="Create" method="post" id="obraForm">
+                        @Html.AntiForgeryToken()
+                        <div class="row">
+                            <div class="col-md-8 mb-3">
+                                <label asp-for="Nome" class="form-label">
+                                    Nome da Obra <span class="required-badge">*</span>
+                                </label>
+                                <div class="input-wrapper">
+                                    <input asp-for="Nome" class="form-control"
+                                        placeholder="Ex: Construção de Moradia em Lisboa" />
+                                    <i class="fas fa-hard-hat input-icon"></i>
+                                </div>
+                                <span asp-validation-for="Nome" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label asp-for="Ativa" class="form-label">
+                                    Estado <span class="required-badge">*</span>
+                                </label>
+                                <div class="input-wrapper">
+                                    <select asp-for="Ativa" class="form-control">
+                                        <option value="true">Ativa</option>
+                                        <option value="false">Inativa</option>
+                                    </select>
+                                    <i class="fas fa-toggle-on input-icon"></i>
+                                </div>
+                                <span asp-validation-for="Ativa" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Descricao" class="form-label">
+                                Descrição <span class="required-badge">*</span>
+                            </label>
+                            <div class="input-wrapper">
+                                <textarea asp-for="Descricao" class="form-control" rows="3"
+                                    placeholder="Descreva brevemente a obra..."></textarea>
+                                <i class="fas fa-file-alt input-icon"></i>
+                            </div>
+                            <span asp-validation-for="Descricao" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="ClienteId" class="form-label">
+                                Cliente <span class="required-badge">*</span>
+                            </label>
+                            @{
+                                var clientes = ViewData["Clientes"] as List<BuildTrackMVC.Models.Cliente>;
+                            }
+                            <div class="input-wrapper">
+                                <select asp-for="ClienteId" class="form-control" required>
+                                    @if (clientes != null && clientes.Any())
+                                    {
+                                        foreach (var cliente in clientes)
+                                        {
+                                            <option value="@cliente.Id">@cliente.Nome (@cliente.NIF)</option>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <option value="">Nenhum cliente disponível</option>
+                                    }
+                                </select>
+                                <i class="fas fa-user input-icon"></i>
+                            </div>
+                            <span asp-validation-for="ClienteId" class="text-danger"></span>
+                            @if (clientes == null || !clientes.Any())
+                            {
+                                <small class="form-text text-danger">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    Precisa criar um cliente primeiro! <a asp-controller="Clientes"
+                                        asp-action="Create">Criar Cliente</a>
+                                </small>
+                            }
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Morada" class="form-label">
+                                Morada <span class="required-badge">*</span>
+                            </label>
+                            <div class="input-wrapper">
+                                <input asp-for="Morada" class="form-control"
+                                    placeholder="Ex: Rua das Flores, 123, 1200-000 Lisboa" />
+                                <i class="fas fa-map-marker-alt input-icon"></i>
+                            </div>
+                            <span asp-validation-for="Morada" class="text-danger"></span>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Latitude" class="form-label">
+                                    Latitude
+                                </label>
+                                <div class="input-wrapper">
+                                    <input asp-for="Latitude" class="form-control" placeholder="Ex: 38.7223"
+                                        step="any" />
+                                    <i class="fas fa-location-arrow input-icon"></i>
+                                </div>
+                                <span asp-validation-for="Latitude" class="text-danger"></span>
+                                <small class="form-text">Opcional - coordenadas GPS</small>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Longitude" class="form-label">
+                                    Longitude
+                                </label>
+                                <div class="input-wrapper">
+                                    <input asp-for="Longitude" class="form-control" placeholder="Ex: -9.1393"
+                                        step="any" />
+                                    <i class="fas fa-location-arrow input-icon"></i>
+                                </div>
+                                <span asp-validation-for="Longitude" class="text-danger"></span>
+                                <small class="form-text">Opcional - coordenadas GPS</small>
+                            </div>
+                        </div>
+
+                        <div class="btn-group-actions">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <button type="submit" class="btn btn-block"
+                                        style="background-color: #ff9800; border-color: #ff9800; color: white; padding: 0.75rem; border-radius: 6px; font-weight: 600;">
+                                        <i class="fas fa-save me-2"></i>Guardar Obra
+                                    </button>
+                                </div>
+                                <div class="col-md-6">
+                                    <a asp-action="Index" class="btn btn-secondary btn-block"
+                                        style="padding: 0.75rem; border-radius: 6px; font-weight: 600;">
+                                        <i class="fas fa-times me-2"></i>Cancelar
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

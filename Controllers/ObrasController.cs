@@ -39,6 +39,9 @@ namespace BuildTrackMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Nome,Descricao,ClienteId,Morada,Latitude,Longitude,Ativa")] Obra obra)
         {
+            // Remove validation errors for navigation property
+            ModelState.Remove("Cliente");
+
             if (ModelState.IsValid)
             {
                 _context.Add(obra);
@@ -48,7 +51,6 @@ namespace BuildTrackMVC.Controllers
             ViewData["Clientes"] = _context.Clientes.ToList();
             return View(obra);
         }
-
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null) return NotFound();
@@ -63,6 +65,10 @@ namespace BuildTrackMVC.Controllers
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Descricao,ClienteId,Morada,Latitude,Longitude,Ativa")] Obra obra)
         {
             if (id != obra.Id) return NotFound();
+
+            // Remove validation errors for navigation property
+            ModelState.Remove("Cliente");
+
             if (ModelState.IsValid)
             {
                 try

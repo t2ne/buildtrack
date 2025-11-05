@@ -1,0 +1,136 @@
+@model BuildTrackMVC.Models.Obra
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card" style="border-top: 3px solid #4caf50;">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-plus-circle"></i> Adicionar Material à Obra
+                </h3>
+            </div>
+            <div class="card-body">
+                <form id="addMaterialForm">
+                    <input type="hidden" name="ObraId" value="@Model.Id" />
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>
+                                    <i class="fas fa-box" style="color: #4caf50;"></i> Material
+                                </label>
+                                <select name="MaterialId" class="form-control" required>
+                                    <option value="">-- Selecione um material --</option>
+                                    <!-- Materials will be loaded here -->
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>
+                                    <i class="fas fa-hashtag" style="color: #4caf50;"></i> Quantidade
+                                </label>
+                                <input type="number" name="Quantidade" class="form-control" min="0.01" step="0.01"
+                                    required />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>
+                                    <i class="fas fa-exchange-alt" style="color: #4caf50;"></i> Operação
+                                </label>
+                                <select name="TipoOperacao" class="form-control" required>
+                                    <option value="ADD">Adicionar (Entrada)</option>
+                                    <option value="REMOVE">Remover (Saída)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>&nbsp;</label>
+                                <button type="submit" class="btn btn-block"
+                                    style="background-color: #4caf50; border-color: #4caf50; color: white;">
+                                    <i class="fas fa-save"></i> Adicionar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-list"></i> Materiais Registados
+                </h3>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0" id="materiaisTable">
+                        <thead style="background-color: rgba(76, 175, 80, 0.1);">
+                            <tr>
+                                <th style="width: 5%;">#</th>
+                                <th style="width: 30%;">Material</th>
+                                <th style="width: 15%;">Quantidade</th>
+                                <th style="width: 15%;">Operação</th>
+                                <th style="width: 20%;">Data/Hora</th>
+                                <th style="width: 15%;" class="text-center">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="materiaisTableBody">
+                            <!-- Data will be loaded via AJAX -->
+                            <tr>
+                                <td colspan="6" class="text-center py-4">
+                                    <i class="fas fa-spinner fa-spin fa-2x" style="color: #4caf50;"></i>
+                                    <p class="text-muted mt-2">A carregar materiais...</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            loadMaterials();
+            loadMovimentos();
+
+            $('#addMaterialForm').on('submit', function (e) {
+                e.preventDefault();
+                addMaterial();
+            });
+        });
+
+        function loadMaterials() {
+            // This should be loaded from the server
+            // For now, placeholder
+            console.log('Loading available materials...');
+        }
+
+        function loadMovimentos() {
+            // This should load movements from the server
+            // For now, placeholder
+            setTimeout(function () {
+                $('#materiaisTableBody').html(
+                    '<tr><td colspan="6" class="text-center py-4">' +
+                    '<i class="fas fa-boxes fa-3x mb-3" style="color: #4caf50; opacity: 0.3;"></i>' +
+                    '<p class="text-muted">Nenhum material registado nesta obra.</p>' +
+                    '</td></tr>'
+                );
+            }, 500);
+        }
+
+        function addMaterial() {
+            // This should submit to the server
+            console.log('Adding material...');
+            alert('Funcionalidade será implementada no próximo passo com o controller endpoint.');
+        }
+    </script>
+}

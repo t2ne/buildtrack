@@ -1,0 +1,112 @@
+@model BuildTrackMVC.Models.Obra
+
+@{
+    ViewData["Title"] = "Eliminar Obra";
+}
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">
+                    <i class="fas fa-trash-alt text-danger"></i> Eliminar Obra
+                </h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a asp-action="Index" style="color: #ff9800;">Obras</a></li>
+                    <li class="breadcrumb-item active">Eliminar</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <div class="alert alert-danger">
+                    <h5><i class="icon fas fa-ban"></i> Atenção!</h5>
+                    Tem a certeza que deseja eliminar esta obra? Esta ação não pode ser revertida.
+                </div>
+
+                <div class="card card-outline card-danger">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-hard-hat"></i> Detalhes da Obra a Eliminar
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <dl class="row">
+                            <dt class="col-sm-3">
+                                <i class="fas fa-hard-hat" style="color: #ff9800;"></i> Nome
+                            </dt>
+                            <dd class="col-sm-9">@Model.Nome</dd>
+
+                            <dt class="col-sm-3">
+                                <i class="fas fa-file-alt" style="color: #ff9800;"></i> Descrição
+                            </dt>
+                            <dd class="col-sm-9">@Model.Descricao</dd>
+
+                            <dt class="col-sm-3">
+                                <i class="fas fa-user" style="color: #ff9800;"></i> Cliente
+                            </dt>
+                            <dd class="col-sm-9">@Model.Cliente?.Nome</dd>
+
+                            <dt class="col-sm-3">
+                                <i class="fas fa-map-marker-alt" style="color: #ff9800;"></i> Morada
+                            </dt>
+                            <dd class="col-sm-9">@Model.Morada</dd>
+
+                            @if (Model.Latitude.HasValue && Model.Longitude.HasValue)
+                            {
+                                <dt class="col-sm-3">
+                                    <i class="fas fa-location-arrow" style="color: #ff9800;"></i> Coordenadas
+                                </dt>
+                                <dd class="col-sm-9">
+                                    Latitude: @Model.Latitude?.ToString("F6"), Longitude: @Model.Longitude?.ToString("F6")
+                                </dd>
+                            }
+
+                            <dt class="col-sm-3">
+                                <i class="fas fa-toggle-on" style="color: #ff9800;"></i> Estado
+                            </dt>
+                            <dd class="col-sm-9">
+                                @if (Model.Ativa)
+                                {
+                                    <span class="badge badge-success">
+                                        <i class="fas fa-check-circle"></i> Ativa
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge badge-secondary">
+                                        <i class="fas fa-pause-circle"></i> Inativa
+                                    </span>
+                                }
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="card-footer">
+                        <form asp-action="Delete" method="post">
+                            <input type="hidden" asp-for="Id" />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <button type="submit" class="btn btn-danger btn-block">
+                                        <i class="fas fa-trash-alt"></i> Confirmar Eliminação
+                                    </button>
+                                </div>
+                                <div class="col-md-6">
+                                    <a asp-action="Index" class="btn btn-secondary btn-block">
+                                        <i class="fas fa-times"></i> Cancelar
+                                    </a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

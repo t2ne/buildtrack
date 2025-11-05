@@ -1,0 +1,215 @@
+@model BuildTrackMVC.Models.Obra
+
+@{
+    ViewData["Title"] = "Detalhes da Obra";
+}
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">
+                    <i class="fas fa-hard-hat" style="color: #ff9800;"></i> @Model.Nome
+                    @if (Model.Ativa)
+                    {
+                        <span class="badge badge-success ml-2">Ativa</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-secondary ml-2">Inativa</span>
+                    }
+                </h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a asp-action="Index" style="color: #ff9800;">Obras</a></li>
+                    <li class="breadcrumb-item active">Detalhes</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn"
+                    style="background-color: #ff9800; border-color: #ff9800; color: white;">
+                    <i class="fas fa-edit"></i> Editar Obra
+                </a>
+                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">
+                    <i class="fas fa-trash-alt"></i> Eliminar
+                </a>
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Voltar à Lista
+                </a>
+            </div>
+        </div>
+
+        <div class="card card-outline" style="border-top: 3px solid #ff9800;">
+            <div class="card-header p-2">
+                <ul class="nav nav-pills">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#tab_1" data-toggle="tab">
+                            <i class="fas fa-info-circle"></i> Dados Gerais
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#tab_2" data-toggle="tab">
+                            <i class="fas fa-boxes"></i> Registo de Material
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#tab_3" data-toggle="tab">
+                            <i class="fas fa-users-cog"></i> Mão de Obra
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#tab_4" data-toggle="tab">
+                            <i class="fas fa-euro-sign"></i> Pagamentos
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content">
+                    <!-- Tab 1: Dados Gerais -->
+                    <div class="tab-pane active" id="tab_1">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="info-box" style="background-color: rgba(255, 152, 0, 0.1);">
+                                    <span class="info-box-icon" style="background-color: #ff9800;">
+                                        <i class="fas fa-hard-hat"></i>
+                                    </span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Nome da Obra</span>
+                                        <span class="info-box-number">@Model.Nome</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="info-box" style="background-color: rgba(30, 144, 255, 0.1);">
+                                    <span class="info-box-icon bg-info">
+                                        <i class="fas fa-user"></i>
+                                    </span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Cliente</span>
+                                        <span class="info-box-number">@Model.Cliente?.Nome</span>
+                                        @if (!string.IsNullOrEmpty(Model.Cliente?.NIF))
+                                        {
+                                            <span class="progress-description">NIF: @Model.Cliente.NIF</span>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <i class="fas fa-info-circle"></i> Informações Detalhadas
+                                </h3>
+                            </div>
+                            <div class="card-body">
+                                <dl class="row">
+                                    <dt class="col-sm-3">
+                                        <i class="fas fa-file-alt" style="color: #ff9800;"></i> Descrição
+                                    </dt>
+                                    <dd class="col-sm-9">
+                                        @if (!string.IsNullOrEmpty(Model.Descricao))
+                                        {
+                                            @Model.Descricao
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">Sem descrição</span>
+                                        }
+                                    </dd>
+
+                                    <dt class="col-sm-3">
+                                        <i class="fas fa-map-marker-alt" style="color: #ff9800;"></i> Morada
+                                    </dt>
+                                    <dd class="col-sm-9">@Model.Morada</dd>
+
+                                    @if (Model.Latitude.HasValue && Model.Longitude.HasValue)
+                                    {
+                                        <dt class="col-sm-3">
+                                            <i class="fas fa-location-arrow" style="color: #ff9800;"></i> Coordenadas GPS
+                                        </dt>
+                                        <dd class="col-sm-9">
+                                            <strong>Latitude:</strong> @Model.Latitude?.ToString("F6")<br />
+                                            <strong>Longitude:</strong> @Model.Longitude?.ToString("F6")
+                                        </dd>
+                                    }
+
+                                    <dt class="col-sm-3">
+                                        <i class="fas fa-toggle-on" style="color: #ff9800;"></i> Estado
+                                    </dt>
+                                    <dd class="col-sm-9">
+                                        @if (Model.Ativa)
+                                        {
+                                            <span class="badge badge-success">
+                                                <i class="fas fa-check-circle"></i> Obra Ativa
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge badge-secondary">
+                                                <i class="fas fa-pause-circle"></i> Obra Inativa
+                                            </span>
+                                        }
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab 2: Registo de Material -->
+                    <div class="tab-pane" id="tab_2">
+                        <div class="alert alert-info">
+                            <h5><i class="icon fas fa-info"></i> Registo de Material</h5>
+                            Aqui pode adicionar ou remover materiais da obra. Os movimentos afetam o stock global.
+                        </div>
+                        <partial name="Partials/_RegistoMateriais" model="@Model" />
+                    </div>
+
+                    <!-- Tab 3: Mão de Obra -->
+                    <div class="tab-pane" id="tab_3">
+                        <div class="alert alert-info">
+                            <h5><i class="icon fas fa-info"></i> Registos de Mão de Obra</h5>
+                            Registos de trabalho realizado nesta obra.
+                        </div>
+                        <partial name="Partials/_RegistoMaoObra" model="@Model" />
+                    </div>
+
+                    <!-- Tab 4: Pagamentos -->
+                    <div class="tab-pane" id="tab_4">
+                        <div class="alert alert-info">
+                            <h5><i class="icon fas fa-info"></i> Registos de Pagamentos</h5>
+                            Histórico de pagamentos efetuados relacionados com esta obra.
+                        </div>
+                        <partial name="Partials/_RegistoPagamentos" model="@Model" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Activate tab from hash on page load
+            var hash = window.location.hash;
+            if (hash) {
+                $('.nav-pills a[href="' + hash + '"]').tab('show');
+            }
+
+            // Update hash on tab change
+            $('.nav-pills a').on('shown.bs.tab', function (e) {
+                window.location.hash = e.target.hash;
+            });
+        });
+    </script>
+}

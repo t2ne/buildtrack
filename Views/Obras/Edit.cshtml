@@ -1,0 +1,140 @@
+@model BuildTrackMVC.Models.Obra
+
+@{
+    ViewData["Title"] = "Editar Obra";
+}
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">
+                    <i class="fas fa-edit" style="color: #ff9800;"></i> Editar Obra
+                </h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a asp-action="Index" style="color: #ff9800;">Obras</a></li>
+                    <li class="breadcrumb-item active">Editar</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <div class="card card-outline card-warning" style="border-top: 3px solid #ff9800;">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-edit"></i> A editar: @Model.Nome
+                        </h3>
+                    </div>
+                    <form asp-action="Edit" method="post">
+                        <input type="hidden" asp-for="Id" />
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label asp-for="Nome" class="control-label">
+                                            <i class="fas fa-hard-hat" style="color: #ff9800;"></i> Nome da Obra
+                                        </label>
+                                        <input asp-for="Nome" class="form-control" />
+                                        <span asp-validation-for="Nome" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label asp-for="Ativa" class="control-label">
+                                            <i class="fas fa-toggle-on" style="color: #ff9800;"></i> Estado
+                                        </label>
+                                        <select asp-for="Ativa" class="form-control">
+                                            <option value="true">Ativa</option>
+                                            <option value="false">Inativa</option>
+                                        </select>
+                                        <span asp-validation-for="Ativa" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Descricao" class="control-label">
+                                    <i class="fas fa-file-alt" style="color: #ff9800;"></i> Descrição
+                                </label>
+                                <textarea asp-for="Descricao" class="form-control" rows="3"></textarea>
+                                <span asp-validation-for="Descricao" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="ClienteId" class="control-label">
+                                    <i class="fas fa-user" style="color: #ff9800;"></i> Cliente
+                                </label>
+                                <select asp-for="ClienteId" class="form-control">
+                                    @foreach (var cliente in ViewData["Clientes"] as List<BuildTrackMVC.Models.Cliente>)
+                                    {
+                                        <option value="@cliente.Id">@cliente.Nome (@cliente.NIF)</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="ClienteId" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Morada" class="control-label">
+                                    <i class="fas fa-map-marker-alt" style="color: #ff9800;"></i> Morada
+                                </label>
+                                <input asp-for="Morada" class="form-control" />
+                                <span asp-validation-for="Morada" class="text-danger"></span>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="Latitude" class="control-label">
+                                            <i class="fas fa-location-arrow" style="color: #ff9800;"></i> Latitude
+                                        </label>
+                                        <input asp-for="Latitude" class="form-control" step="any" />
+                                        <span asp-validation-for="Latitude" class="text-danger"></span>
+                                        <small class="form-text text-muted">Opcional - coordenadas GPS</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="Longitude" class="control-label">
+                                            <i class="fas fa-location-arrow" style="color: #ff9800;"></i> Longitude
+                                        </label>
+                                        <input asp-for="Longitude" class="form-control" step="any" />
+                                        <span asp-validation-for="Longitude" class="text-danger"></span>
+                                        <small class="form-text text-muted">Opcional - coordenadas GPS</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <button type="submit" class="btn btn-block"
+                                        style="background-color: #ff9800; border-color: #ff9800; color: white;">
+                                        <i class="fas fa-save"></i> Guardar Alterações
+                                    </button>
+                                </div>
+                                <div class="col-md-6">
+                                    <a asp-action="Index" class="btn btn-secondary btn-block">
+                                        <i class="fas fa-times"></i> Cancelar
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

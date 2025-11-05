@@ -1,0 +1,167 @@
+@model BuildTrackMVC.Models.Obra
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card" style="border-top: 3px solid #ff9800;">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-plus-circle"></i> Novo Registo de Pagamento
+                </h3>
+            </div>
+            <div class="card-body">
+                <form id="addPagamentoForm">
+                    <input type="hidden" name="ObraId" value="@Model.Id" />
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>
+                                    <i class="fas fa-file-invoice-dollar" style="color: #ff9800;"></i> Tipo de Pagamento
+                                </label>
+                                <select name="TipoPagamento" class="form-control" required>
+                                    <option value="">-- Selecione --</option>
+                                    <option value="Material">Material</option>
+                                    <option value="Mão de Obra">Mão de Obra</option>
+                                    <option value="Equipamento">Equipamento</option>
+                                    <option value="Serviços">Serviços</option>
+                                    <option value="Outro">Outro</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>
+                                    <i class="fas fa-euro-sign" style="color: #ff9800;"></i> Valor
+                                </label>
+                                <input type="number" name="Valor" class="form-control" min="0.01" step="0.01"
+                                    placeholder="0.00" required />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>
+                                    <i class="fas fa-calendar" style="color: #ff9800;"></i> Data
+                                </label>
+                                <input type="date" name="DataPagamento" class="form-control"
+                                    value="@DateTime.Now.ToString("yyyy-MM-dd")" required />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>
+                                    <i class="fas fa-credit-card" style="color: #ff9800;"></i> Método
+                                </label>
+                                <select name="MetodoPagamento" class="form-control" required>
+                                    <option value="">-- Selecione --</option>
+                                    <option value="Dinheiro">Dinheiro</option>
+                                    <option value="Transferência">Transferência</option>
+                                    <option value="Multibanco">Multibanco</option>
+                                    <option value="Cheque">Cheque</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-10">
+                            <div class="form-group">
+                                <label>
+                                    <i class="fas fa-file-alt" style="color: #ff9800;"></i> Descrição
+                                </label>
+                                <textarea name="Descricao" class="form-control" rows="2"
+                                    placeholder="Descrição do pagamento..."></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>&nbsp;</label>
+                                <button type="submit" class="btn btn-block"
+                                    style="background-color: #ff9800; border-color: #ff9800; color: white;">
+                                    <i class="fas fa-save"></i> Adicionar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-list"></i> Registos de Pagamentos
+                </h3>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0" id="pagamentosTable">
+                        <thead style="background-color: rgba(255, 152, 0, 0.1);">
+                            <tr>
+                                <th style="width: 5%;">#</th>
+                                <th style="width: 15%;">Tipo</th>
+                                <th style="width: 12%;">Valor</th>
+                                <th style="width: 12%;">Data</th>
+                                <th style="width: 12%;">Método</th>
+                                <th style="width: 34%;">Descrição</th>
+                                <th style="width: 10%;" class="text-center">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pagamentosTableBody">
+                            <!-- Data will be loaded via AJAX -->
+                            <tr>
+                                <td colspan="7" class="text-center py-4">
+                                    <i class="fas fa-spinner fa-spin fa-2x" style="color: #ff9800;"></i>
+                                    <p class="text-muted mt-2">A carregar pagamentos...</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="callout callout-warning">
+                            <h5><i class="fas fa-calculator"></i> Total de Pagamentos</h5>
+                            <p id="totalPagamentos">€ 0,00</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            loadPagamentos();
+
+            $('#addPagamentoForm').on('submit', function (e) {
+                e.preventDefault();
+                addPagamento();
+            });
+        });
+
+        function loadPagamentos() {
+            // This should load payment records from the server
+            // For now, placeholder
+            setTimeout(function () {
+                $('#pagamentosTableBody').html(
+                    '<tr><td colspan="7" class="text-center py-4">' +
+                    '<i class="fas fa-euro-sign fa-3x mb-3" style="color: #ff9800; opacity: 0.3;"></i>' +
+                    '<p class="text-muted">Nenhum pagamento registado.</p>' +
+                    '</td></tr>'
+                );
+            }, 500);
+        }
+
+        function addPagamento() {
+            // This should submit to the server
+            console.log('Adding payment...');
+            alert('Funcionalidade será implementada no próximo passo com o controller endpoint.');
+        }
+    </script>
+}
