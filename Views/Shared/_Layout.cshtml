@@ -88,8 +88,8 @@
                     <nav class="mt-2">
                         <ul class="nav nav-pills nav-sidebar flex-column sidebar-menu" data-widget="treeview" role="menu"
                             data-accordion="false">
-                            <!-- Gestão -->
-                            <li class="nav-header">GESTÃO</li>
+                            <!-- Tabelas Gerais -->
+                            <li class="nav-header">TABELAS GERAIS</li>
                             <li class="nav-item">
                                 <a asp-area="" asp-controller="Clientes" asp-action="Index" class="nav-link text-light">
                                     <i class="nav-icon fa-solid fa-user"></i>
@@ -102,8 +102,6 @@
                                     <p>Materiais</p>
                                 </a>
                             </li>
-
-                            <!-- Obras (clickable link) -->
                             <li class="nav-item">
                                 <a asp-controller="Obras" asp-action="Index" class="nav-link text-light">
                                     <i class="nav-icon fa-solid fa-building"></i>
@@ -111,23 +109,8 @@
                                 </a>
                             </li>
 
-                            <!-- Registos Relacionados com Obras -->
-                            <li class="nav-header">REGISTOS DE OBRAS</li>
-                            <li class="nav-item">
-                                <a asp-controller="RegistosMaoObra" asp-action="Index" class="nav-link text-light">
-                                    <i class="nav-icon fa-solid fa-person-digging"></i>
-                                    <p>Mão de Obra</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a asp-controller="RegistosPagamentos" asp-action="Index" class="nav-link text-light">
-                                    <i class="nav-icon fa-solid fa-money-bill-transfer"></i>
-                                    <p>Pagamentos</p>
-                                </a>
-                            </li>
-
-                            <!-- Separador -->
-                            <li class="nav-header">OUTROS REGISTOS</li>
+                            <!-- Movimentos -->
+                            <li class="nav-header">MOVIMENTOS</li>
                             <li class="nav-item">
                                 <a asp-area="" asp-controller="Movimentos" asp-action="Index" class="nav-link text-light">
                                     <i class="nav-icon fa-solid fa-exchange-alt"></i>

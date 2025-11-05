@@ -24,8 +24,6 @@ public class HomeController : Controller
         ViewBag.MateriaisCount = await _context.Materiais.CountAsync();
         ViewBag.ObrasAtivasCount = await _context.Obras.CountAsync(o => o.Ativa);
         ViewBag.MovimentosCount = await _context.Movimentos.CountAsync();
-        ViewBag.RegistosMaoObraCount = await _context.RegistosMaoObra.CountAsync();
-        ViewBag.RegistosPagamentosCount = await _context.RegistosPagamentos.CountAsync();
 
         return View();
     }
