@@ -63,7 +63,7 @@ namespace BuildTrackMVC.Controllers
 
                 return Json(new { success = false });
             }
-            catch (Exception ex)
+            catch
             {
                 return Json(new { success = false });
             }

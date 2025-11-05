@@ -3,6 +3,9 @@ using BuildTrackMVC.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 
+// Configure DateTime handling for PostgreSQL
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

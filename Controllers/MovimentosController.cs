@@ -20,6 +20,7 @@ namespace BuildTrackMVC.Controllers
         {
             var movimentos = await _context.Movimentos
                 .Include(m => m.Obra)
+                    .ThenInclude(o => o.Cliente)
                 .Include(m => m.Material)
                 .ToListAsync();
             return View(movimentos);
@@ -61,18 +62,49 @@ namespace BuildTrackMVC.Controllers
 
                 if (ModelState.IsValid)
                 {
+                    // Get the material to update stock
+                    var material = await _context.Materiais.FindAsync(movimento.MaterialId);
+                    if (material == null)
+                    {
+                        return Json(new { success = false, message = "Material não encontrado." });
+                    }
+
+                    // Calculate new stock based on operation
+                    int newStock = material.StockDisponivel;
+                    if (movimento.Operacao == "Saída")
+                    {
+                        newStock -= movimento.Quantidade;
+
+                        // Check if there's enough stock
+                        if (newStock < 0)
+                        {
+                            return Json(new
+                            {
+                                success = false,
+                                message = $"Stock insuficiente! Disponível: {material.StockDisponivel}, Necessário: {movimento.Quantidade}"
+                            });
+                        }
+                    }
+                    else // Entrada
+                    {
+                        newStock += movimento.Quantidade;
+                    }
+
+                    // Update stock and save movimento
+                    material.StockDisponivel = newStock;
                     movimento.DataHora = DateTime.UtcNow;
+
                     _context.Add(movimento);
                     await _context.SaveChangesAsync();
 
                     return Json(new { success = true });
                 }
 
-                return Json(new { success = false });
+                return Json(new { success = false, message = "Dados inválidos." });
             }
             catch (Exception ex)
             {
-                return Json(new { success = false });
+                return Json(new { success = false, message = $"Erro: {ex.Message}" });
             }
         }
 

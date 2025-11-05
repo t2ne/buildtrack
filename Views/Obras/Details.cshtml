@@ -31,12 +31,18 @@
         background-color: rgba(255, 152, 0, 0.1);
         border: 1px solid rgba(255, 152, 0, 0.3);
         color: #fff;
-        min-height: 80px;
+        min-height: 120px;
     }
 
     .info-box .info-box-icon {
         background-color: #ff9800;
         color: #fff;
+        width: 120px;
+        height: 120px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
     }
 
     .info-box .info-box-content {
@@ -449,7 +455,7 @@
 
                         if (movimentos.length === 0) {
                             tbody.html(
-                                '<tr><td colspan="6" class="text-center py-4">' +
+                                '<tr><td colspan="5" class="text-center py-4">' +
                                 '<i class="fas fa-boxes fa-3x mb-3" style="color: #666; opacity: 0.3;"></i>' +
                                 '<p style="color: #aaa; margin: 0;">Nenhum material registado nesta obra.</p>' +
                                 '</td></tr>'
@@ -467,7 +473,6 @@
                                     '<td>' + mov.quantidade + '</td>' +
                                     '<td>' + operacaoBadge + '</td>' +
                                     '<td>' + mov.dataHora + '</td>' +
-                                    '<td class="text-center">-</td>' +
                                     '</tr>'
                                 );
                             });
@@ -493,10 +498,15 @@
                         if (response.success) {
                             $('#addMaterialForm')[0].reset();
                             loadMovimentos();
+                        } else if (response.message) {
+                            alert(response.message);
                         }
                     },
-                    error: function () {
-                        // Silent error handling
+                    error: function (xhr) {
+                        var response = xhr.responseJSON;
+                        if (response && response.message) {
+                            alert(response.message);
+                        }
                     }
                 });
             }
@@ -520,7 +530,7 @@
 
                         if (registos.length === 0) {
                             tbody.html(
-                                '<tr><td colspan="8" class="text-center py-4">' +
+                                '<tr><td colspan="7" class="text-center py-4">' +
                                 '<i class="fas fa-users-cog fa-3x mb-3" style="color: #666; opacity: 0.3;"></i>' +
                                 '<p style="color: #aaa; margin: 0;">Nenhum registo de mão de obra nesta obra.</p>' +
                                 '</td></tr>'
@@ -536,7 +546,6 @@
                                     '<td><strong>€ ' + reg.total.toFixed(2) + '</strong></td>' +
                                     '<td>' + reg.dataRegisto + '</td>' +
                                     '<td>' + (reg.descricaoTrabalho || '-') + '</td>' +
-                                    '<td class="text-center">-</td>' +
                                     '</tr>'
                                 );
                             });
@@ -555,20 +564,31 @@
                     DescricaoTrabalho: $('textarea[name="DescricaoTrabalho"]').val()
                 };
 
+                console.log('Enviando registo:', formData);
+
                 $.ajax({
                     url: '/RegistosMaoObra/AddRegisto',
                     method: 'POST',
                     contentType: 'application/json',
                     data: JSON.stringify(formData),
                     success: function (response) {
+                        console.log('Resposta:', response);
                         if (response.success) {
                             $('#addMaoObraForm')[0].reset();
                             $('input[name="DataRegisto"]').val(new Date().toISOString().split('T')[0]);
                             loadRegistos();
+                        } else if (response.message) {
+                            alert('Erro: ' + response.message);
                         }
                     },
-                    error: function () {
-                        // Silent error handling
+                    error: function (xhr) {
+                        console.log('Erro:', xhr);
+                        var response = xhr.responseJSON;
+                        if (response && response.message) {
+                            alert('Erro: ' + response.message);
+                        } else {
+                            alert('Erro ao guardar registo de mão de obra');
+                        }
                     }
                 });
             }
@@ -592,7 +612,7 @@
 
                         if (response.pagamentos.length === 0) {
                             tbody.html(
-                                '<tr><td colspan="7" class="text-center py-4">' +
+                                '<tr><td colspan="6" class="text-center py-4">' +
                                 '<i class="fas fa-wallet fa-3x mb-3" style="color: #666; opacity: 0.3;"></i>' +
                                 '<p style="color: #aaa; margin: 0;">Nenhum pagamento registado nesta obra.</p>' +
                                 '</td></tr>'
@@ -608,7 +628,6 @@
                                     '<td>' + pag.dataPagamento + '</td>' +
                                     '<td>' + pag.metodoPagamento + '</td>' +
                                     '<td>' + (pag.descricao || '-') + '</td>' +
-                                    '<td class="text-center">-</td>' +
                                     '</tr>'
                                 );
                             });

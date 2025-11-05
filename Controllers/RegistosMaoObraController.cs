@@ -55,17 +55,26 @@ namespace BuildTrackMVC.Controllers
 
                 if (ModelState.IsValid)
                 {
+                    // Set DataRegisto to UTC explicitly
+                    registo.DataRegisto = DateTime.UtcNow;
+
                     _context.Add(registo);
                     await _context.SaveChangesAsync();
 
                     return Json(new { success = true });
                 }
 
-                return Json(new { success = false });
+                // Return validation errors
+                var errors = ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage)
+                    .ToList();
+
+                return Json(new { success = false, message = string.Join(", ", errors) });
             }
             catch (Exception ex)
             {
-                return Json(new { success = false });
+                return Json(new { success = false, message = $"Erro: {ex.Message}" });
             }
         }
 
