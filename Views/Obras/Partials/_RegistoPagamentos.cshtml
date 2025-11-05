@@ -109,11 +109,10 @@
                             </tr>
                         </thead>
                         <tbody id="pagamentosTableBody">
-                            <!-- Data will be loaded via AJAX -->
                             <tr>
                                 <td colspan="7" class="text-center py-4">
-                                    <i class="fas fa-spinner fa-spin fa-2x" style="color: #ff9800;"></i>
-                                    <p class="text-muted mt-2">A carregar pagamentos...</p>
+                                    <i class="fas fa-euro-sign fa-3x mb-3" style="color: #666; opacity: 0.3;"></i>
+                                    <p style="color: #aaa; margin: 0;">Nenhum pagamento registado nesta obra.</p>
                                 </td>
                             </tr>
                         </tbody>
@@ -133,34 +132,13 @@
     </div>
 </div>
 
-@section Scripts {
-    <script>
+<script>
+    (function () {
         $(document).ready(function () {
-            loadPagamentos();
-
             $('#addPagamentoForm').on('submit', function (e) {
                 e.preventDefault();
-                addPagamento();
+                alert('Funcionalidade de registar pagamentos será implementada em breve.');
             });
         });
-
-        function loadPagamentos() {
-            // This should load payment records from the server
-            // For now, show empty state
-            setTimeout(function () {
-                $('#pagamentosTableBody').html(
-                    '<tr><td colspan="7" class="text-center py-4">' +
-                    '<i class="fas fa-euro-sign fa-3x mb-3" style="color: #666; opacity: 0.3;"></i>' +
-                    '<p style="color: #aaa; margin: 0;">Nenhum pagamento registado nesta obra.</p>' +
-                    '</td></tr>'
-                );
-            }, 500);
-        }
-
-        function addPagamento() {
-            // This should submit to the server
-            console.log('Adding payment...');
-            alert('Funcionalidade será implementada no próximo passo com o controller endpoint.');
-        }
-    </script>
-}
+    })();
+</script>

@@ -26,6 +26,10 @@ namespace BuildTrackMVC.Controllers
             if (id == null) return NotFound();
             var obra = await _context.Obras.Include(o => o.Cliente).FirstOrDefaultAsync(o => o.Id == id);
             if (obra == null) return NotFound();
+
+            // Pass materials to the view for the partials
+            ViewData["Materiais"] = await _context.Materiais.ToListAsync();
+
             return View(obra);
         }
 

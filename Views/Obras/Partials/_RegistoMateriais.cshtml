@@ -1,5 +1,9 @@
 @model BuildTrackMVC.Models.Obra
 
+@{
+    var materiais = ViewData["Materiais"] as List<BuildTrackMVC.Models.Material>;
+}
+
 <div class="row">
     <div class="col-md-12">
         <div class="card" style="border-top: 3px solid #4caf50;">
@@ -17,10 +21,26 @@
                                 <label>
                                     <i class="fas fa-box" style="color: #4caf50;"></i> Material
                                 </label>
-                                <select name="MaterialId" class="form-control" required>
-                                    <option value="">-- Selecione um material --</option>
-                                    <!-- Materials will be loaded here -->
-                                </select>
+                                @if (materiais != null && materiais.Any())
+                                {
+                                    <select name="MaterialId" class="form-control" required>
+                                        <option value="">-- Selecione um material --</option>
+                                        @foreach (var material in materiais)
+                                        {
+                                            <option value="@material.Id">@material.Nome</option>
+                                        }
+                                    </select>
+                                }
+                                else
+                                {
+                                    <select name="MaterialId" class="form-control" disabled>
+                                        <option value="">Nenhum material disponível</option>
+                                    </select>
+                                    <small class="text-warning">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                        É necessário criar materiais antes de registar.
+                                    </small>
+                                }
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -81,11 +101,10 @@
                             </tr>
                         </thead>
                         <tbody id="materiaisTableBody">
-                            <!-- Data will be loaded via AJAX -->
                             <tr>
                                 <td colspan="6" class="text-center py-4">
-                                    <i class="fas fa-spinner fa-spin fa-2x" style="color: #4caf50;"></i>
-                                    <p class="text-muted mt-2">A carregar materiais...</p>
+                                    <i class="fas fa-boxes fa-3x mb-3" style="color: #666; opacity: 0.3;"></i>
+                                    <p style="color: #aaa; margin: 0;">Nenhum material registado nesta obra.</p>
                                 </td>
                             </tr>
                         </tbody>
@@ -96,61 +115,13 @@
     </div>
 </div>
 
-@section Scripts {
-    <script>
+<script>
+    (function () {
         $(document).ready(function () {
-            loadMaterials();
-            loadMovimentos();
-
             $('#addMaterialForm').on('submit', function (e) {
                 e.preventDefault();
-                addMaterial();
+                alert('Funcionalidade de adicionar materiais será implementada em breve.');
             });
         });
-
-        function loadMaterials() {
-            // Load available materials from the system
-            $.ajax({
-                url: '/Materiais/GetMaterialsJson',
-                method: 'GET',
-                dataType: 'json',
-                success: function (materiais) {
-                    var $select = $('select[name="MaterialId"]');
-                    $select.find('option:not(:first)').remove();
-
-                    console.log('Loaded ' + materiais.length + ' materials');
-
-                    if (materiais.length > 0) {
-                        $.each(materiais, function (index, material) {
-                            $select.append('<option value="' + material.id + '">' + material.nome + '</option>');
-                            console.log('Added: ' + material.nome + ' (ID: ' + material.id + ')');
-                        });
-                    } else {
-                        console.log('No materials available');
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.error('Erro ao carregar materiais:', error);
-                    console.error('Status:', status);
-                }
-            });
-        } function loadMovimentos() {
-            // This should load movements from the server
-            // For now, show empty state
-            setTimeout(function () {
-                $('#materiaisTableBody').html(
-                    '<tr><td colspan="6" class="text-center py-4">' +
-                    '<i class="fas fa-boxes fa-3x mb-3" style="color: #666; opacity: 0.3;"></i>' +
-                    '<p style="color: #aaa; margin: 0;">Nenhum material registado nesta obra.</p>' +
-                    '</td></tr>'
-                );
-            }, 500);
-        }
-
-        function addMaterial() {
-            // This should submit to the server
-            console.log('Adding material...');
-            alert('Funcionalidade será implementada no próximo passo com o controller endpoint.');
-        }
-    </script>
-}
+    })();
+</script>

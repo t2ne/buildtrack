@@ -2,7 +2,7 @@
 
 C# + .NET MVC application using Entity Framework Core for scaffolding and PostgreSQL as the backend database.
 
-GitHub: [https://github.com/t2ne/buildtrack-mvc](https://github.com/t2ne/buildtrack-mvc)
+GitHub: [t2ne/buildtrack](https://github.com/t2ne/buildtrack)
 
 ---
 
