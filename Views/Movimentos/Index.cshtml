@@ -177,9 +177,20 @@
                         {
                             @foreach (var item in Model.OrderByDescending(m => m.DataHora))
                             {
-                                var operationClass = item.Operacao == "ADD" ? "operation-add" : "operation-remove";
-                                var operationText = item.Operacao == "ADD" ? "Entrada" : "Saída";
-                                var operationIcon = item.Operacao == "ADD" ? "fa-plus" : "fa-minus";
+                                var operacaoRaw = item.Operacao?.Trim();
+                                var isEntrada = operacaoRaw == "ADD" || operacaoRaw == "Entrada";
+                                var isSaida = operacaoRaw == "REMOVE" || operacaoRaw == "Saída";
+
+                                if (!isEntrada && !isSaida)
+                                {
+                                    if (!string.IsNullOrEmpty(operacaoRaw) && operacaoRaw.ToLower().Contains("ent"))
+                                    {
+                                        isEntrada = true;
+                                    }
+                                }
+                                var operationClass = isEntrada ? "operation-add" : "operation-remove";
+                                var operationText = isEntrada ? "Entrada" : "Saída";
+                                var operationIcon = isEntrada ? "fa-plus" : "fa-minus";
 
                                 <tr
                                     data-search="@item.Obra?.Nome?.ToLower() @item.Obra?.Cliente?.Nome?.ToLower() @item.Material?.Nome?.ToLower() @operationText.ToLower() @item.Quantidade @item.DataHora.ToString("dd/MM/yyyy HH:mm")">
