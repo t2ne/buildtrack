@@ -10,14 +10,14 @@ GitHub: [BuildTrack](https://github.com/t2ne/buildtrack)
 
 Before running the project, make sure you have .NET installed.
 
-* **Mac:** Install via Homebrew:
+- **Mac:** Install via Homebrew:
 
 ```bash
 brew install dotnet
 ```
 
-* Or use **Visual Studio Community**.
-* The project was developed using **VS Code**, but any IDE supporting .NET works.
+- Or use **Visual Studio Community**.
+- The project was developed using **VS Code**, but any IDE supporting .NET works.
 
 You also need the Entity Framework CLI:
 
@@ -43,7 +43,13 @@ psql -U postgres -c "CREATE DATABASE buildtrackmvc";
 dotnet restore
 ```
 
-3. Apply migrations to create tables in your database:
+3. Create and apply EF Core migrations:
+
+```bash
+dotnet ef migrations add InitialCreate
+```
+
+- Then apply migrations to the database:
 
 ```bash
 dotnet ef database update
@@ -85,8 +91,8 @@ The app should now be accessible at `https://localhost:5015` (or the port indica
 
 ## Sources & References
 
-* [AdminLTE v4](https://adminlte.io/themes/v4/index.html)
-* [YouTube Tutorial](https://www.youtube.com/watch?v=e2Ax71aksNI)
+- [AdminLTE v4](https://adminlte.io/themes/v4/index.html)
+- [YouTube Tutorial](https://www.youtube.com/watch?v=e2Ax71aksNI)
 
 ---
 
