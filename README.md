@@ -37,6 +37,8 @@ psql -U postgres -c "CREATE DATABASE buildtrackmvc";
 
 > Replace `postgres` with your PostgreSQL username if different.
 
+> Bonus Command: `psql -U postgres -l` to list current databases.
+
 2. Restore project dependencies:
 
 ```bash
