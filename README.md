@@ -57,7 +57,7 @@ dotnet ef migrations add InitialCreate
 dotnet ef database update
 ```
 
-4. Build the project:
+4. (Extra - Not necessary) Build the project:
 
 ```bash
 dotnet build
